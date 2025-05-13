@@ -1,0 +1,14 @@
+schema: http://localhost:8000/graphql
+documents: 'src/**/*.graphql'
+generates:
+  src/graphql/generated.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+    config:
+      withHooks: true
+      withComponent: false
+      withHOC: false
+      reactApolloVersion: 3
+      enumsAsConst: true
