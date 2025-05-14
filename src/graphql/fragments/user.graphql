@@ -1,0 +1,16 @@
+fragment ContextProfileFragment on ProfileType{
+  id
+  username
+  email
+  lastLogin
+  bio
+  gender
+  dateOfBirth
+  maxTravelDistance
+  isCapeable
+  firstName
+  lastName
+  verified
+  likes
+  dislikes
+}

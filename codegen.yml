@@ -12,3 +12,4 @@ generates:
       withHOC: false
       reactApolloVersion: 3
       enumsAsConst: true
+      dedupeOperationSuffix: true

@@ -1266,8 +1266,203 @@ export type WsLastOpenType = {
   userId?: Maybe<Scalars['Int']['output']>;
 };
 
-export type GetEventQueryVariables = Exact<{
-  id?: InputMaybe<Scalars['Int']['input']>;
+export type ContextProfileFragment = { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: any | null, bio: string, gender?: string | null, dateOfBirth?: any | null, maxTravelDistance?: number | null, isCapeable: boolean, firstName: string, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null };
+
+export type LoginUserMutationVariables = Exact<{
+  user: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 }>;
 
 
+export type LoginUserMutation = { __typename?: 'Mutations', login?: { __typename?: 'LoginMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: any | null, bio: string, gender?: string | null, dateOfBirth?: any | null, maxTravelDistance?: number | null, isCapeable: boolean, firstName: string, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null } | null } | null };
+
+export type SignupUserMutationVariables = Exact<{
+  username: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+}>;
+
+
+export type SignupUserMutation = { __typename?: 'Mutations', signup?: { __typename?: 'SignupMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: any | null, bio: string, gender?: string | null, dateOfBirth?: any | null, maxTravelDistance?: number | null, isCapeable: boolean, firstName: string, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null } | null } | null };
+
+export type UsernameTakenQueryVariables = Exact<{
+  username: Scalars['String']['input'];
+}>;
+
+
+export type UsernameTakenQuery = { __typename?: 'Queries', usernameTaken: boolean };
+
+export type EmailTakenQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type EmailTakenQuery = { __typename?: 'Queries', emailTaken: boolean };
+
+export const ContextProfileFragmentDoc = gql`
+    fragment ContextProfileFragment on ProfileType {
+  id
+  username
+  email
+  lastLogin
+  bio
+  gender
+  dateOfBirth
+  maxTravelDistance
+  isCapeable
+  firstName
+  lastName
+  verified
+  likes
+  dislikes
+}
+    `;
+export const LoginUserDocument = gql`
+    mutation LoginUser($user: String!, $password: String!) {
+  login(user: $user, password: $password) {
+    myProfile {
+      ...ContextProfileFragment
+    }
+  }
+}
+    ${ContextProfileFragmentDoc}`;
+export type LoginUserMutationFn = Apollo.MutationFunction<LoginUserMutation, LoginUserMutationVariables>;
+
+/**
+ * __useLoginUserMutation__
+ *
+ * To run a mutation, you first call `useLoginUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginUserMutation, { data, loading, error }] = useLoginUserMutation({
+ *   variables: {
+ *      user: // value for 'user'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useLoginUserMutation(baseOptions?: Apollo.MutationHookOptions<LoginUserMutation, LoginUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument, options);
+      }
+export type LoginUserMutationHookResult = ReturnType<typeof useLoginUserMutation>;
+export type LoginUserMutationResult = Apollo.MutationResult<LoginUserMutation>;
+export type LoginUserMutationOptions = Apollo.BaseMutationOptions<LoginUserMutation, LoginUserMutationVariables>;
+export const SignupUserDocument = gql`
+    mutation SignupUser($username: String!, $password: String!, $email: String!) {
+  signup(username: $username, email: $email, password: $password) {
+    myProfile {
+      ...ContextProfileFragment
+    }
+  }
+}
+    ${ContextProfileFragmentDoc}`;
+export type SignupUserMutationFn = Apollo.MutationFunction<SignupUserMutation, SignupUserMutationVariables>;
+
+/**
+ * __useSignupUserMutation__
+ *
+ * To run a mutation, you first call `useSignupUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignupUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signupUserMutation, { data, loading, error }] = useSignupUserMutation({
+ *   variables: {
+ *      username: // value for 'username'
+ *      password: // value for 'password'
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useSignupUserMutation(baseOptions?: Apollo.MutationHookOptions<SignupUserMutation, SignupUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignupUserMutation, SignupUserMutationVariables>(SignupUserDocument, options);
+      }
+export type SignupUserMutationHookResult = ReturnType<typeof useSignupUserMutation>;
+export type SignupUserMutationResult = Apollo.MutationResult<SignupUserMutation>;
+export type SignupUserMutationOptions = Apollo.BaseMutationOptions<SignupUserMutation, SignupUserMutationVariables>;
+export const UsernameTakenDocument = gql`
+    query usernameTaken($username: String!) {
+  usernameTaken(username: $username)
+}
+    `;
+
+/**
+ * __useUsernameTakenQuery__
+ *
+ * To run a query within a React component, call `useUsernameTakenQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsernameTakenQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUsernameTakenQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useUsernameTakenQuery(baseOptions: Apollo.QueryHookOptions<UsernameTakenQuery, UsernameTakenQueryVariables> & ({ variables: UsernameTakenQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UsernameTakenQuery, UsernameTakenQueryVariables>(UsernameTakenDocument, options);
+      }
+export function useUsernameTakenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsernameTakenQuery, UsernameTakenQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UsernameTakenQuery, UsernameTakenQueryVariables>(UsernameTakenDocument, options);
+        }
+export function useUsernameTakenSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<UsernameTakenQuery, UsernameTakenQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<UsernameTakenQuery, UsernameTakenQueryVariables>(UsernameTakenDocument, options);
+        }
+export type UsernameTakenQueryHookResult = ReturnType<typeof useUsernameTakenQuery>;
+export type UsernameTakenLazyQueryHookResult = ReturnType<typeof useUsernameTakenLazyQuery>;
+export type UsernameTakenSuspenseQueryHookResult = ReturnType<typeof useUsernameTakenSuspenseQuery>;
+export type UsernameTakenQueryResult = Apollo.QueryResult<UsernameTakenQuery, UsernameTakenQueryVariables>;
+export const EmailTakenDocument = gql`
+    query emailTaken($email: String!) {
+  emailTaken(email: $email)
+}
+    `;
+
+/**
+ * __useEmailTakenQuery__
+ *
+ * To run a query within a React component, call `useEmailTakenQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEmailTakenQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEmailTakenQuery({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useEmailTakenQuery(baseOptions: Apollo.QueryHookOptions<EmailTakenQuery, EmailTakenQueryVariables> & ({ variables: EmailTakenQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EmailTakenQuery, EmailTakenQueryVariables>(EmailTakenDocument, options);
+      }
+export function useEmailTakenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EmailTakenQuery, EmailTakenQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EmailTakenQuery, EmailTakenQueryVariables>(EmailTakenDocument, options);
+        }
+export function useEmailTakenSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<EmailTakenQuery, EmailTakenQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<EmailTakenQuery, EmailTakenQueryVariables>(EmailTakenDocument, options);
+        }
+export type EmailTakenQueryHookResult = ReturnType<typeof useEmailTakenQuery>;
+export type EmailTakenLazyQueryHookResult = ReturnType<typeof useEmailTakenLazyQuery>;
+export type EmailTakenSuspenseQueryHookResult = ReturnType<typeof useEmailTakenSuspenseQuery>;
+export type EmailTakenQueryResult = Apollo.QueryResult<EmailTakenQuery, EmailTakenQueryVariables>;

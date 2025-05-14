@@ -1,10 +1,13 @@
+import { useProfile } from "~/context/profileContext";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 function Homepage() {
 
     useDocumentTitle("Homepage")
 
-    return <div>Hello!</div>;
+    const { profile } = useProfile()
+
+    return <div>Hello {profile?.username}!</div>;
 }
 
 export default Homepage;

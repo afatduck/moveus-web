@@ -11,17 +11,17 @@ import { getMainDefinition } from '@apollo/client/utilities';
 
 const isDev = process.env.NODE_ENV === 'development';
 const secure = isDev ? "" : "s";
-const apiHost = process.env._REACT_APP_API_HOST ?? 'localhost:8000'
+const apiHost = process.env.REACT_APP_API_HOST ?? 'localhost:8000'
 
 const httpLink = new HttpLink({
-    uri: `http:${secure}//${apiHost}:8000/graphql`,
+    uri: `http:${secure}//${apiHost}/graphql`,
     credentials: 'include'
 });
 
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: `ws:${secure}//${apiHost}:8000/graphql`
+    url: `ws:${secure}//${apiHost}/graphql`
   })
 );
 

@@ -7,10 +7,35 @@ body {
   font-family: Quicksand, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @apply p-0;
+  @apply p-0 text-foreground bg-background;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+main {
+  @apply max-w-2xl mx-auto h-screen px-8
+}
+
+.container-center {
+  @apply h-full flex flex-col items-center justify-center
+}
+
+button {
+  @apply block text-center bg-accent rounded-[15px] px-1 py-4
+  text-[28px] font-semibold text-background w-full
+}
+
+label {
+  @apply block w-full
+}
+
+input[type="text"], input[type="password"], input[type="email"] {
+  @apply block w-full rounded-[15px] border-solid border border-foreground p-6 outline-foreground
+}
+
+input[type="text"]::placeholder, input[type="password"]::placeholder, input[type="email"]::placeholder {
+  @apply text-primary
 }
