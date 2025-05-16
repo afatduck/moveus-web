@@ -15,50 +15,17 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  Date: { input: any; output: any; }
-  DateTime: { input: any; output: any; }
+  DateTime: { input: Date; output: Date; }
+  Date: { input: Date; output: Date; }
   JSONString: { input: any; output: any; }
 };
 
-export type AcceptFriendRequestMutation = {
-  __typename?: 'AcceptFriendRequestMutation';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-/** An enumeration. */
-export const ActivityEnum = {
-  Gym: 'GYM',
-  Hiking: 'HIKING',
-  Running: 'RUNNING',
-  Soccer: 'SOCCER',
-  Tennis: 'TENNIS'
-} as const;
-
-export type ActivityEnum = typeof ActivityEnum[keyof typeof ActivityEnum];
-export type ActivityType = {
-  __typename?: 'ActivityType';
-  id?: Maybe<Scalars['String']['output']>;
-};
-
-export type AddEventMutation = {
-  __typename?: 'AddEventMutation';
-  event?: Maybe<EventType>;
-};
-
-export type AlterEventLocation = {
-  __typename?: 'AlterEventLocation';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type AlterEventMutation = {
-  __typename?: 'AlterEventMutation';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type AttachmentType = {
-  __typename?: 'AttachmentType';
-  id?: Maybe<Scalars['String']['output']>;
-  url?: Maybe<Scalars['String']['output']>;
+export type UserNotificationType = BaseNotificationType & {
+  __typename?: 'UserNotificationType';
+  id?: Maybe<Scalars['Int']['output']>;
+  notificationType?: Maybe<NotificationEnum>;
+  time?: Maybe<Scalars['DateTime']['output']>;
+  user?: Maybe<UserType>;
 };
 
 export type BaseNotificationType = {
@@ -67,444 +34,42 @@ export type BaseNotificationType = {
   time?: Maybe<Scalars['DateTime']['output']>;
 };
 
-export type BasicInfoMutation = {
-  __typename?: 'BasicInfoMutation';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type CancelFriendRequestMutation = {
-  __typename?: 'CancelFriendRequestMutation';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type ChatMemberType = {
-  __typename?: 'ChatMemberType';
-  lastOpen?: Maybe<Scalars['DateTime']['output']>;
-  nickname: Scalars['String']['output'];
-  notifications?: Maybe<Scalars['String']['output']>;
-  user: UserType;
-};
-
-export type ChatMessageType = {
-  __typename?: 'ChatMessageType';
-  attachmentUrl?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  textContent: Scalars['String']['output'];
-  timeSent: Scalars['DateTime']['output'];
-  user: UserType;
-};
-
 /** An enumeration. */
-export const ChatNotifications = {
-  All: 'ALL',
-  MentionsOnly: 'MENTIONS_ONLY',
-  None: 'NONE'
+export const NotificationEnum = {
+  FriendRequest: 'FRIEND_REQUEST',
+  FriendAccepted: 'FRIEND_ACCEPTED',
+  EventFinished: 'EVENT_FINISHED'
 } as const;
 
-export type ChatNotifications = typeof ChatNotifications[keyof typeof ChatNotifications];
-export type ChatType = {
-  __typename?: 'ChatType';
+export type NotificationEnum = typeof NotificationEnum[keyof typeof NotificationEnum];
+export type UserType = {
+  __typename?: 'UserType';
   id?: Maybe<Scalars['Int']['output']>;
-  members: Array<ChatMemberType>;
-  messages: Array<ChatMessageType>;
-  notifications?: Maybe<ChatNotifications>;
-  timeCreated: Scalars['DateTime']['output'];
-};
-
-export type CommentOnPostMutation = {
-  __typename?: 'CommentOnPostMutation';
-  comment?: Maybe<PostCommentType>;
-};
-
-export type ConfirmMemberParticipationMutation = {
-  __typename?: 'ConfirmMemberParticipationMutation';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-/** An enumeration. */
-export const CountryCode = {
-  Ad: 'AD',
-  Ae: 'AE',
-  Af: 'AF',
-  Ag: 'AG',
-  Ai: 'AI',
-  Al: 'AL',
-  Am: 'AM',
-  Ao: 'AO',
-  Aq: 'AQ',
-  Ar: 'AR',
-  As: 'AS',
-  At: 'AT',
-  Au: 'AU',
-  Aw: 'AW',
-  Az: 'AZ',
-  Ba: 'BA',
-  Bb: 'BB',
-  Bd: 'BD',
-  Be: 'BE',
-  Bf: 'BF',
-  Bg: 'BG',
-  Bh: 'BH',
-  Bi: 'BI',
-  Bj: 'BJ',
-  Bm: 'BM',
-  Bn: 'BN',
-  Bo: 'BO',
-  Br: 'BR',
-  Bs: 'BS',
-  Bt: 'BT',
-  Bw: 'BW',
-  By: 'BY',
-  Bz: 'BZ',
-  Ca: 'CA',
-  Cd: 'CD',
-  Cf: 'CF',
-  Cg: 'CG',
-  Ch: 'CH',
-  Ci: 'CI',
-  Ck: 'CK',
-  Cl: 'CL',
-  Cm: 'CM',
-  Cn: 'CN',
-  Co: 'CO',
-  Cr: 'CR',
-  Cu: 'CU',
-  Cv: 'CV',
-  Cy: 'CY',
-  Cz: 'CZ',
-  De: 'DE',
-  Dj: 'DJ',
-  Dk: 'DK',
-  Dm: 'DM',
-  Do: 'DO',
-  Dz: 'DZ',
-  Ec: 'EC',
-  Ee: 'EE',
-  Eg: 'EG',
-  Er: 'ER',
-  Es: 'ES',
-  Et: 'ET',
-  Fi: 'FI',
-  Fj: 'FJ',
-  Fm: 'FM',
-  Fr: 'FR',
-  Ga: 'GA',
-  Gb: 'GB',
-  Gd: 'GD',
-  Ge: 'GE',
-  Gh: 'GH',
-  Gm: 'GM',
-  Gn: 'GN',
-  Gq: 'GQ',
-  Gr: 'GR',
-  Gt: 'GT',
-  Gw: 'GW',
-  Gy: 'GY',
-  Hn: 'HN',
-  Hr: 'HR',
-  Ht: 'HT',
-  Hu: 'HU',
-  Id: 'ID',
-  Ie: 'IE',
-  Il: 'IL',
-  In: 'IN',
-  Io: 'IO',
-  Iq: 'IQ',
-  Ir: 'IR',
-  Is: 'IS',
-  It: 'IT',
-  Jm: 'JM',
-  Jo: 'JO',
-  Jp: 'JP',
-  Ke: 'KE',
-  Kg: 'KG',
-  Kh: 'KH',
-  Ki: 'KI',
-  Km: 'KM',
-  Kn: 'KN',
-  Kp: 'KP',
-  Kr: 'KR',
-  Kw: 'KW',
-  Ky: 'KY',
-  Kz: 'KZ',
-  La: 'LA',
-  Lb: 'LB',
-  Lc: 'LC',
-  Li: 'LI',
-  Lk: 'LK',
-  Lr: 'LR',
-  Ls: 'LS',
-  Lt: 'LT',
-  Lu: 'LU',
-  Lv: 'LV',
-  Ly: 'LY',
-  Ma: 'MA',
-  Mc: 'MC',
-  Md: 'MD',
-  Me: 'ME',
-  Mg: 'MG',
-  Mh: 'MH',
-  Mk: 'MK',
-  Ml: 'ML',
-  Mm: 'MM',
-  Mn: 'MN',
-  Mr: 'MR',
-  Mt: 'MT',
-  Mu: 'MU',
-  Mv: 'MV',
-  Mw: 'MW',
-  Mx: 'MX',
-  My: 'MY',
-  Mz: 'MZ',
-  Na: 'NA',
-  Ne: 'NE',
-  Ng: 'NG',
-  Ni: 'NI',
-  Nl: 'NL',
-  No: 'NO',
-  Np: 'NP',
-  Nr: 'NR',
-  Nz: 'NZ',
-  Om: 'OM',
-  Pa: 'PA',
-  Pe: 'PE',
-  Pg: 'PG',
-  Ph: 'PH',
-  Pk: 'PK',
-  Pl: 'PL',
-  Ps: 'PS',
-  Pt: 'PT',
-  Pw: 'PW',
-  Py: 'PY',
-  Qa: 'QA',
-  Ro: 'RO',
-  Rs: 'RS',
-  Ru: 'RU',
-  Rw: 'RW',
-  Sa: 'SA',
-  Sb: 'SB',
-  Sc: 'SC',
-  Sd: 'SD',
-  Se: 'SE',
-  Sg: 'SG',
-  Si: 'SI',
-  Sk: 'SK',
-  Sl: 'SL',
-  Sm: 'SM',
-  Sn: 'SN',
-  So: 'SO',
-  Sr: 'SR',
-  Ss: 'SS',
-  St: 'ST',
-  Sv: 'SV',
-  Sy: 'SY',
-  Sz: 'SZ',
-  Td: 'TD',
-  Tg: 'TG',
-  Th: 'TH',
-  Tj: 'TJ',
-  Tl: 'TL',
-  Tm: 'TM',
-  Tn: 'TN',
-  To: 'TO',
-  Tr: 'TR',
-  Tt: 'TT',
-  Tv: 'TV',
-  Tw: 'TW',
-  Tz: 'TZ',
-  Ua: 'UA',
-  Ug: 'UG',
-  Us: 'US',
-  Uy: 'UY',
-  Uz: 'UZ',
-  Vc: 'VC',
-  Ve: 'VE',
-  Vn: 'VN',
-  Vu: 'VU',
-  Ws: 'WS',
-  Ye: 'YE',
-  Za: 'ZA',
-  Zm: 'ZM',
-  Zw: 'ZW'
-} as const;
-
-export type CountryCode = typeof CountryCode[keyof typeof CountryCode];
-export type CreatePostMutation = {
-  __typename?: 'CreatePostMutation';
-  post?: Maybe<CreatePostType>;
-};
-
-export type CreatePostType = {
-  __typename?: 'CreatePostType';
-  comments?: Maybe<Array<Maybe<PostCommentType>>>;
-  content: Scalars['String']['output'];
-  event?: Maybe<EventType>;
-  id?: Maybe<Scalars['Int']['output']>;
-  imageUploadUrl?: Maybe<Scalars['String']['output']>;
-  likedBy: Array<UserType>;
+  /** Designates whether this user should be treated as active. Unselect this instead of deleting accounts. */
+  isActive: Scalars['Boolean']['output'];
+  dateJoined: Scalars['DateTime']['output'];
+  username: Scalars['String']['output'];
+  bio: Scalars['String']['output'];
+  gender?: Maybe<MainAppUserGenderChoices>;
+  firstName: Scalars['String']['output'];
+  lastName: Scalars['String']['output'];
+  xp: Scalars['Int']['output'];
+  verified: Scalars['Boolean']['output'];
+  preferredActivities: Array<PreferredActivityType>;
   likes?: Maybe<Scalars['Int']['output']>;
-  timePosted: Scalars['DateTime']['output'];
-  title: Scalars['String']['output'];
-};
-
-
-export type CreatePostTypeCommentsArgs = {
-  end?: InputMaybe<Scalars['Int']['input']>;
-  start?: InputMaybe<Scalars['Int']['input']>;
-};
-
-export type DeleteAccountMutation = {
-  __typename?: 'DeleteAccountMutation';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type DeleteEventMutation = {
-  __typename?: 'DeleteEventMutation';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type EventCommentType = {
-  __typename?: 'EventCommentType';
-  comment?: Maybe<Scalars['String']['output']>;
-  member?: Maybe<EventMemberType>;
-};
-
-export type EventMemberType = {
-  __typename?: 'EventMemberType';
-  comment?: Maybe<Scalars['String']['output']>;
-  hasParticipated?: Maybe<Scalars['Boolean']['output']>;
-  participates: Scalars['Boolean']['output'];
-  role?: Maybe<Scalars['String']['output']>;
-  score?: Maybe<Scalars['String']['output']>;
-  user: UserType;
-};
-
-export type EventNotificationType = BaseNotificationType & {
-  __typename?: 'EventNotificationType';
-  event?: Maybe<EventType>;
-  id?: Maybe<Scalars['Int']['output']>;
-  notificationType?: Maybe<NotificationEnum>;
-  time?: Maybe<Scalars['DateTime']['output']>;
-};
-
-/** An enumeration. */
-export const EventRating = {
-  Bad: 'BAD',
-  Good: 'GOOD',
-  Great: 'GREAT',
-  Neutral: 'NEUTRAL',
-  VeryBad: 'VERY_BAD'
-} as const;
-
-export type EventRating = typeof EventRating[keyof typeof EventRating];
-export type EventType = {
-  __typename?: 'EventType';
-  acceptedGenders?: Maybe<Scalars['JSONString']['output']>;
-  activity: ActivityType;
-  allowSpectators: Scalars['Boolean']['output'];
-  averageScore?: Maybe<Scalars['Float']['output']>;
-  chat?: Maybe<ChatType>;
-  comments?: Maybe<Array<Maybe<EventCommentType>>>;
-  description?: Maybe<Scalars['String']['output']>;
-  endTime: Scalars['DateTime']['output'];
-  finished: Scalars['Boolean']['output'];
-  id?: Maybe<Scalars['Int']['output']>;
-  location: LocationType;
-  maxAge?: Maybe<Scalars['Int']['output']>;
-  maxParticipants?: Maybe<Scalars['Int']['output']>;
-  members: Array<EventMemberType>;
-  minAge?: Maybe<Scalars['Int']['output']>;
-  moderators?: Maybe<Array<Maybe<EventMemberType>>>;
-  organizer?: Maybe<EventMemberType>;
-  participants?: Maybe<Array<Maybe<EventMemberType>>>;
-  posts: Array<PostType>;
-  requirements?: Maybe<Scalars['JSONString']['output']>;
-  role?: Maybe<MemberRole>;
-  skillLevel?: Maybe<Scalars['String']['output']>;
-  spectators?: Maybe<Array<Maybe<EventMemberType>>>;
-  startTime: Scalars['DateTime']['output'];
-  title: Scalars['String']['output'];
-};
-
-export type FinishEventMutation = {
-  __typename?: 'FinishEventMutation';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-/** An enumeration. */
-export const FormedRelationshipsType = {
-  Acquaintances: 'ACQUAINTANCES',
-  Friends: 'FRIENDS',
-  RomanticRelationships: 'ROMANTIC_RELATIONSHIPS'
-} as const;
-
-export type FormedRelationshipsType = typeof FormedRelationshipsType[keyof typeof FormedRelationshipsType];
-/** An enumeration. */
-export const FrequencyOfPhycicalActivity = {
-  Daily: 'DAILY',
-  FewTimesAWeek: 'FEW_TIMES_A_WEEK',
-  Occasionally: 'OCCASIONALLY',
-  OnceAWeek: 'ONCE_A_WEEK',
-  Rarely: 'RARELY'
-} as const;
-
-export type FrequencyOfPhycicalActivity = typeof FrequencyOfPhycicalActivity[keyof typeof FrequencyOfPhycicalActivity];
-/** An enumeration. */
-export const Gender = {
-  Female: 'FEMALE',
-  Male: 'MALE',
-  NonBinary: 'NON_BINARY',
-  PreferNotToSay: 'PREFER_NOT_TO_SAY'
-} as const;
-
-export type Gender = typeof Gender[keyof typeof Gender];
-export type JoinEventMutation = {
-  __typename?: 'JoinEventMutation';
-  eventMember?: Maybe<EventMemberType>;
-};
-
-export type KickEventMemberMutation = {
-  __typename?: 'KickEventMemberMutation';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type LeaveEventMutation = {
-  __typename?: 'LeaveEventMutation';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type LikeEventMemberMutation = {
-  __typename?: 'LikeEventMemberMutation';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type LikePostMutation = {
-  __typename?: 'LikePostMutation';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type LocationType = {
-  __typename?: 'LocationType';
-  addressLine1?: Maybe<Scalars['String']['output']>;
-  addressLine2?: Maybe<Scalars['String']['output']>;
-  city?: Maybe<Scalars['String']['output']>;
-  countryCode?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  latitude: Scalars['Float']['output'];
-  longitude: Scalars['Float']['output'];
-  name?: Maybe<Scalars['String']['output']>;
-  region?: Maybe<Scalars['String']['output']>;
-  zipCode?: Maybe<Scalars['Int']['output']>;
-};
-
-export type LoginMutation = {
-  __typename?: 'LoginMutation';
-  myProfile?: Maybe<ProfileType>;
-};
-
-export type LogoutMutation = {
-  __typename?: 'LogoutMutation';
-  success?: Maybe<Scalars['Boolean']['output']>;
+  dislikes?: Maybe<Scalars['Int']['output']>;
+  location?: Maybe<LocationType>;
+  email?: Maybe<Scalars['String']['output']>;
+  dateOfBirth?: Maybe<Scalars['Date']['output']>;
+  friends?: Maybe<Array<Maybe<UserType>>>;
+  friendCount?: Maybe<Scalars['Int']['output']>;
+  relationship?: Maybe<RelationshipType>;
+  frequencyOfPhysicalActivity?: Maybe<Scalars['String']['output']>;
+  socialInteractionImportance?: Maybe<Scalars['String']['output']>;
+  preferredPartySize?: Maybe<Scalars['String']['output']>;
+  physicalActivitySatisfaction?: Maybe<Scalars['String']['output']>;
+  matchedParticipationLikelihood?: Maybe<Scalars['String']['output']>;
+  mainInterest?: Maybe<Scalars['String']['output']>;
 };
 
 /** An enumeration. */
@@ -520,78 +85,468 @@ export const MainAppUserGenderChoices = {
 } as const;
 
 export type MainAppUserGenderChoices = typeof MainAppUserGenderChoices[keyof typeof MainAppUserGenderChoices];
+export type PreferredActivityType = {
+  __typename?: 'PreferredActivityType';
+  activity: ActivityType;
+  skillLevel?: Maybe<Scalars['String']['output']>;
+};
+
+export type ActivityType = {
+  __typename?: 'ActivityType';
+  id?: Maybe<Scalars['String']['output']>;
+};
+
+export type LocationType = {
+  __typename?: 'LocationType';
+  id?: Maybe<Scalars['Int']['output']>;
+  longitude: Scalars['Float']['output'];
+  latitude: Scalars['Float']['output'];
+  addressLine1?: Maybe<Scalars['String']['output']>;
+  addressLine2?: Maybe<Scalars['String']['output']>;
+  zipCode?: Maybe<Scalars['Int']['output']>;
+  countryCode?: Maybe<Scalars['String']['output']>;
+  region?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  city?: Maybe<Scalars['String']['output']>;
+};
+
+export type RelationshipType = {
+  __typename?: 'RelationshipType';
+  lastUpdate: Scalars['DateTime']['output'];
+  status?: Maybe<Scalars['String']['output']>;
+  chat?: Maybe<ChatType>;
+  user?: Maybe<UserType>;
+};
+
+export type ChatType = {
+  __typename?: 'ChatType';
+  id?: Maybe<Scalars['Int']['output']>;
+  timeCreated: Scalars['DateTime']['output'];
+  members: Array<ChatMemberType>;
+  messages: Array<ChatMessageType>;
+  notifications?: Maybe<ChatNotifications>;
+};
+
+export type ChatMemberType = {
+  __typename?: 'ChatMemberType';
+  user: UserType;
+  nickname: Scalars['String']['output'];
+  lastOpen?: Maybe<Scalars['DateTime']['output']>;
+  notifications?: Maybe<Scalars['String']['output']>;
+};
+
+export type ChatMessageType = {
+  __typename?: 'ChatMessageType';
+  id?: Maybe<Scalars['Int']['output']>;
+  user: UserType;
+  textContent: Scalars['String']['output'];
+  timeSent: Scalars['DateTime']['output'];
+  attachmentUrl?: Maybe<Scalars['String']['output']>;
+};
+
 /** An enumeration. */
-export const MainInterest = {
-  Fun: 'FUN',
-  Socialize: 'SOCIALIZE',
-  Sport: 'SPORT'
+export const ChatNotifications = {
+  None: 'NONE',
+  All: 'ALL',
+  MentionsOnly: 'MENTIONS_ONLY'
 } as const;
 
-export type MainInterest = typeof MainInterest[keyof typeof MainInterest];
+export type ChatNotifications = typeof ChatNotifications[keyof typeof ChatNotifications];
+export type EventNotificationType = BaseNotificationType & {
+  __typename?: 'EventNotificationType';
+  id?: Maybe<Scalars['Int']['output']>;
+  notificationType?: Maybe<NotificationEnum>;
+  time?: Maybe<Scalars['DateTime']['output']>;
+  event?: Maybe<EventType>;
+};
+
+export type EventType = {
+  __typename?: 'EventType';
+  id?: Maybe<Scalars['Int']['output']>;
+  title: Scalars['String']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  startTime: Scalars['DateTime']['output'];
+  endTime: Scalars['DateTime']['output'];
+  location: LocationType;
+  requirements?: Maybe<Scalars['JSONString']['output']>;
+  chat?: Maybe<ChatType>;
+  activity: ActivityType;
+  skillLevel?: Maybe<Scalars['String']['output']>;
+  maxParticipants?: Maybe<Scalars['Int']['output']>;
+  allowSpectators: Scalars['Boolean']['output'];
+  minAge?: Maybe<Scalars['Int']['output']>;
+  maxAge?: Maybe<Scalars['Int']['output']>;
+  acceptedGenders?: Maybe<Scalars['JSONString']['output']>;
+  finished: Scalars['Boolean']['output'];
+  members: Array<EventMemberType>;
+  posts: Array<PostType>;
+  organizer?: Maybe<EventMemberType>;
+  participants?: Maybe<Array<Maybe<EventMemberType>>>;
+  moderators?: Maybe<Array<Maybe<EventMemberType>>>;
+  spectators?: Maybe<Array<Maybe<EventMemberType>>>;
+  role?: Maybe<MemberRole>;
+  averageScore?: Maybe<Scalars['Float']['output']>;
+  comments?: Maybe<Array<Maybe<EventCommentType>>>;
+};
+
+export type EventMemberType = {
+  __typename?: 'EventMemberType';
+  user: UserType;
+  role?: Maybe<Scalars['String']['output']>;
+  hasParticipated?: Maybe<Scalars['Boolean']['output']>;
+  score?: Maybe<Scalars['String']['output']>;
+  comment?: Maybe<Scalars['String']['output']>;
+  participates: Scalars['Boolean']['output'];
+};
+
+export type PostType = {
+  __typename?: 'PostType';
+  id?: Maybe<Scalars['Int']['output']>;
+  title: Scalars['String']['output'];
+  content: Scalars['String']['output'];
+  timePosted: Scalars['DateTime']['output'];
+  event?: Maybe<EventType>;
+  likedBy: Array<UserType>;
+  comments?: Maybe<Array<Maybe<PostCommentType>>>;
+  likes?: Maybe<Scalars['Int']['output']>;
+};
+
+
+export type PostTypeCommentsArgs = {
+  start?: InputMaybe<Scalars['Int']['input']>;
+  end?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type PostCommentType = {
+  __typename?: 'PostCommentType';
+  id?: Maybe<Scalars['Int']['output']>;
+  user: UserType;
+  post: PostType;
+  text: Scalars['String']['output'];
+  timePosted: Scalars['DateTime']['output'];
+  isReplyTo?: Maybe<PostCommentType>;
+  replies: Array<PostCommentType>;
+  hasReplies?: Maybe<Scalars['Boolean']['output']>;
+};
+
+/** An enumeration. */
+export const MemberRole = {
+  Spectator: 'SPECTATOR',
+  Participant: 'PARTICIPANT',
+  Moderator: 'MODERATOR',
+  Organizer: 'ORGANIZER'
+} as const;
+
+export type MemberRole = typeof MemberRole[keyof typeof MemberRole];
+export type EventCommentType = {
+  __typename?: 'EventCommentType';
+  member?: Maybe<EventMemberType>;
+  comment?: Maybe<Scalars['String']['output']>;
+};
+
+export type Queries = {
+  __typename?: 'Queries';
+  event?: Maybe<EventType>;
+  joinedEvents?: Maybe<Array<Maybe<EventType>>>;
+  ownedEvents?: Maybe<Array<Maybe<EventType>>>;
+  pastJoinedEvents?: Maybe<Array<Maybe<EventType>>>;
+  ongoingJoinedEvents?: Maybe<Array<Maybe<EventType>>>;
+  futureJoinedEvents?: Maybe<Array<Maybe<EventType>>>;
+  unfinishedEvents?: Maybe<Array<Maybe<UnfinishedEventType>>>;
+  unratedEvents?: Maybe<Array<Maybe<EventType>>>;
+  myRecommendedEvents?: Maybe<Array<Maybe<EventType>>>;
+  profilePictureGcloudUrl?: Maybe<Scalars['String']['output']>;
+  eventPictureGcloudUrl?: Maybe<Scalars['String']['output']>;
+  newAttachment?: Maybe<AttachmentType>;
+  requestsSent?: Maybe<Array<Maybe<RelationshipType>>>;
+  countRequestsSent?: Maybe<Scalars['Int']['output']>;
+  requestsPending?: Maybe<Array<Maybe<RelationshipType>>>;
+  countRequestsPending?: Maybe<Scalars['Int']['output']>;
+  friends?: Maybe<Array<Maybe<RelationshipType>>>;
+  countFriends?: Maybe<Scalars['Int']['output']>;
+  allActivities?: Maybe<Array<Maybe<ActivityType>>>;
+  usernameTaken: Scalars['Boolean']['output'];
+  emailTaken: Scalars['Boolean']['output'];
+  isLoggedIn?: Maybe<Scalars['Boolean']['output']>;
+  post?: Maybe<PostType>;
+  eventPosts?: Maybe<Array<Maybe<PostType>>>;
+  globalPosts?: Maybe<Array<Maybe<PostType>>>;
+  myNotifications?: Maybe<Array<Maybe<BaseNotificationType>>>;
+  myChats?: Maybe<Array<Maybe<ChatType>>>;
+  chat?: Maybe<ChatType>;
+  myProfile?: Maybe<ProfileType>;
+  user?: Maybe<UserType>;
+};
+
+
+export type QueriesEventArgs = {
+  id?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueriesEventPictureGcloudUrlArgs = {
+  eventId: Scalars['Int']['input'];
+};
+
+
+export type QueriesUsernameTakenArgs = {
+  username?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueriesEmailTakenArgs = {
+  email?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueriesPostArgs = {
+  id?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueriesEventPostsArgs = {
+  eventId?: InputMaybe<Scalars['String']['input']>;
+  start?: InputMaybe<Scalars['Int']['input']>;
+  end?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueriesGlobalPostsArgs = {
+  start?: InputMaybe<Scalars['Int']['input']>;
+  end?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueriesMyNotificationsArgs = {
+  lastFetch: Scalars['DateTime']['input'];
+};
+
+
+export type QueriesChatArgs = {
+  chatId: Scalars['Int']['input'];
+};
+
+
+export type QueriesUserArgs = {
+  id?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type UnfinishedEventType = {
+  __typename?: 'UnfinishedEventType';
+  id?: Maybe<Scalars['Int']['output']>;
+  title: Scalars['String']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  startTime: Scalars['DateTime']['output'];
+  endTime: Scalars['DateTime']['output'];
+  location: LocationType;
+  requirements?: Maybe<Scalars['JSONString']['output']>;
+  chat?: Maybe<ChatType>;
+  activity: ActivityType;
+  skillLevel?: Maybe<Scalars['String']['output']>;
+  maxParticipants?: Maybe<Scalars['Int']['output']>;
+  allowSpectators: Scalars['Boolean']['output'];
+  minAge?: Maybe<Scalars['Int']['output']>;
+  maxAge?: Maybe<Scalars['Int']['output']>;
+  acceptedGenders?: Maybe<Scalars['JSONString']['output']>;
+  finished: Scalars['Boolean']['output'];
+  members: Array<EventMemberType>;
+  posts: Array<PostType>;
+  organizer?: Maybe<EventMemberType>;
+  participants?: Maybe<Array<Maybe<EventMemberType>>>;
+  moderators?: Maybe<Array<Maybe<EventMemberType>>>;
+  spectators?: Maybe<Array<Maybe<EventMemberType>>>;
+  role?: Maybe<MemberRole>;
+  averageScore?: Maybe<Scalars['Float']['output']>;
+  comments?: Maybe<Array<Maybe<EventCommentType>>>;
+  unconfirmedParticipants?: Maybe<Array<Maybe<EventMemberType>>>;
+};
+
+export type AttachmentType = {
+  __typename?: 'AttachmentType';
+  id?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
+};
+
+export type ProfileType = {
+  __typename?: 'ProfileType';
+  id?: Maybe<Scalars['Int']['output']>;
+  password: Scalars['String']['output'];
+  lastLogin?: Maybe<Scalars['DateTime']['output']>;
+  /** Designates whether this user should be treated as active. Unselect this instead of deleting accounts. */
+  isActive: Scalars['Boolean']['output'];
+  dateJoined: Scalars['DateTime']['output'];
+  username: Scalars['String']['output'];
+  email: Scalars['String']['output'];
+  bio: Scalars['String']['output'];
+  gender?: Maybe<Scalars['String']['output']>;
+  dateOfBirth?: Maybe<Scalars['Date']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
+  latitude?: Maybe<Scalars['Float']['output']>;
+  frequencyOfPhysicalActivity?: Maybe<FrequencyOfPhycicalActivity>;
+  socialInteractionImportance?: Maybe<SocialInteractionImportance>;
+  preferredPartySize?: Maybe<PreferredPartySize>;
+  formedRelationshipTypes?: Maybe<Array<Maybe<FormedRelationshipsType>>>;
+  physicalActivitySatisfaction?: Maybe<PhysicalActivitySatisfaction>;
+  preferredPartnerCharacteristics?: Maybe<Array<Maybe<PreferredPartnerCharacteristics>>>;
+  matchedParticipationLikelihood?: Maybe<MatchedParticipationLikelihood>;
+  preferredTimeOfTheDay?: Maybe<Array<Maybe<TimeOfTheDay>>>;
+  preferredEventDuration?: Maybe<Scalars['Int']['output']>;
+  genderPreference?: Maybe<Array<Maybe<GenderNoPnts>>>;
+  maxTravelDistance?: Maybe<Scalars['Int']['output']>;
+  mainInterest?: Maybe<MainInterest>;
+  isCapeable: Scalars['Boolean']['output'];
+  firstName: Scalars['String']['output'];
+  lastName: Scalars['String']['output'];
+  xp: Scalars['Int']['output'];
+  verified: Scalars['Boolean']['output'];
+  eventmemberSet: Array<EventMemberType>;
+  likes?: Maybe<Scalars['Int']['output']>;
+  privacySettings: Array<PrivacySettingType>;
+  chatmemberSet: Array<ChatMemberType>;
+  chatmessageSet: Array<ChatMessageType>;
+  preferredActivities: Array<PreferredActivityType>;
+  dislikes?: Maybe<Scalars['Int']['output']>;
+};
+
+/** An enumeration. */
+export const FrequencyOfPhycicalActivity = {
+  Daily: 'DAILY',
+  FewTimesAWeek: 'FEW_TIMES_A_WEEK',
+  OnceAWeek: 'ONCE_A_WEEK',
+  Occasionally: 'OCCASIONALLY',
+  Rarely: 'RARELY'
+} as const;
+
+export type FrequencyOfPhycicalActivity = typeof FrequencyOfPhycicalActivity[keyof typeof FrequencyOfPhycicalActivity];
+/** An enumeration. */
+export const SocialInteractionImportance = {
+  VeryImportant: 'VERY_IMPORTANT',
+  SomewhatImportant: 'SOMEWHAT_IMPORTANT',
+  Neutral: 'NEUTRAL',
+  NotVeryImportant: 'NOT_VERY_IMPORTANT',
+  NotImportantAtAll: 'NOT_IMPORTANT_AT_ALL'
+} as const;
+
+export type SocialInteractionImportance = typeof SocialInteractionImportance[keyof typeof SocialInteractionImportance];
+/** An enumeration. */
+export const PreferredPartySize = {
+  Alone: 'ALONE',
+  SmallGroup: 'SMALL_GROUP',
+  LargeGroup: 'LARGE_GROUP'
+} as const;
+
+export type PreferredPartySize = typeof PreferredPartySize[keyof typeof PreferredPartySize];
+/** An enumeration. */
+export const FormedRelationshipsType = {
+  Acquaintances: 'ACQUAINTANCES',
+  Friends: 'FRIENDS',
+  RomanticRelationships: 'ROMANTIC_RELATIONSHIPS'
+} as const;
+
+export type FormedRelationshipsType = typeof FormedRelationshipsType[keyof typeof FormedRelationshipsType];
+/** An enumeration. */
+export const PhysicalActivitySatisfaction = {
+  VerySatisfied: 'VERY_SATISFIED',
+  Satisfied: 'SATISFIED',
+  Neutral: 'NEUTRAL',
+  Dissatisfied: 'DISSATISFIED',
+  VeryDissatisfied: 'VERY_DISSATISFIED'
+} as const;
+
+export type PhysicalActivitySatisfaction = typeof PhysicalActivitySatisfaction[keyof typeof PhysicalActivitySatisfaction];
+/** An enumeration. */
+export const PreferredPartnerCharacteristics = {
+  SimilarSkillLevel: 'SIMILAR_SKILL_LEVEL',
+  SimilarAge: 'SIMILAR_AGE',
+  SameGender: 'SAME_GENDER',
+  SimilarInterests: 'SIMILAR_INTERESTS',
+  SimilarHealthGoals: 'SIMILAR_HEALTH_GOALS',
+  Proximity: 'PROXIMITY',
+  SimilarHobbies: 'SIMILAR_HOBBIES'
+} as const;
+
+export type PreferredPartnerCharacteristics = typeof PreferredPartnerCharacteristics[keyof typeof PreferredPartnerCharacteristics];
 /** An enumeration. */
 export const MatchedParticipationLikelihood = {
+  VeryLikely: 'VERY_LIKELY',
   Likely: 'LIKELY',
   Neutral: 'NEUTRAL',
   Unlikely: 'UNLIKELY',
-  VeryLikely: 'VERY_LIKELY',
   VeryUnlikely: 'VERY_UNLIKELY'
 } as const;
 
 export type MatchedParticipationLikelihood = typeof MatchedParticipationLikelihood[keyof typeof MatchedParticipationLikelihood];
 /** An enumeration. */
-export const MemberRole = {
-  Moderator: 'MODERATOR',
-  Organizer: 'ORGANIZER',
-  Participant: 'PARTICIPANT',
-  Spectator: 'SPECTATOR'
+export const TimeOfTheDay = {
+  Morning: 'MORNING',
+  Afternoon: 'AFTERNOON',
+  Evening: 'EVENING',
+  Night: 'NIGHT'
 } as const;
 
-export type MemberRole = typeof MemberRole[keyof typeof MemberRole];
-export type Mutations = {
-  __typename?: 'Mutations';
-  acceptFriendRequest?: Maybe<AcceptFriendRequestMutation>;
-  addEvent?: Maybe<AddEventMutation>;
-  alterEvent?: Maybe<AlterEventMutation>;
-  alterEventLocation?: Maybe<AlterEventLocation>;
-  cancelFriendRequest?: Maybe<CancelFriendRequestMutation>;
-  commentOnPost?: Maybe<CommentOnPostMutation>;
-  confirmMemberParticipation?: Maybe<ConfirmMemberParticipationMutation>;
-  createPost?: Maybe<CreatePostMutation>;
-  deleteAccount?: Maybe<DeleteAccountMutation>;
-  deleteEvent?: Maybe<DeleteEventMutation>;
-  finishEvent?: Maybe<FinishEventMutation>;
-  joinEvent?: Maybe<JoinEventMutation>;
-  kickEventMember?: Maybe<KickEventMemberMutation>;
-  leaveEvent?: Maybe<LeaveEventMutation>;
-  likeEventMember?: Maybe<LikeEventMemberMutation>;
-  likePost?: Maybe<LikePostMutation>;
-  login?: Maybe<LoginMutation>;
-  logout?: Maybe<LogoutMutation>;
-  rateEvent?: Maybe<RateEventMutation>;
-  rejectFriendRequest?: Maybe<RejectFriendRequestMutation>;
-  removeFriend?: Maybe<RemoveFriendMutation>;
-  removePreferredActivity?: Maybe<RemovePreferredActivity>;
-  replyOnPostComment?: Maybe<ReplyOnPostCommentMutation>;
-  sendChatMessage?: Maybe<SendChatMessage>;
-  sendConfirmationEmail?: Maybe<SendConfirmationEmailMutation>;
-  sendFriendRequest?: Maybe<SendFriendRequestMutation>;
-  sendPasswordResetEmail?: Maybe<SendPasswordResetEmailMutation>;
-  setChatNickname?: Maybe<SetChatNickname>;
-  setChatNotifications?: Maybe<SetChatNotifications>;
-  setEventLocation?: Maybe<SetEventLocation>;
-  setPreferredActivity?: Maybe<SetPreferredActivity>;
-  signup?: Maybe<SignupMutation>;
-  spectateEvent?: Maybe<SpectateEventMutation>;
-  submitBasicInfo?: Maybe<BasicInfoMutation>;
-  submitSurvey?: Maybe<SubmitSurveyMutation>;
-  unlikePost?: Maybe<UnlikePostMutation>;
-  updateMaxTravelDistance?: Maybe<UpdateMaxTravelDistanceMutation>;
-  updateProfileLocation?: Maybe<UpdateProfileLocation>;
+export type TimeOfTheDay = typeof TimeOfTheDay[keyof typeof TimeOfTheDay];
+/** An enumeration. */
+export const GenderNoPnts = {
+  Male: 'MALE',
+  Female: 'FEMALE',
+  NonBinary: 'NON_BINARY'
+} as const;
+
+export type GenderNoPnts = typeof GenderNoPnts[keyof typeof GenderNoPnts];
+/** An enumeration. */
+export const MainInterest = {
+  Socialize: 'SOCIALIZE',
+  Fun: 'FUN',
+  Sport: 'SPORT'
+} as const;
+
+export type MainInterest = typeof MainInterest[keyof typeof MainInterest];
+export type PrivacySettingType = {
+  __typename?: 'PrivacySettingType';
+  setting?: Maybe<Scalars['String']['output']>;
+  scope?: Maybe<Scalars['String']['output']>;
 };
 
-
-export type MutationsAcceptFriendRequestArgs = {
-  userId?: InputMaybe<Scalars['Int']['input']>;
+export type Mutations = {
+  __typename?: 'Mutations';
+  addEvent?: Maybe<AddEventMutation>;
+  alterEvent?: Maybe<AlterEventMutation>;
+  deleteEvent?: Maybe<DeleteEventMutation>;
+  sendFriendRequest?: Maybe<SendFriendRequestMutation>;
+  acceptFriendRequest?: Maybe<AcceptFriendRequestMutation>;
+  cancelFriendRequest?: Maybe<CancelFriendRequestMutation>;
+  rejectFriendRequest?: Maybe<RejectFriendRequestMutation>;
+  removeFriend?: Maybe<RemoveFriendMutation>;
+  setPreferredActivity?: Maybe<SetPreferredActivity>;
+  removePreferredActivity?: Maybe<RemovePreferredActivity>;
+  joinEvent?: Maybe<JoinEventMutation>;
+  spectateEvent?: Maybe<SpectateEventMutation>;
+  leaveEvent?: Maybe<LeaveEventMutation>;
+  kickEventMember?: Maybe<KickEventMemberMutation>;
+  login?: Maybe<LoginMutation>;
+  signup?: Maybe<SignupMutation>;
+  logout?: Maybe<LogoutMutation>;
+  deleteAccount?: Maybe<DeleteAccountMutation>;
+  sendConfirmationEmail?: Maybe<SendConfirmationEmailMutation>;
+  sendPasswordResetEmail?: Maybe<SendPasswordResetEmailMutation>;
+  createPost?: Maybe<CreatePostMutation>;
+  likePost?: Maybe<LikePostMutation>;
+  unlikePost?: Maybe<UnlikePostMutation>;
+  commentOnPost?: Maybe<CommentOnPostMutation>;
+  replyOnPostComment?: Maybe<ReplyOnPostCommentMutation>;
+  updateProfileLocation?: Maybe<UpdateProfileLocation>;
+  alterEventLocation?: Maybe<AlterEventLocation>;
+  setEventLocation?: Maybe<SetEventLocation>;
+  setChatNotifications?: Maybe<SetChatNotifications>;
+  setChatNickname?: Maybe<SetChatNickname>;
+  sendChatMessage?: Maybe<SendChatMessage>;
+  confirmMemberParticipation?: Maybe<ConfirmMemberParticipationMutation>;
+  finishEvent?: Maybe<FinishEventMutation>;
+  rateEvent?: Maybe<RateEventMutation>;
+  likeEventMember?: Maybe<LikeEventMemberMutation>;
+  updateSurveyInfo?: Maybe<UpdateSurveyInfoMutation>;
+  updateBasicInfo?: Maybe<UpdateBasicInfoMutation>;
+  updateMaxTravelDistance?: Maybe<UpdateMaxTravelDistanceMutation>;
 };
 
 
@@ -631,92 +586,23 @@ export type MutationsAlterEventArgs = {
 };
 
 
-export type MutationsAlterEventLocationArgs = {
-  eventId?: InputMaybe<Scalars['Int']['input']>;
-  locationAddressLine1?: InputMaybe<Scalars['String']['input']>;
-  locationAddressLine2?: InputMaybe<Scalars['String']['input']>;
-  locationCountryCode?: InputMaybe<CountryCode>;
-  locationLatitude?: InputMaybe<Scalars['Float']['input']>;
-  locationLongitude?: InputMaybe<Scalars['Float']['input']>;
-  locationName?: InputMaybe<Scalars['String']['input']>;
-  locationRegion?: InputMaybe<Scalars['String']['input']>;
-  locationZipCode?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type MutationsCancelFriendRequestArgs = {
-  userId?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type MutationsCommentOnPostArgs = {
-  postId: Scalars['Int']['input'];
-  text: Scalars['String']['input'];
-};
-
-
-export type MutationsConfirmMemberParticipationArgs = {
-  eventId: Scalars['Int']['input'];
-  participated: Scalars['Boolean']['input'];
-  userId: Scalars['Int']['input'];
-};
-
-
-export type MutationsCreatePostArgs = {
-  content: Scalars['String']['input'];
-  eventId: Scalars['Int']['input'];
-  title: Scalars['String']['input'];
-};
-
-
 export type MutationsDeleteEventArgs = {
   eventId: Scalars['Int']['input'];
 };
 
 
-export type MutationsFinishEventArgs = {
-  eventId: Scalars['Int']['input'];
+export type MutationsSendFriendRequestArgs = {
+  userId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type MutationsJoinEventArgs = {
-  eventId: Scalars['Int']['input'];
+export type MutationsAcceptFriendRequestArgs = {
+  userId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type MutationsKickEventMemberArgs = {
-  eventId: Scalars['Int']['input'];
-  userId: Scalars['Int']['input'];
-};
-
-
-export type MutationsLeaveEventArgs = {
-  eventId: Scalars['Int']['input'];
-};
-
-
-export type MutationsLikeEventMemberArgs = {
-  eventId: Scalars['Int']['input'];
-  like: Scalars['Boolean']['input'];
-  userId: Scalars['Int']['input'];
-};
-
-
-export type MutationsLikePostArgs = {
-  postId: Scalars['Int']['input'];
-};
-
-
-export type MutationsLoginArgs = {
-  password?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['String']['input']>;
-};
-
-
-export type MutationsRateEventArgs = {
-  comment?: InputMaybe<Scalars['String']['input']>;
-  eventId: Scalars['Int']['input'];
-  score: EventRating;
+export type MutationsCancelFriendRequestArgs = {
+  userId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -730,50 +616,41 @@ export type MutationsRemoveFriendArgs = {
 };
 
 
+export type MutationsSetPreferredActivityArgs = {
+  activity?: InputMaybe<ActivityEnum>;
+  skillLevel?: InputMaybe<SkillLevel>;
+};
+
+
 export type MutationsRemovePreferredActivityArgs = {
   activity?: InputMaybe<ActivityEnum>;
 };
 
 
-export type MutationsReplyOnPostCommentArgs = {
-  commentId: Scalars['Int']['input'];
-  text: Scalars['String']['input'];
+export type MutationsJoinEventArgs = {
+  eventId: Scalars['Int']['input'];
 };
 
 
-export type MutationsSendChatMessageArgs = {
-  attachmentId?: InputMaybe<Scalars['String']['input']>;
-  chatId: Scalars['Int']['input'];
-  message: Scalars['String']['input'];
+export type MutationsSpectateEventArgs = {
+  eventId: Scalars['Int']['input'];
 };
 
 
-export type MutationsSendFriendRequestArgs = {
-  userId?: InputMaybe<Scalars['Int']['input']>;
+export type MutationsLeaveEventArgs = {
+  eventId: Scalars['Int']['input'];
 };
 
 
-export type MutationsSetChatNicknameArgs = {
-  chatId: Scalars['Int']['input'];
-  nickname: Scalars['String']['input'];
+export type MutationsKickEventMemberArgs = {
+  eventId: Scalars['Int']['input'];
+  userId: Scalars['Int']['input'];
 };
 
 
-export type MutationsSetChatNotificationsArgs = {
-  chatId: Scalars['Int']['input'];
-  notifications: ChatNotifications;
-};
-
-
-export type MutationsSetEventLocationArgs = {
-  eventId?: InputMaybe<Scalars['Int']['input']>;
-  locationId?: InputMaybe<Scalars['Float']['input']>;
-};
-
-
-export type MutationsSetPreferredActivityArgs = {
-  activity?: InputMaybe<ActivityEnum>;
-  skillLevel?: InputMaybe<SkillLevel>;
+export type MutationsLoginArgs = {
+  password?: InputMaybe<Scalars['String']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -784,32 +661,15 @@ export type MutationsSignupArgs = {
 };
 
 
-export type MutationsSpectateEventArgs = {
+export type MutationsCreatePostArgs = {
+  content: Scalars['String']['input'];
   eventId: Scalars['Int']['input'];
+  title: Scalars['String']['input'];
 };
 
 
-export type MutationsSubmitBasicInfoArgs = {
-  bio?: InputMaybe<Scalars['String']['input']>;
-  dateOfBirth?: InputMaybe<Scalars['Date']['input']>;
-  firstName?: InputMaybe<Scalars['String']['input']>;
-  gender?: InputMaybe<Gender>;
-  lastName?: InputMaybe<Scalars['String']['input']>;
-};
-
-
-export type MutationsSubmitSurveyArgs = {
-  formedRelationshipTypes: Array<InputMaybe<FormedRelationshipsType>>;
-  frequencyOfPhysicalActivity: FrequencyOfPhycicalActivity;
-  genderPreference: Array<InputMaybe<Gender>>;
-  mainInterest: MainInterest;
-  matchedParticipationLikelihood: MatchedParticipationLikelihood;
-  physicalActivitySatisfaction: PhysicalActivitySatisfaction;
-  preferredEventDuration: Scalars['Int']['input'];
-  preferredPartnerCharacteristics: Array<InputMaybe<PreferredPartnerCharacteristics>>;
-  preferredPartySize: PreferredPartySize;
-  preferredTimeOfTheDay: Array<InputMaybe<TimeOfTheDay>>;
-  socialInteractionImportance: SocialInteractionImportance;
+export type MutationsLikePostArgs = {
+  postId: Scalars['Int']['input'];
 };
 
 
@@ -818,8 +678,15 @@ export type MutationsUnlikePostArgs = {
 };
 
 
-export type MutationsUpdateMaxTravelDistanceArgs = {
-  distance?: InputMaybe<Scalars['Int']['input']>;
+export type MutationsCommentOnPostArgs = {
+  postId: Scalars['Int']['input'];
+  text: Scalars['String']['input'];
+};
+
+
+export type MutationsReplyOnPostCommentArgs = {
+  commentId: Scalars['Int']['input'];
+  text: Scalars['String']['input'];
 };
 
 
@@ -828,254 +695,347 @@ export type MutationsUpdateProfileLocationArgs = {
   longitude?: InputMaybe<Scalars['Float']['input']>;
 };
 
-/** An enumeration. */
-export const NotificationEnum = {
-  EventFinished: 'EVENT_FINISHED',
-  FriendAccepted: 'FRIEND_ACCEPTED',
-  FriendRequest: 'FRIEND_REQUEST'
-} as const;
 
-export type NotificationEnum = typeof NotificationEnum[keyof typeof NotificationEnum];
-/** An enumeration. */
-export const PhysicalActivitySatisfaction = {
-  Dissatisfied: 'DISSATISFIED',
-  Neutral: 'NEUTRAL',
-  Satisfied: 'SATISFIED',
-  VeryDissatisfied: 'VERY_DISSATISFIED',
-  VerySatisfied: 'VERY_SATISFIED'
-} as const;
-
-export type PhysicalActivitySatisfaction = typeof PhysicalActivitySatisfaction[keyof typeof PhysicalActivitySatisfaction];
-export type PostCommentType = {
-  __typename?: 'PostCommentType';
-  hasReplies?: Maybe<Scalars['Boolean']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  isReplyTo?: Maybe<PostCommentType>;
-  post: PostType;
-  replies: Array<PostCommentType>;
-  text: Scalars['String']['output'];
-  timePosted: Scalars['DateTime']['output'];
-  user: UserType;
-};
-
-export type PostType = {
-  __typename?: 'PostType';
-  comments?: Maybe<Array<Maybe<PostCommentType>>>;
-  content: Scalars['String']['output'];
-  event?: Maybe<EventType>;
-  id?: Maybe<Scalars['Int']['output']>;
-  likedBy: Array<UserType>;
-  likes?: Maybe<Scalars['Int']['output']>;
-  timePosted: Scalars['DateTime']['output'];
-  title: Scalars['String']['output'];
+export type MutationsAlterEventLocationArgs = {
+  eventId?: InputMaybe<Scalars['Int']['input']>;
+  locationAddressLine1?: InputMaybe<Scalars['String']['input']>;
+  locationAddressLine2?: InputMaybe<Scalars['String']['input']>;
+  locationCountryCode?: InputMaybe<CountryCode>;
+  locationLatitude?: InputMaybe<Scalars['Float']['input']>;
+  locationLongitude?: InputMaybe<Scalars['Float']['input']>;
+  locationName?: InputMaybe<Scalars['String']['input']>;
+  locationRegion?: InputMaybe<Scalars['String']['input']>;
+  locationZipCode?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type PostTypeCommentsArgs = {
-  end?: InputMaybe<Scalars['Int']['input']>;
-  start?: InputMaybe<Scalars['Int']['input']>;
-};
-
-export type PreferredActivityType = {
-  __typename?: 'PreferredActivityType';
-  activity: ActivityType;
-  skillLevel?: Maybe<Scalars['String']['output']>;
-};
-
-/** An enumeration. */
-export const PreferredPartnerCharacteristics = {
-  Proximity: 'PROXIMITY',
-  SameGender: 'SAME_GENDER',
-  SimilarAge: 'SIMILAR_AGE',
-  SimilarHealthGoals: 'SIMILAR_HEALTH_GOALS',
-  SimilarHobbies: 'SIMILAR_HOBBIES',
-  SimilarInterests: 'SIMILAR_INTERESTS',
-  SimilarSkillLevel: 'SIMILAR_SKILL_LEVEL'
-} as const;
-
-export type PreferredPartnerCharacteristics = typeof PreferredPartnerCharacteristics[keyof typeof PreferredPartnerCharacteristics];
-/** An enumeration. */
-export const PreferredPartySize = {
-  Alone: 'ALONE',
-  LargeGroup: 'LARGE_GROUP',
-  SmallGroup: 'SMALL_GROUP'
-} as const;
-
-export type PreferredPartySize = typeof PreferredPartySize[keyof typeof PreferredPartySize];
-export type PrivacySettingType = {
-  __typename?: 'PrivacySettingType';
-  scope?: Maybe<Scalars['String']['output']>;
-  setting?: Maybe<Scalars['String']['output']>;
-};
-
-export type ProfileType = {
-  __typename?: 'ProfileType';
-  bio: Scalars['String']['output'];
-  chatmemberSet: Array<ChatMemberType>;
-  chatmessageSet: Array<ChatMessageType>;
-  dateJoined: Scalars['DateTime']['output'];
-  dateOfBirth?: Maybe<Scalars['Date']['output']>;
-  dislikes?: Maybe<Scalars['Int']['output']>;
-  email: Scalars['String']['output'];
-  eventmemberSet: Array<EventMemberType>;
-  firstName: Scalars['String']['output'];
-  formedRelationshipTypes?: Maybe<Scalars['JSONString']['output']>;
-  frequencyOfPhysicalActivity?: Maybe<Scalars['String']['output']>;
-  gender?: Maybe<Scalars['String']['output']>;
-  genderPreference?: Maybe<Scalars['JSONString']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  /** Designates whether this user should be treated as active. Unselect this instead of deleting accounts. */
-  isActive: Scalars['Boolean']['output'];
-  isCapeable: Scalars['Boolean']['output'];
-  lastLogin?: Maybe<Scalars['DateTime']['output']>;
-  lastName: Scalars['String']['output'];
-  latitude?: Maybe<Scalars['Float']['output']>;
-  likes?: Maybe<Scalars['Int']['output']>;
-  longitude?: Maybe<Scalars['Float']['output']>;
-  mainInterest?: Maybe<Scalars['String']['output']>;
-  matchedParticipationLikelihood?: Maybe<Scalars['String']['output']>;
-  maxTravelDistance?: Maybe<Scalars['Int']['output']>;
-  password: Scalars['String']['output'];
-  physicalActivitySatisfaction?: Maybe<Scalars['String']['output']>;
-  preferredActivities: Array<PreferredActivityType>;
-  preferredEventDuration?: Maybe<Scalars['Int']['output']>;
-  preferredPartnerCharacteristics?: Maybe<Scalars['JSONString']['output']>;
-  preferredPartySize?: Maybe<Scalars['String']['output']>;
-  preferredTimeOfTheDay?: Maybe<Scalars['JSONString']['output']>;
-  privacySettings: Array<PrivacySettingType>;
-  socialInteractionImportance?: Maybe<Scalars['String']['output']>;
-  username: Scalars['String']['output'];
-  verified: Scalars['Boolean']['output'];
-  xp: Scalars['Int']['output'];
-};
-
-export type Queries = {
-  __typename?: 'Queries';
-  allActivities?: Maybe<Array<Maybe<ActivityType>>>;
-  chat?: Maybe<ChatType>;
-  countFriends?: Maybe<Scalars['Int']['output']>;
-  countRequestsPending?: Maybe<Scalars['Int']['output']>;
-  countRequestsSent?: Maybe<Scalars['Int']['output']>;
-  emailTaken: Scalars['Boolean']['output'];
-  event?: Maybe<EventType>;
-  eventPictureGcloudUrl?: Maybe<Scalars['String']['output']>;
-  eventPosts?: Maybe<Array<Maybe<PostType>>>;
-  friends?: Maybe<Array<Maybe<RelationshipType>>>;
-  futureJoinedEvents?: Maybe<Array<Maybe<EventType>>>;
-  globalPosts?: Maybe<Array<Maybe<PostType>>>;
-  isLoggedIn?: Maybe<Scalars['Boolean']['output']>;
-  joinedEvents?: Maybe<Array<Maybe<EventType>>>;
-  myChats?: Maybe<Array<Maybe<ChatType>>>;
-  myNotifications?: Maybe<Array<Maybe<BaseNotificationType>>>;
-  myProfile?: Maybe<ProfileType>;
-  myRecommendedEvents?: Maybe<Array<Maybe<EventType>>>;
-  newAttachment?: Maybe<AttachmentType>;
-  ongoingJoinedEvents?: Maybe<Array<Maybe<EventType>>>;
-  ownedEvents?: Maybe<Array<Maybe<EventType>>>;
-  pastJoinedEvents?: Maybe<Array<Maybe<EventType>>>;
-  post?: Maybe<PostType>;
-  profilePictureGcloudUrl?: Maybe<Scalars['String']['output']>;
-  requestsPending?: Maybe<Array<Maybe<RelationshipType>>>;
-  requestsSent?: Maybe<Array<Maybe<RelationshipType>>>;
-  unfinishedEvents?: Maybe<Array<Maybe<UnfinishedEventType>>>;
-  unratedEvents?: Maybe<Array<Maybe<EventType>>>;
-  user?: Maybe<UserType>;
-  usernameTaken: Scalars['Boolean']['output'];
+export type MutationsSetEventLocationArgs = {
+  eventId?: InputMaybe<Scalars['Int']['input']>;
+  locationId?: InputMaybe<Scalars['Float']['input']>;
 };
 
 
-export type QueriesChatArgs = {
+export type MutationsSetChatNotificationsArgs = {
   chatId: Scalars['Int']['input'];
+  notifications: ChatNotifications;
 };
 
 
-export type QueriesEmailTakenArgs = {
-  email?: InputMaybe<Scalars['String']['input']>;
+export type MutationsSetChatNicknameArgs = {
+  chatId: Scalars['Int']['input'];
+  nickname: Scalars['String']['input'];
 };
 
 
-export type QueriesEventArgs = {
-  id?: InputMaybe<Scalars['Int']['input']>;
+export type MutationsSendChatMessageArgs = {
+  attachmentId?: InputMaybe<Scalars['String']['input']>;
+  chatId: Scalars['Int']['input'];
+  message: Scalars['String']['input'];
 };
 
 
-export type QueriesEventPictureGcloudUrlArgs = {
+export type MutationsConfirmMemberParticipationArgs = {
+  eventId: Scalars['Int']['input'];
+  participated: Scalars['Boolean']['input'];
+  userId: Scalars['Int']['input'];
+};
+
+
+export type MutationsFinishEventArgs = {
   eventId: Scalars['Int']['input'];
 };
 
 
-export type QueriesEventPostsArgs = {
-  end?: InputMaybe<Scalars['Int']['input']>;
-  eventId?: InputMaybe<Scalars['String']['input']>;
-  start?: InputMaybe<Scalars['Int']['input']>;
+export type MutationsRateEventArgs = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  eventId: Scalars['Int']['input'];
+  score: EventRating;
 };
 
 
-export type QueriesGlobalPostsArgs = {
-  end?: InputMaybe<Scalars['Int']['input']>;
-  start?: InputMaybe<Scalars['Int']['input']>;
+export type MutationsLikeEventMemberArgs = {
+  eventId: Scalars['Int']['input'];
+  like: Scalars['Boolean']['input'];
+  userId: Scalars['Int']['input'];
 };
 
 
-export type QueriesMyNotificationsArgs = {
-  lastFetch: Scalars['DateTime']['input'];
+export type MutationsUpdateSurveyInfoArgs = {
+  formedRelationshipTypes?: InputMaybe<Array<InputMaybe<FormedRelationshipsType>>>;
+  frequencyOfPhysicalActivity?: InputMaybe<FrequencyOfPhycicalActivity>;
+  genderPreference?: InputMaybe<Array<InputMaybe<GenderNoPnts>>>;
+  mainInterest?: InputMaybe<MainInterest>;
+  matchedParticipationLikelihood?: InputMaybe<MatchedParticipationLikelihood>;
+  physicalActivitySatisfaction?: InputMaybe<PhysicalActivitySatisfaction>;
+  preferredEventDuration?: InputMaybe<Scalars['Int']['input']>;
+  preferredPartnerCharacteristics?: InputMaybe<Array<InputMaybe<PreferredPartnerCharacteristics>>>;
+  preferredPartySize?: InputMaybe<PreferredPartySize>;
+  preferredTimeOfTheDay?: InputMaybe<Array<InputMaybe<TimeOfTheDay>>>;
+  socialInteractionImportance?: InputMaybe<SocialInteractionImportance>;
 };
 
 
-export type QueriesPostArgs = {
-  id?: InputMaybe<Scalars['Int']['input']>;
+export type MutationsUpdateBasicInfoArgs = {
+  bio?: InputMaybe<Scalars['String']['input']>;
+  dateOfBirth?: InputMaybe<Scalars['Date']['input']>;
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  gender?: InputMaybe<Gender>;
+  lastName?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type QueriesUserArgs = {
-  id?: InputMaybe<Scalars['Int']['input']>;
+export type MutationsUpdateMaxTravelDistanceArgs = {
+  distance?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
-export type QueriesUsernameTakenArgs = {
-  username?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type RateEventMutation = {
-  __typename?: 'RateEventMutation';
+export type AddEventMutation = {
+  __typename?: 'AddEventMutation';
   event?: Maybe<EventType>;
 };
 
-export type RejectFriendRequestMutation = {
-  __typename?: 'RejectFriendRequestMutation';
+/** An enumeration. */
+export const Gender = {
+  Male: 'MALE',
+  Female: 'FEMALE',
+  NonBinary: 'NON_BINARY',
+  PreferNotToSay: 'PREFER_NOT_TO_SAY'
+} as const;
+
+export type Gender = typeof Gender[keyof typeof Gender];
+/** An enumeration. */
+export const ActivityEnum = {
+  Hiking: 'HIKING',
+  Running: 'RUNNING',
+  Soccer: 'SOCCER',
+  Tennis: 'TENNIS',
+  Gym: 'GYM'
+} as const;
+
+export type ActivityEnum = typeof ActivityEnum[keyof typeof ActivityEnum];
+/** An enumeration. */
+export const CountryCode = {
+  Af: 'AF',
+  Al: 'AL',
+  Dz: 'DZ',
+  As: 'AS',
+  Ad: 'AD',
+  Ao: 'AO',
+  Ai: 'AI',
+  Aq: 'AQ',
+  Ag: 'AG',
+  Ar: 'AR',
+  Am: 'AM',
+  Aw: 'AW',
+  Au: 'AU',
+  At: 'AT',
+  Az: 'AZ',
+  Bs: 'BS',
+  Bh: 'BH',
+  Bd: 'BD',
+  Bb: 'BB',
+  By: 'BY',
+  Be: 'BE',
+  Bz: 'BZ',
+  Bj: 'BJ',
+  Bm: 'BM',
+  Bt: 'BT',
+  Bo: 'BO',
+  Ba: 'BA',
+  Bw: 'BW',
+  Br: 'BR',
+  Io: 'IO',
+  Bn: 'BN',
+  Bg: 'BG',
+  Bf: 'BF',
+  Bi: 'BI',
+  Kh: 'KH',
+  Cm: 'CM',
+  Ca: 'CA',
+  Cv: 'CV',
+  Ky: 'KY',
+  Cf: 'CF',
+  Td: 'TD',
+  Cl: 'CL',
+  Cn: 'CN',
+  Co: 'CO',
+  Km: 'KM',
+  Cg: 'CG',
+  Cd: 'CD',
+  Ck: 'CK',
+  Cr: 'CR',
+  Ci: 'CI',
+  Hr: 'HR',
+  Cu: 'CU',
+  Cy: 'CY',
+  Cz: 'CZ',
+  Dk: 'DK',
+  Dj: 'DJ',
+  Dm: 'DM',
+  Do: 'DO',
+  Ec: 'EC',
+  Eg: 'EG',
+  Sv: 'SV',
+  Gq: 'GQ',
+  Er: 'ER',
+  Ee: 'EE',
+  Sz: 'SZ',
+  Et: 'ET',
+  Fj: 'FJ',
+  Fi: 'FI',
+  Fr: 'FR',
+  Ga: 'GA',
+  Gm: 'GM',
+  Ge: 'GE',
+  De: 'DE',
+  Gh: 'GH',
+  Gr: 'GR',
+  Gd: 'GD',
+  Gt: 'GT',
+  Gn: 'GN',
+  Gw: 'GW',
+  Gy: 'GY',
+  Ht: 'HT',
+  Hn: 'HN',
+  Hu: 'HU',
+  Is: 'IS',
+  In: 'IN',
+  Id: 'ID',
+  Ir: 'IR',
+  Iq: 'IQ',
+  Ie: 'IE',
+  Il: 'IL',
+  It: 'IT',
+  Jm: 'JM',
+  Jp: 'JP',
+  Jo: 'JO',
+  Kz: 'KZ',
+  Ke: 'KE',
+  Ki: 'KI',
+  Kp: 'KP',
+  Kr: 'KR',
+  Kw: 'KW',
+  Kg: 'KG',
+  La: 'LA',
+  Lv: 'LV',
+  Lb: 'LB',
+  Ls: 'LS',
+  Lr: 'LR',
+  Ly: 'LY',
+  Li: 'LI',
+  Lt: 'LT',
+  Lu: 'LU',
+  Mg: 'MG',
+  Mw: 'MW',
+  My: 'MY',
+  Mv: 'MV',
+  Ml: 'ML',
+  Mt: 'MT',
+  Mh: 'MH',
+  Mr: 'MR',
+  Mu: 'MU',
+  Mx: 'MX',
+  Fm: 'FM',
+  Md: 'MD',
+  Mc: 'MC',
+  Mn: 'MN',
+  Me: 'ME',
+  Ma: 'MA',
+  Mz: 'MZ',
+  Mm: 'MM',
+  Na: 'NA',
+  Nr: 'NR',
+  Np: 'NP',
+  Nl: 'NL',
+  Nz: 'NZ',
+  Ni: 'NI',
+  Ne: 'NE',
+  Ng: 'NG',
+  Mk: 'MK',
+  No: 'NO',
+  Om: 'OM',
+  Pk: 'PK',
+  Pw: 'PW',
+  Ps: 'PS',
+  Pa: 'PA',
+  Pg: 'PG',
+  Py: 'PY',
+  Pe: 'PE',
+  Ph: 'PH',
+  Pl: 'PL',
+  Pt: 'PT',
+  Qa: 'QA',
+  Ro: 'RO',
+  Ru: 'RU',
+  Rw: 'RW',
+  Kn: 'KN',
+  Lc: 'LC',
+  Vc: 'VC',
+  Ws: 'WS',
+  Sm: 'SM',
+  St: 'ST',
+  Sa: 'SA',
+  Sn: 'SN',
+  Rs: 'RS',
+  Sc: 'SC',
+  Sl: 'SL',
+  Sg: 'SG',
+  Sk: 'SK',
+  Si: 'SI',
+  Sb: 'SB',
+  So: 'SO',
+  Za: 'ZA',
+  Ss: 'SS',
+  Es: 'ES',
+  Lk: 'LK',
+  Sd: 'SD',
+  Sr: 'SR',
+  Se: 'SE',
+  Ch: 'CH',
+  Sy: 'SY',
+  Tw: 'TW',
+  Tj: 'TJ',
+  Tz: 'TZ',
+  Th: 'TH',
+  Tl: 'TL',
+  Tg: 'TG',
+  To: 'TO',
+  Tt: 'TT',
+  Tn: 'TN',
+  Tr: 'TR',
+  Tm: 'TM',
+  Tv: 'TV',
+  Ug: 'UG',
+  Ua: 'UA',
+  Ae: 'AE',
+  Gb: 'GB',
+  Us: 'US',
+  Uy: 'UY',
+  Uz: 'UZ',
+  Vu: 'VU',
+  Ve: 'VE',
+  Vn: 'VN',
+  Ye: 'YE',
+  Zm: 'ZM',
+  Zw: 'ZW'
+} as const;
+
+export type CountryCode = typeof CountryCode[keyof typeof CountryCode];
+/** An enumeration. */
+export const SkillLevel = {
+  Beginner: 'BEGINNER',
+  Intermediate: 'INTERMEDIATE',
+  Advanced: 'ADVANCED',
+  Expert: 'EXPERT'
+} as const;
+
+export type SkillLevel = typeof SkillLevel[keyof typeof SkillLevel];
+export type AlterEventMutation = {
+  __typename?: 'AlterEventMutation';
   success?: Maybe<Scalars['Boolean']['output']>;
 };
 
-export type RelationshipType = {
-  __typename?: 'RelationshipType';
-  chat?: Maybe<ChatType>;
-  lastUpdate: Scalars['DateTime']['output'];
-  status?: Maybe<Scalars['String']['output']>;
-  user?: Maybe<UserType>;
-};
-
-export type RemoveFriendMutation = {
-  __typename?: 'RemoveFriendMutation';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type RemovePreferredActivity = {
-  __typename?: 'RemovePreferredActivity';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type ReplyOnPostCommentMutation = {
-  __typename?: 'ReplyOnPostCommentMutation';
-  comment?: Maybe<PostCommentType>;
-};
-
-export type SendChatMessage = {
-  __typename?: 'SendChatMessage';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type SendConfirmationEmailMutation = {
-  __typename?: 'SendConfirmationEmailMutation';
+export type DeleteEventMutation = {
+  __typename?: 'DeleteEventMutation';
   success?: Maybe<Scalars['Boolean']['output']>;
 };
 
@@ -1084,23 +1044,23 @@ export type SendFriendRequestMutation = {
   success?: Maybe<Scalars['Boolean']['output']>;
 };
 
-export type SendPasswordResetEmailMutation = {
-  __typename?: 'SendPasswordResetEmailMutation';
+export type AcceptFriendRequestMutation = {
+  __typename?: 'AcceptFriendRequestMutation';
   success?: Maybe<Scalars['Boolean']['output']>;
 };
 
-export type SetChatNickname = {
-  __typename?: 'SetChatNickname';
+export type CancelFriendRequestMutation = {
+  __typename?: 'CancelFriendRequestMutation';
   success?: Maybe<Scalars['Boolean']['output']>;
 };
 
-export type SetChatNotifications = {
-  __typename?: 'SetChatNotifications';
+export type RejectFriendRequestMutation = {
+  __typename?: 'RejectFriendRequestMutation';
   success?: Maybe<Scalars['Boolean']['output']>;
 };
 
-export type SetEventLocation = {
-  __typename?: 'SetEventLocation';
+export type RemoveFriendMutation = {
+  __typename?: 'RemoveFriendMutation';
   success?: Maybe<Scalars['Boolean']['output']>;
 };
 
@@ -1109,97 +1069,172 @@ export type SetPreferredActivity = {
   success?: Maybe<Scalars['Boolean']['output']>;
 };
 
-export type SignupMutation = {
-  __typename?: 'SignupMutation';
-  myProfile?: Maybe<ProfileType>;
+export type RemovePreferredActivity = {
+  __typename?: 'RemovePreferredActivity';
+  success?: Maybe<Scalars['Boolean']['output']>;
 };
 
-/** An enumeration. */
-export const SkillLevel = {
-  Advanced: 'ADVANCED',
-  Beginner: 'BEGINNER',
-  Expert: 'EXPERT',
-  Intermediate: 'INTERMEDIATE'
-} as const;
+export type JoinEventMutation = {
+  __typename?: 'JoinEventMutation';
+  eventMember?: Maybe<EventMemberType>;
+};
 
-export type SkillLevel = typeof SkillLevel[keyof typeof SkillLevel];
-/** An enumeration. */
-export const SocialInteractionImportance = {
-  Neutral: 'NEUTRAL',
-  NotImportantAtAll: 'NOT_IMPORTANT_AT_ALL',
-  NotVeryImportant: 'NOT_VERY_IMPORTANT',
-  SomewhatImportant: 'SOMEWHAT_IMPORTANT',
-  VeryImportant: 'VERY_IMPORTANT'
-} as const;
-
-export type SocialInteractionImportance = typeof SocialInteractionImportance[keyof typeof SocialInteractionImportance];
 export type SpectateEventMutation = {
   __typename?: 'SpectateEventMutation';
   eventMember?: Maybe<EventMemberType>;
 };
 
-export type SubmitSurveyMutation = {
-  __typename?: 'SubmitSurveyMutation';
+export type LeaveEventMutation = {
+  __typename?: 'LeaveEventMutation';
   success?: Maybe<Scalars['Boolean']['output']>;
 };
 
-export type Subscriptions = {
-  __typename?: 'Subscriptions';
-  chatLastOpen?: Maybe<Array<Maybe<WsLastOpenType>>>;
-  chatMessages?: Maybe<Array<Maybe<WsChatMessageType>>>;
+export type KickEventMemberMutation = {
+  __typename?: 'KickEventMemberMutation';
+  success?: Maybe<Scalars['Boolean']['output']>;
 };
 
-
-export type SubscriptionsChatLastOpenArgs = {
-  chatId: Scalars['Int']['input'];
+export type LoginMutation = {
+  __typename?: 'LoginMutation';
+  myProfile?: Maybe<ProfileType>;
 };
 
-
-export type SubscriptionsChatMessagesArgs = {
-  chatId: Scalars['Int']['input'];
+export type SignupMutation = {
+  __typename?: 'SignupMutation';
+  myProfile?: Maybe<ProfileType>;
 };
 
-/** An enumeration. */
-export const TimeOfTheDay = {
-  Afternoon: 'AFTERNOON',
-  Evening: 'EVENING',
-  Morning: 'MORNING',
-  Night: 'NIGHT'
-} as const;
+export type LogoutMutation = {
+  __typename?: 'LogoutMutation';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
 
-export type TimeOfTheDay = typeof TimeOfTheDay[keyof typeof TimeOfTheDay];
-export type UnfinishedEventType = {
-  __typename?: 'UnfinishedEventType';
-  acceptedGenders?: Maybe<Scalars['JSONString']['output']>;
-  activity: ActivityType;
-  allowSpectators: Scalars['Boolean']['output'];
-  averageScore?: Maybe<Scalars['Float']['output']>;
-  chat?: Maybe<ChatType>;
-  comments?: Maybe<Array<Maybe<EventCommentType>>>;
-  description?: Maybe<Scalars['String']['output']>;
-  endTime: Scalars['DateTime']['output'];
-  finished: Scalars['Boolean']['output'];
+export type DeleteAccountMutation = {
+  __typename?: 'DeleteAccountMutation';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type SendConfirmationEmailMutation = {
+  __typename?: 'SendConfirmationEmailMutation';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type SendPasswordResetEmailMutation = {
+  __typename?: 'SendPasswordResetEmailMutation';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type CreatePostMutation = {
+  __typename?: 'CreatePostMutation';
+  post?: Maybe<CreatePostType>;
+};
+
+export type CreatePostType = {
+  __typename?: 'CreatePostType';
   id?: Maybe<Scalars['Int']['output']>;
-  location: LocationType;
-  maxAge?: Maybe<Scalars['Int']['output']>;
-  maxParticipants?: Maybe<Scalars['Int']['output']>;
-  members: Array<EventMemberType>;
-  minAge?: Maybe<Scalars['Int']['output']>;
-  moderators?: Maybe<Array<Maybe<EventMemberType>>>;
-  organizer?: Maybe<EventMemberType>;
-  participants?: Maybe<Array<Maybe<EventMemberType>>>;
-  posts: Array<PostType>;
-  requirements?: Maybe<Scalars['JSONString']['output']>;
-  role?: Maybe<MemberRole>;
-  skillLevel?: Maybe<Scalars['String']['output']>;
-  spectators?: Maybe<Array<Maybe<EventMemberType>>>;
-  startTime: Scalars['DateTime']['output'];
   title: Scalars['String']['output'];
-  unconfirmedParticipants?: Maybe<Array<Maybe<EventMemberType>>>;
+  content: Scalars['String']['output'];
+  timePosted: Scalars['DateTime']['output'];
+  event?: Maybe<EventType>;
+  likedBy: Array<UserType>;
+  comments?: Maybe<Array<Maybe<PostCommentType>>>;
+  likes?: Maybe<Scalars['Int']['output']>;
+  imageUploadUrl?: Maybe<Scalars['String']['output']>;
+};
+
+
+export type CreatePostTypeCommentsArgs = {
+  start?: InputMaybe<Scalars['Int']['input']>;
+  end?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type LikePostMutation = {
+  __typename?: 'LikePostMutation';
+  success?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type UnlikePostMutation = {
   __typename?: 'UnlikePostMutation';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type CommentOnPostMutation = {
+  __typename?: 'CommentOnPostMutation';
+  comment?: Maybe<PostCommentType>;
+};
+
+export type ReplyOnPostCommentMutation = {
+  __typename?: 'ReplyOnPostCommentMutation';
+  comment?: Maybe<PostCommentType>;
+};
+
+export type UpdateProfileLocation = {
+  __typename?: 'UpdateProfileLocation';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type AlterEventLocation = {
+  __typename?: 'AlterEventLocation';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type SetEventLocation = {
+  __typename?: 'SetEventLocation';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type SetChatNotifications = {
+  __typename?: 'SetChatNotifications';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type SetChatNickname = {
+  __typename?: 'SetChatNickname';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type SendChatMessage = {
+  __typename?: 'SendChatMessage';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type ConfirmMemberParticipationMutation = {
+  __typename?: 'ConfirmMemberParticipationMutation';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type FinishEventMutation = {
+  __typename?: 'FinishEventMutation';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type RateEventMutation = {
+  __typename?: 'RateEventMutation';
+  event?: Maybe<EventType>;
+};
+
+/** An enumeration. */
+export const EventRating = {
+  VeryBad: 'VERY_BAD',
+  Bad: 'BAD',
+  Neutral: 'NEUTRAL',
+  Good: 'GOOD',
+  Great: 'GREAT'
+} as const;
+
+export type EventRating = typeof EventRating[keyof typeof EventRating];
+export type LikeEventMemberMutation = {
+  __typename?: 'LikeEventMemberMutation';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type UpdateSurveyInfoMutation = {
+  __typename?: 'UpdateSurveyInfoMutation';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type UpdateBasicInfoMutation = {
+  __typename?: 'UpdateBasicInfoMutation';
   success?: Maybe<Scalars['Boolean']['output']>;
 };
 
@@ -1208,82 +1243,41 @@ export type UpdateMaxTravelDistanceMutation = {
   success?: Maybe<Scalars['Boolean']['output']>;
 };
 
-export type UpdateProfileLocation = {
-  __typename?: 'UpdateProfileLocation';
-  success?: Maybe<Scalars['Boolean']['output']>;
+export type Subscriptions = {
+  __typename?: 'Subscriptions';
+  chatMessages?: Maybe<Array<Maybe<WsChatMessageType>>>;
+  chatLastOpen?: Maybe<Array<Maybe<WsLastOpenType>>>;
 };
 
-export type UserNotificationType = BaseNotificationType & {
-  __typename?: 'UserNotificationType';
-  id?: Maybe<Scalars['Int']['output']>;
-  notificationType?: Maybe<NotificationEnum>;
-  time?: Maybe<Scalars['DateTime']['output']>;
-  user?: Maybe<UserType>;
+
+export type SubscriptionsChatMessagesArgs = {
+  chatId: Scalars['Int']['input'];
 };
 
-export type UserType = {
-  __typename?: 'UserType';
-  bio: Scalars['String']['output'];
-  dateJoined: Scalars['DateTime']['output'];
-  dateOfBirth?: Maybe<Scalars['Date']['output']>;
-  dislikes?: Maybe<Scalars['Int']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  firstName: Scalars['String']['output'];
-  frequencyOfPhysicalActivity?: Maybe<Scalars['String']['output']>;
-  friendCount?: Maybe<Scalars['Int']['output']>;
-  friends?: Maybe<Array<Maybe<UserType>>>;
-  gender?: Maybe<MainAppUserGenderChoices>;
-  id?: Maybe<Scalars['Int']['output']>;
-  /** Designates whether this user should be treated as active. Unselect this instead of deleting accounts. */
-  isActive: Scalars['Boolean']['output'];
-  lastName: Scalars['String']['output'];
-  likes?: Maybe<Scalars['Int']['output']>;
-  location?: Maybe<LocationType>;
-  mainInterest?: Maybe<Scalars['String']['output']>;
-  matchedParticipationLikelihood?: Maybe<Scalars['String']['output']>;
-  physicalActivitySatisfaction?: Maybe<Scalars['String']['output']>;
-  preferredActivities: Array<PreferredActivityType>;
-  preferredPartySize?: Maybe<Scalars['String']['output']>;
-  relationship?: Maybe<RelationshipType>;
-  socialInteractionImportance?: Maybe<Scalars['String']['output']>;
-  username: Scalars['String']['output'];
-  verified: Scalars['Boolean']['output'];
-  xp: Scalars['Int']['output'];
+
+export type SubscriptionsChatLastOpenArgs = {
+  chatId: Scalars['Int']['input'];
 };
 
 export type WsChatMessageType = {
   __typename?: 'WSChatMessageType';
-  attachmentUrl?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['Int']['output']>;
-  textContent?: Maybe<Scalars['String']['output']>;
   timeSent?: Maybe<Scalars['DateTime']['output']>;
   userId?: Maybe<Scalars['Int']['output']>;
+  textContent?: Maybe<Scalars['String']['output']>;
+  attachmentUrl?: Maybe<Scalars['String']['output']>;
 };
 
 export type WsLastOpenType = {
   __typename?: 'WSLastOpenType';
-  lastOpen?: Maybe<Scalars['DateTime']['output']>;
   userId?: Maybe<Scalars['Int']['output']>;
+  lastOpen?: Maybe<Scalars['DateTime']['output']>;
 };
 
-export type ContextProfileFragment = { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: any | null, bio: string, gender?: string | null, dateOfBirth?: any | null, maxTravelDistance?: number | null, isCapeable: boolean, firstName: string, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null };
-
-export type LoginUserMutationVariables = Exact<{
-  user: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-}>;
+export type FetchProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoginUserMutation = { __typename?: 'Mutations', login?: { __typename?: 'LoginMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: any | null, bio: string, gender?: string | null, dateOfBirth?: any | null, maxTravelDistance?: number | null, isCapeable: boolean, firstName: string, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null } | null } | null };
-
-export type SignupUserMutationVariables = Exact<{
-  username: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-  email: Scalars['String']['input'];
-}>;
-
-
-export type SignupUserMutation = { __typename?: 'Mutations', signup?: { __typename?: 'SignupMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: any | null, bio: string, gender?: string | null, dateOfBirth?: any | null, maxTravelDistance?: number | null, isCapeable: boolean, firstName: string, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null } | null } | null };
+export type FetchProfileQuery = { __typename?: 'Queries', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null } | null };
 
 export type UsernameTakenQueryVariables = Exact<{
   username: Scalars['String']['input'];
@@ -1299,97 +1293,143 @@ export type EmailTakenQueryVariables = Exact<{
 
 export type EmailTakenQuery = { __typename?: 'Queries', emailTaken: boolean };
 
+export type UpdateLocationMutationVariables = Exact<{
+  latitude: Scalars['Float']['input'];
+  longitude: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateLocationMutation = { __typename?: 'Mutations', updateProfileLocation?: { __typename?: 'UpdateProfileLocation', success?: boolean | null } | null };
+
+export type UpdateProfileBasicInfoMutationVariables = Exact<{
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  lastName?: InputMaybe<Scalars['String']['input']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
+  dateOfBirth?: InputMaybe<Scalars['Date']['input']>;
+  gender?: InputMaybe<Gender>;
+}>;
+
+
+export type UpdateProfileBasicInfoMutation = { __typename?: 'Mutations', updateBasicInfo?: { __typename?: 'UpdateBasicInfoMutation', success?: boolean | null } | null };
+
+export type UpdateProfileSurveyInfoMutationVariables = Exact<{
+  frequencyOfPhysicalActivity?: InputMaybe<FrequencyOfPhycicalActivity>;
+  socialInteractionImportance?: InputMaybe<SocialInteractionImportance>;
+  preferredPartySize?: InputMaybe<PreferredPartySize>;
+  formedRelationshipTypes?: InputMaybe<Array<InputMaybe<FormedRelationshipsType>> | InputMaybe<FormedRelationshipsType>>;
+  physicalActivitySatisfaction?: InputMaybe<PhysicalActivitySatisfaction>;
+  preferredPartnerCharacteristics?: InputMaybe<Array<InputMaybe<PreferredPartnerCharacteristics>> | InputMaybe<PreferredPartnerCharacteristics>>;
+  matchedParticipationLikelihood?: InputMaybe<MatchedParticipationLikelihood>;
+  genderPreference?: InputMaybe<Array<InputMaybe<GenderNoPnts>> | InputMaybe<GenderNoPnts>>;
+  mainInterest?: InputMaybe<MainInterest>;
+  preferredTimeOfTheDay?: InputMaybe<Array<InputMaybe<TimeOfTheDay>> | InputMaybe<TimeOfTheDay>>;
+}>;
+
+
+export type UpdateProfileSurveyInfoMutation = { __typename?: 'Mutations', updateSurveyInfo?: { __typename?: 'UpdateSurveyInfoMutation', success?: boolean | null } | null };
+
+export type SurveyFragment = { __typename?: 'ProfileType', frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null };
+
+export type BasicInfoFragment = { __typename?: 'ProfileType', firstName: string, lastName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null };
+
+export type ContextProfileFragment = { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null };
+
+export type LoginUserMutationVariables = Exact<{
+  user: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+
+export type LoginUserMutation = { __typename?: 'Mutations', login?: { __typename?: 'LoginMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null } | null } | null };
+
+export type SignupUserMutationVariables = Exact<{
+  username: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+}>;
+
+
+export type SignupUserMutation = { __typename?: 'Mutations', signup?: { __typename?: 'SignupMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null } | null } | null };
+
+export const BasicInfoFragmentDoc = gql`
+    fragment BasicInfoFragment on ProfileType {
+  firstName
+  lastName
+  bio
+  dateOfBirth
+  gender
+}
+    `;
+export const SurveyFragmentDoc = gql`
+    fragment SurveyFragment on ProfileType {
+  frequencyOfPhysicalActivity
+  socialInteractionImportance
+  preferredPartySize
+  formedRelationshipTypes
+  physicalActivitySatisfaction
+  preferredPartnerCharacteristics
+  matchedParticipationLikelihood
+  preferredTimeOfTheDay
+  genderPreference
+  mainInterest
+}
+    `;
 export const ContextProfileFragmentDoc = gql`
     fragment ContextProfileFragment on ProfileType {
   id
   username
   email
   lastLogin
-  bio
-  gender
-  dateOfBirth
   maxTravelDistance
   isCapeable
-  firstName
   lastName
   verified
   likes
   dislikes
+  ...BasicInfoFragment
+  ...SurveyFragment
 }
-    `;
-export const LoginUserDocument = gql`
-    mutation LoginUser($user: String!, $password: String!) {
-  login(user: $user, password: $password) {
-    myProfile {
-      ...ContextProfileFragment
-    }
+    ${BasicInfoFragmentDoc}
+${SurveyFragmentDoc}`;
+export const FetchProfileDocument = gql`
+    query FetchProfile {
+  myProfile {
+    ...ContextProfileFragment
   }
 }
     ${ContextProfileFragmentDoc}`;
-export type LoginUserMutationFn = Apollo.MutationFunction<LoginUserMutation, LoginUserMutationVariables>;
 
 /**
- * __useLoginUserMutation__
+ * __useFetchProfileQuery__
  *
- * To run a mutation, you first call `useLoginUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLoginUserMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
+ * To run a query within a React component, call `useFetchProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const [loginUserMutation, { data, loading, error }] = useLoginUserMutation({
+ * const { data, loading, error } = useFetchProfileQuery({
  *   variables: {
- *      user: // value for 'user'
- *      password: // value for 'password'
  *   },
  * });
  */
-export function useLoginUserMutation(baseOptions?: Apollo.MutationHookOptions<LoginUserMutation, LoginUserMutationVariables>) {
+export function useFetchProfileQuery(baseOptions?: Apollo.QueryHookOptions<FetchProfileQuery, FetchProfileQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument, options);
+        return Apollo.useQuery<FetchProfileQuery, FetchProfileQueryVariables>(FetchProfileDocument, options);
       }
-export type LoginUserMutationHookResult = ReturnType<typeof useLoginUserMutation>;
-export type LoginUserMutationResult = Apollo.MutationResult<LoginUserMutation>;
-export type LoginUserMutationOptions = Apollo.BaseMutationOptions<LoginUserMutation, LoginUserMutationVariables>;
-export const SignupUserDocument = gql`
-    mutation SignupUser($username: String!, $password: String!, $email: String!) {
-  signup(username: $username, email: $email, password: $password) {
-    myProfile {
-      ...ContextProfileFragment
-    }
-  }
-}
-    ${ContextProfileFragmentDoc}`;
-export type SignupUserMutationFn = Apollo.MutationFunction<SignupUserMutation, SignupUserMutationVariables>;
-
-/**
- * __useSignupUserMutation__
- *
- * To run a mutation, you first call `useSignupUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSignupUserMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [signupUserMutation, { data, loading, error }] = useSignupUserMutation({
- *   variables: {
- *      username: // value for 'username'
- *      password: // value for 'password'
- *      email: // value for 'email'
- *   },
- * });
- */
-export function useSignupUserMutation(baseOptions?: Apollo.MutationHookOptions<SignupUserMutation, SignupUserMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SignupUserMutation, SignupUserMutationVariables>(SignupUserDocument, options);
-      }
-export type SignupUserMutationHookResult = ReturnType<typeof useSignupUserMutation>;
-export type SignupUserMutationResult = Apollo.MutationResult<SignupUserMutation>;
-export type SignupUserMutationOptions = Apollo.BaseMutationOptions<SignupUserMutation, SignupUserMutationVariables>;
+export function useFetchProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchProfileQuery, FetchProfileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchProfileQuery, FetchProfileQueryVariables>(FetchProfileDocument, options);
+        }
+export function useFetchProfileSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FetchProfileQuery, FetchProfileQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FetchProfileQuery, FetchProfileQueryVariables>(FetchProfileDocument, options);
+        }
+export type FetchProfileQueryHookResult = ReturnType<typeof useFetchProfileQuery>;
+export type FetchProfileLazyQueryHookResult = ReturnType<typeof useFetchProfileLazyQuery>;
+export type FetchProfileSuspenseQueryHookResult = ReturnType<typeof useFetchProfileSuspenseQuery>;
+export type FetchProfileQueryResult = Apollo.QueryResult<FetchProfileQuery, FetchProfileQueryVariables>;
 export const UsernameTakenDocument = gql`
     query usernameTaken($username: String!) {
   usernameTaken(username: $username)
@@ -1466,3 +1506,206 @@ export type EmailTakenQueryHookResult = ReturnType<typeof useEmailTakenQuery>;
 export type EmailTakenLazyQueryHookResult = ReturnType<typeof useEmailTakenLazyQuery>;
 export type EmailTakenSuspenseQueryHookResult = ReturnType<typeof useEmailTakenSuspenseQuery>;
 export type EmailTakenQueryResult = Apollo.QueryResult<EmailTakenQuery, EmailTakenQueryVariables>;
+export const UpdateLocationDocument = gql`
+    mutation UpdateLocation($latitude: Float!, $longitude: Float!) {
+  updateProfileLocation(latitude: $latitude, longitude: $longitude) {
+    success
+  }
+}
+    `;
+export type UpdateLocationMutationFn = Apollo.MutationFunction<UpdateLocationMutation, UpdateLocationMutationVariables>;
+
+/**
+ * __useUpdateLocationMutation__
+ *
+ * To run a mutation, you first call `useUpdateLocationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateLocationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateLocationMutation, { data, loading, error }] = useUpdateLocationMutation({
+ *   variables: {
+ *      latitude: // value for 'latitude'
+ *      longitude: // value for 'longitude'
+ *   },
+ * });
+ */
+export function useUpdateLocationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateLocationMutation, UpdateLocationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateLocationMutation, UpdateLocationMutationVariables>(UpdateLocationDocument, options);
+      }
+export type UpdateLocationMutationHookResult = ReturnType<typeof useUpdateLocationMutation>;
+export type UpdateLocationMutationResult = Apollo.MutationResult<UpdateLocationMutation>;
+export type UpdateLocationMutationOptions = Apollo.BaseMutationOptions<UpdateLocationMutation, UpdateLocationMutationVariables>;
+export const UpdateProfileBasicInfoDocument = gql`
+    mutation UpdateProfileBasicInfo($firstName: String, $lastName: String, $bio: String, $dateOfBirth: Date, $gender: Gender) {
+  updateBasicInfo(
+    firstName: $firstName
+    lastName: $lastName
+    bio: $bio
+    dateOfBirth: $dateOfBirth
+    gender: $gender
+  ) {
+    success
+  }
+}
+    `;
+export type UpdateProfileBasicInfoMutationFn = Apollo.MutationFunction<UpdateProfileBasicInfoMutation, UpdateProfileBasicInfoMutationVariables>;
+
+/**
+ * __useUpdateProfileBasicInfoMutation__
+ *
+ * To run a mutation, you first call `useUpdateProfileBasicInfoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProfileBasicInfoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProfileBasicInfoMutation, { data, loading, error }] = useUpdateProfileBasicInfoMutation({
+ *   variables: {
+ *      firstName: // value for 'firstName'
+ *      lastName: // value for 'lastName'
+ *      bio: // value for 'bio'
+ *      dateOfBirth: // value for 'dateOfBirth'
+ *      gender: // value for 'gender'
+ *   },
+ * });
+ */
+export function useUpdateProfileBasicInfoMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProfileBasicInfoMutation, UpdateProfileBasicInfoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateProfileBasicInfoMutation, UpdateProfileBasicInfoMutationVariables>(UpdateProfileBasicInfoDocument, options);
+      }
+export type UpdateProfileBasicInfoMutationHookResult = ReturnType<typeof useUpdateProfileBasicInfoMutation>;
+export type UpdateProfileBasicInfoMutationResult = Apollo.MutationResult<UpdateProfileBasicInfoMutation>;
+export type UpdateProfileBasicInfoMutationOptions = Apollo.BaseMutationOptions<UpdateProfileBasicInfoMutation, UpdateProfileBasicInfoMutationVariables>;
+export const UpdateProfileSurveyInfoDocument = gql`
+    mutation UpdateProfileSurveyInfo($frequencyOfPhysicalActivity: FrequencyOfPhycicalActivity, $socialInteractionImportance: SocialInteractionImportance, $preferredPartySize: PreferredPartySize, $formedRelationshipTypes: [FormedRelationshipsType], $physicalActivitySatisfaction: PhysicalActivitySatisfaction, $preferredPartnerCharacteristics: [PreferredPartnerCharacteristics], $matchedParticipationLikelihood: MatchedParticipationLikelihood, $genderPreference: [GenderNoPNTS], $mainInterest: MainInterest, $preferredTimeOfTheDay: [TimeOfTheDay]) {
+  updateSurveyInfo(
+    frequencyOfPhysicalActivity: $frequencyOfPhysicalActivity
+    socialInteractionImportance: $socialInteractionImportance
+    preferredPartySize: $preferredPartySize
+    formedRelationshipTypes: $formedRelationshipTypes
+    physicalActivitySatisfaction: $physicalActivitySatisfaction
+    preferredPartnerCharacteristics: $preferredPartnerCharacteristics
+    matchedParticipationLikelihood: $matchedParticipationLikelihood
+    genderPreference: $genderPreference
+    mainInterest: $mainInterest
+    preferredTimeOfTheDay: $preferredTimeOfTheDay
+  ) {
+    success
+  }
+}
+    `;
+export type UpdateProfileSurveyInfoMutationFn = Apollo.MutationFunction<UpdateProfileSurveyInfoMutation, UpdateProfileSurveyInfoMutationVariables>;
+
+/**
+ * __useUpdateProfileSurveyInfoMutation__
+ *
+ * To run a mutation, you first call `useUpdateProfileSurveyInfoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProfileSurveyInfoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProfileSurveyInfoMutation, { data, loading, error }] = useUpdateProfileSurveyInfoMutation({
+ *   variables: {
+ *      frequencyOfPhysicalActivity: // value for 'frequencyOfPhysicalActivity'
+ *      socialInteractionImportance: // value for 'socialInteractionImportance'
+ *      preferredPartySize: // value for 'preferredPartySize'
+ *      formedRelationshipTypes: // value for 'formedRelationshipTypes'
+ *      physicalActivitySatisfaction: // value for 'physicalActivitySatisfaction'
+ *      preferredPartnerCharacteristics: // value for 'preferredPartnerCharacteristics'
+ *      matchedParticipationLikelihood: // value for 'matchedParticipationLikelihood'
+ *      genderPreference: // value for 'genderPreference'
+ *      mainInterest: // value for 'mainInterest'
+ *      preferredTimeOfTheDay: // value for 'preferredTimeOfTheDay'
+ *   },
+ * });
+ */
+export function useUpdateProfileSurveyInfoMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProfileSurveyInfoMutation, UpdateProfileSurveyInfoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateProfileSurveyInfoMutation, UpdateProfileSurveyInfoMutationVariables>(UpdateProfileSurveyInfoDocument, options);
+      }
+export type UpdateProfileSurveyInfoMutationHookResult = ReturnType<typeof useUpdateProfileSurveyInfoMutation>;
+export type UpdateProfileSurveyInfoMutationResult = Apollo.MutationResult<UpdateProfileSurveyInfoMutation>;
+export type UpdateProfileSurveyInfoMutationOptions = Apollo.BaseMutationOptions<UpdateProfileSurveyInfoMutation, UpdateProfileSurveyInfoMutationVariables>;
+export const LoginUserDocument = gql`
+    mutation LoginUser($user: String!, $password: String!) {
+  login(user: $user, password: $password) {
+    myProfile {
+      ...ContextProfileFragment
+    }
+  }
+}
+    ${ContextProfileFragmentDoc}`;
+export type LoginUserMutationFn = Apollo.MutationFunction<LoginUserMutation, LoginUserMutationVariables>;
+
+/**
+ * __useLoginUserMutation__
+ *
+ * To run a mutation, you first call `useLoginUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginUserMutation, { data, loading, error }] = useLoginUserMutation({
+ *   variables: {
+ *      user: // value for 'user'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useLoginUserMutation(baseOptions?: Apollo.MutationHookOptions<LoginUserMutation, LoginUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument, options);
+      }
+export type LoginUserMutationHookResult = ReturnType<typeof useLoginUserMutation>;
+export type LoginUserMutationResult = Apollo.MutationResult<LoginUserMutation>;
+export type LoginUserMutationOptions = Apollo.BaseMutationOptions<LoginUserMutation, LoginUserMutationVariables>;
+export const SignupUserDocument = gql`
+    mutation SignupUser($username: String!, $password: String!, $email: String!) {
+  signup(username: $username, email: $email, password: $password) {
+    myProfile {
+      ...ContextProfileFragment
+    }
+  }
+}
+    ${ContextProfileFragmentDoc}`;
+export type SignupUserMutationFn = Apollo.MutationFunction<SignupUserMutation, SignupUserMutationVariables>;
+
+/**
+ * __useSignupUserMutation__
+ *
+ * To run a mutation, you first call `useSignupUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignupUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signupUserMutation, { data, loading, error }] = useSignupUserMutation({
+ *   variables: {
+ *      username: // value for 'username'
+ *      password: // value for 'password'
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useSignupUserMutation(baseOptions?: Apollo.MutationHookOptions<SignupUserMutation, SignupUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignupUserMutation, SignupUserMutationVariables>(SignupUserDocument, options);
+      }
+export type SignupUserMutationHookResult = ReturnType<typeof useSignupUserMutation>;
+export type SignupUserMutationResult = Apollo.MutationResult<SignupUserMutation>;
+export type SignupUserMutationOptions = Apollo.BaseMutationOptions<SignupUserMutation, SignupUserMutationVariables>;

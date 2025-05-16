@@ -1,0 +1,51 @@
+mutation UpdateLocation ($latitude: Float!, $longitude: Float!) {
+  updateProfileLocation (latitude: $latitude, longitude: $longitude) {
+    success
+  }
+}
+
+mutation UpdateProfileBasicInfo(
+  $firstName: String,
+  $lastName: String,
+  $bio: String,
+  $dateOfBirth: Date,
+  $gender: Gender
+) {
+  updateBasicInfo (
+    firstName: $firstName,
+    lastName: $lastName,
+    bio: $bio,
+    dateOfBirth: $dateOfBirth,
+    gender: $gender
+  ) {
+    success
+  }
+}
+
+mutation UpdateProfileSurveyInfo(
+  $frequencyOfPhysicalActivity: FrequencyOfPhycicalActivity
+  $socialInteractionImportance: SocialInteractionImportance
+  $preferredPartySize: PreferredPartySize
+  $formedRelationshipTypes: [FormedRelationshipsType]
+  $physicalActivitySatisfaction: PhysicalActivitySatisfaction
+  $preferredPartnerCharacteristics: [PreferredPartnerCharacteristics]
+  $matchedParticipationLikelihood: MatchedParticipationLikelihood
+  $genderPreference: [GenderNoPNTS]
+  $mainInterest: MainInterest
+  $preferredTimeOfTheDay: [TimeOfTheDay]
+) {
+  updateSurveyInfo(
+    frequencyOfPhysicalActivity: $frequencyOfPhysicalActivity
+    socialInteractionImportance: $socialInteractionImportance
+    preferredPartySize: $preferredPartySize
+    formedRelationshipTypes: $formedRelationshipTypes
+    physicalActivitySatisfaction: $physicalActivitySatisfaction
+    preferredPartnerCharacteristics: $preferredPartnerCharacteristics
+    matchedParticipationLikelihood: $matchedParticipationLikelihood
+    genderPreference: $genderPreference
+    mainInterest: $mainInterest
+    preferredTimeOfTheDay: $preferredTimeOfTheDay
+  ) {
+    success
+  }
+}

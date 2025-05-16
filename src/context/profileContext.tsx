@@ -1,5 +1,6 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
-import { ContextProfileFragment } from "~/graphql/generated";
+import { ContextProfileFragment, FetchProfileDocument } from "~/graphql/generated";
+import { apolloClient } from "~/appolo/client";
 
 type ProfileContextType = {
   profile: ContextProfileFragment | null;
@@ -24,6 +25,18 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     localStorage.setItem('profile', JSON.stringify(profile))
   }, [profile, setProfile])
+
+  useEffect(() => {
+    if (localStorage.getItem('profile')) {
+      apolloClient.query({
+        query: FetchProfileDocument
+      }).then(result => {
+        setProfile(result.data.myProfile)
+      }).catch(_ => {
+        setProfile(null)
+      })
+    }
+  }, [])
 
   return (
     <ProfileContext.Provider value={{ profile, setProfile }}>

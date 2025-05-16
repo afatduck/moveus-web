@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 import { ChangeEvent, FormEvent, useCallback, useState } from "react";
 import { ContextProfileFragment, useSignupUserMutation } from "~/graphql/generated"
-import TextInput from "~/components/textInput";
+import TextInput from "~/components/input/textInput";
 import { HashLoader } from "react-spinners";
 import { LOADER_COLOR } from "~/constants";
 import { useProfile } from "~/context/profileContext";

@@ -1,16 +1,35 @@
+fragment SurveyFragment on ProfileType {
+  frequencyOfPhysicalActivity
+  socialInteractionImportance
+  preferredPartySize
+  formedRelationshipTypes
+  physicalActivitySatisfaction
+  preferredPartnerCharacteristics
+  matchedParticipationLikelihood
+  preferredTimeOfTheDay
+  genderPreference
+  mainInterest
+}
+
+fragment BasicInfoFragment on ProfileType {
+  firstName
+  lastName
+  bio
+  dateOfBirth
+  gender
+}
+
 fragment ContextProfileFragment on ProfileType{
   id
   username
   email
   lastLogin
-  bio
-  gender
-  dateOfBirth
   maxTravelDistance
   isCapeable
-  firstName
   lastName
   verified
   likes
   dislikes
+  ...BasicInfoFragment
+  ...SurveyFragment
 }

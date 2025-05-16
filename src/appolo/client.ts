@@ -4,10 +4,12 @@ import {
   InMemoryCache,
   HttpLink,
   split,
+  from,
 } from '@apollo/client';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { DateParsingLink } from './dateParsingLink';
 
 const isDev = process.env.NODE_ENV === 'development';
 const secure = isDev ? "" : "s";
@@ -35,6 +37,6 @@ const splitLink = split(
 );
 
 export const apolloClient = new ApolloClient({
-  link: splitLink,
+  link: from([DateParsingLink, splitLink]),
   cache: new InMemoryCache(),
 });

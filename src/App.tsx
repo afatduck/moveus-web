@@ -5,6 +5,7 @@ import Welcome from "./pages/welcome";
 import { ProtectedRoutes } from "./components/protectedRoutes";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import ProfileSetup from "./pages/profileSetup";
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route element={<ProtectedRoutes />}>
             <Route path="/" element={<Homepage/>}/>
+            <Route path="/profile-setup" element={<ProfileSetup/>} />
           </Route>
           <Route path="/welcome" element={<Welcome/>} />
           <Route path="/login" element={<Login/>} />

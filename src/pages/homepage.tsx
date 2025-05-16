@@ -1,5 +1,5 @@
 import { useProfile } from "~/context/profileContext";
-import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 
 function Homepage() {
 

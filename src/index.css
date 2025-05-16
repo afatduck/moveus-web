@@ -10,32 +10,53 @@ body {
   @apply p-0 text-foreground bg-background;
 }
 
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  display: none
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #CEEFFF;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #60CCF2;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
 main {
-  @apply max-w-2xl mx-auto h-screen px-8
+  @apply max-w-2xl mx-auto h-screen px-8;
+  height: 100dvh;
 }
 
 .container-center {
   @apply h-full flex flex-col items-center justify-center
 }
 
-button {
+button, input[type="submit"] {
   @apply block text-center bg-accent rounded-[15px] px-1 py-4
-  text-[28px] font-semibold text-background w-full
+  md:text-[28px] font-semibold text-background w-full
 }
 
 label {
   @apply block w-full
 }
 
-input[type="text"], input[type="password"], input[type="email"] {
-  @apply block w-full rounded-[15px] border-solid border border-foreground p-6 outline-foreground
+input[type="text"], input[type="password"], input[type="email"], textarea {
+  @apply block w-full rounded-[15px] border-solid border border-foreground md:p-6 p-4 outline-foreground bg-background
 }
 
-input[type="text"]::placeholder, input[type="password"]::placeholder, input[type="email"]::placeholder {
+input[type="text"]::placeholder, input[type="password"]::placeholder, input[type="email"]::placeholder, textarea::placeholder {
   @apply text-primary
+}
+
+.main-text {
+  @apply text-3xl font-medium mb-4 self-start
 }
