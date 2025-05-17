@@ -1,7 +1,7 @@
 export function firstnameValidator(firstname: string): string | undefined {
     if (firstname.length < 2) return "Firstname must be at least 2 characters long."
     if (firstname.length > 24) return "Firstname cannot be longer than 24 characters."
-    if (!/^[A-Za-z]*$/.test(firstname)) return "Firstname can only contain letters."
+    if (/[0-9]/.test(firstname)) return "Firstname can only contain letters."
 }
 
 export function lastnameValidator(lastname: string): string | undefined {

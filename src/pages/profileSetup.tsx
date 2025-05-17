@@ -1,7 +1,7 @@
 import { useProfile } from "~/context/profileContext";
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import { useCallback, useEffect, useRef, useState } from "react";
-import QuestionSlider from "~/components/questionSlider";
+import QuestionSlider from "~/components/views/questionSlider";
 import { Link } from "react-router-dom";
 import { BasicInfoFragment, ContextProfileFragment, Gender, SurveyFragment, SurveyFragmentDoc, UpdateProfileBasicInfoDocument, UpdateProfileSurveyInfoDocument } from "~/graphql/generated";
 import { pick } from "~/utils/pick";

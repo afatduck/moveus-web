@@ -58,11 +58,11 @@ export type UserType = {
   preferredActivities: Array<PreferredActivityType>;
   likes?: Maybe<Scalars['Int']['output']>;
   dislikes?: Maybe<Scalars['Int']['output']>;
+  friends?: Maybe<Array<Maybe<UserType>>>;
+  friendCount?: Maybe<Scalars['Int']['output']>;
   location?: Maybe<LocationType>;
   email?: Maybe<Scalars['String']['output']>;
   dateOfBirth?: Maybe<Scalars['Date']['output']>;
-  friends?: Maybe<Array<Maybe<UserType>>>;
-  friendCount?: Maybe<Scalars['Int']['output']>;
   relationship?: Maybe<RelationshipType>;
   frequencyOfPhysicalActivity?: Maybe<Scalars['String']['output']>;
   socialInteractionImportance?: Maybe<Scalars['String']['output']>;
@@ -406,6 +406,8 @@ export type ProfileType = {
   chatmessageSet: Array<ChatMessageType>;
   preferredActivities: Array<PreferredActivityType>;
   dislikes?: Maybe<Scalars['Int']['output']>;
+  friends?: Maybe<Array<Maybe<UserType>>>;
+  friendCount?: Maybe<Scalars['Int']['output']>;
 };
 
 /** An enumeration. */
@@ -512,6 +514,9 @@ export type Mutations = {
   addEvent?: Maybe<AddEventMutation>;
   alterEvent?: Maybe<AlterEventMutation>;
   deleteEvent?: Maybe<DeleteEventMutation>;
+  reportUserMutation?: Maybe<ReportUserMutation>;
+  reportEventMutation?: Maybe<ReportEventMutation>;
+  updateAllPrivacySettings?: Maybe<UpdateAllPrviacySettingsMutation>;
   sendFriendRequest?: Maybe<SendFriendRequestMutation>;
   acceptFriendRequest?: Maybe<AcceptFriendRequestMutation>;
   cancelFriendRequest?: Maybe<CancelFriendRequestMutation>;
@@ -588,6 +593,23 @@ export type MutationsAlterEventArgs = {
 
 export type MutationsDeleteEventArgs = {
   eventId: Scalars['Int']['input'];
+};
+
+
+export type MutationsReportUserMutationArgs = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  userId: Scalars['Int']['input'];
+};
+
+
+export type MutationsReportEventMutationArgs = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  eventId: Scalars['Int']['input'];
+};
+
+
+export type MutationsUpdateAllPrivacySettingsArgs = {
+  scope: PrivacyScope;
 };
 
 
@@ -1039,6 +1061,29 @@ export type DeleteEventMutation = {
   success?: Maybe<Scalars['Boolean']['output']>;
 };
 
+export type ReportUserMutation = {
+  __typename?: 'ReportUserMutation';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type ReportEventMutation = {
+  __typename?: 'ReportEventMutation';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type UpdateAllPrviacySettingsMutation = {
+  __typename?: 'UpdateAllPrviacySettingsMutation';
+  success?: Maybe<Scalars['Boolean']['output']>;
+};
+
+/** An enumeration. */
+export const PrivacyScope = {
+  Noone: 'NOONE',
+  Friends: 'FRIENDS',
+  Everyone: 'EVERYONE'
+} as const;
+
+export type PrivacyScope = typeof PrivacyScope[keyof typeof PrivacyScope];
 export type SendFriendRequestMutation = {
   __typename?: 'SendFriendRequestMutation';
   success?: Maybe<Scalars['Boolean']['output']>;
@@ -1274,24 +1319,13 @@ export type WsLastOpenType = {
   lastOpen?: Maybe<Scalars['DateTime']['output']>;
 };
 
-export type FetchProfileQueryVariables = Exact<{ [key: string]: never; }>;
+export type SurveyFragment = { __typename?: 'ProfileType', frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null };
 
+export type BasicInfoFragment = { __typename?: 'ProfileType', firstName: string, lastName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null };
 
-export type FetchProfileQuery = { __typename?: 'Queries', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null } | null };
+export type ContextProfileFragment = { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> };
 
-export type UsernameTakenQueryVariables = Exact<{
-  username: Scalars['String']['input'];
-}>;
-
-
-export type UsernameTakenQuery = { __typename?: 'Queries', usernameTaken: boolean };
-
-export type EmailTakenQueryVariables = Exact<{
-  email: Scalars['String']['input'];
-}>;
-
-
-export type EmailTakenQuery = { __typename?: 'Queries', emailTaken: boolean };
+export type UserFragment = { __typename?: 'UserType', id?: number | null, username: string, bio: string, gender?: MainAppUserGenderChoices | null, firstName: string, lastName: string, likes?: number | null, dislikes?: number | null, dateOfBirth?: Date | null, friendCount?: number | null, relationship?: { __typename?: 'RelationshipType', status?: string | null, chat?: { __typename?: 'ChatType', id?: number | null } | null } | null };
 
 export type UpdateLocationMutationVariables = Exact<{
   latitude: Scalars['Float']['input'];
@@ -1328,11 +1362,36 @@ export type UpdateProfileSurveyInfoMutationVariables = Exact<{
 
 export type UpdateProfileSurveyInfoMutation = { __typename?: 'Mutations', updateSurveyInfo?: { __typename?: 'UpdateSurveyInfoMutation', success?: boolean | null } | null };
 
-export type SurveyFragment = { __typename?: 'ProfileType', frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null };
+export type UsernameTakenQueryVariables = Exact<{
+  username: Scalars['String']['input'];
+}>;
 
-export type BasicInfoFragment = { __typename?: 'ProfileType', firstName: string, lastName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null };
 
-export type ContextProfileFragment = { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null };
+export type UsernameTakenQuery = { __typename?: 'Queries', usernameTaken: boolean };
+
+export type EmailTakenQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type EmailTakenQuery = { __typename?: 'Queries', emailTaken: boolean };
+
+export type FetchProfileQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FetchProfileQuery = { __typename?: 'Queries', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> } | null };
+
+export type GetProfilePictureUploadUrlQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProfilePictureUploadUrlQuery = { __typename?: 'Queries', profilePictureGcloudUrl?: string | null };
+
+export type UpdateAllPrivacySettingsMutationVariables = Exact<{
+  scope: PrivacyScope;
+}>;
+
+
+export type UpdateAllPrivacySettingsMutation = { __typename?: 'Mutations', updateAllPrivacySettings?: { __typename?: 'UpdateAllPrviacySettingsMutation', success?: boolean | null } | null };
 
 export type LoginUserMutationVariables = Exact<{
   user: Scalars['String']['input'];
@@ -1340,7 +1399,7 @@ export type LoginUserMutationVariables = Exact<{
 }>;
 
 
-export type LoginUserMutation = { __typename?: 'Mutations', login?: { __typename?: 'LoginMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null } | null } | null };
+export type LoginUserMutation = { __typename?: 'Mutations', login?: { __typename?: 'LoginMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> } | null } | null };
 
 export type SignupUserMutationVariables = Exact<{
   username: Scalars['String']['input'];
@@ -1349,7 +1408,7 @@ export type SignupUserMutationVariables = Exact<{
 }>;
 
 
-export type SignupUserMutation = { __typename?: 'Mutations', signup?: { __typename?: 'SignupMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null } | null } | null };
+export type SignupUserMutation = { __typename?: 'Mutations', signup?: { __typename?: 'SignupMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> } | null } | null };
 
 export const BasicInfoFragmentDoc = gql`
     fragment BasicInfoFragment on ProfileType {
@@ -1386,126 +1445,36 @@ export const ContextProfileFragmentDoc = gql`
   verified
   likes
   dislikes
+  friendCount
   ...BasicInfoFragment
   ...SurveyFragment
+  privacySettings {
+    setting
+    scope
+  }
 }
     ${BasicInfoFragmentDoc}
 ${SurveyFragmentDoc}`;
-export const FetchProfileDocument = gql`
-    query FetchProfile {
-  myProfile {
-    ...ContextProfileFragment
+export const UserFragmentDoc = gql`
+    fragment UserFragment on UserType {
+  id
+  username
+  bio
+  gender
+  firstName
+  lastName
+  likes
+  dislikes
+  dateOfBirth
+  friendCount
+  relationship {
+    status
+    chat {
+      id
+    }
   }
 }
-    ${ContextProfileFragmentDoc}`;
-
-/**
- * __useFetchProfileQuery__
- *
- * To run a query within a React component, call `useFetchProfileQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFetchProfileQuery({
- *   variables: {
- *   },
- * });
- */
-export function useFetchProfileQuery(baseOptions?: Apollo.QueryHookOptions<FetchProfileQuery, FetchProfileQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FetchProfileQuery, FetchProfileQueryVariables>(FetchProfileDocument, options);
-      }
-export function useFetchProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchProfileQuery, FetchProfileQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FetchProfileQuery, FetchProfileQueryVariables>(FetchProfileDocument, options);
-        }
-export function useFetchProfileSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FetchProfileQuery, FetchProfileQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<FetchProfileQuery, FetchProfileQueryVariables>(FetchProfileDocument, options);
-        }
-export type FetchProfileQueryHookResult = ReturnType<typeof useFetchProfileQuery>;
-export type FetchProfileLazyQueryHookResult = ReturnType<typeof useFetchProfileLazyQuery>;
-export type FetchProfileSuspenseQueryHookResult = ReturnType<typeof useFetchProfileSuspenseQuery>;
-export type FetchProfileQueryResult = Apollo.QueryResult<FetchProfileQuery, FetchProfileQueryVariables>;
-export const UsernameTakenDocument = gql`
-    query usernameTaken($username: String!) {
-  usernameTaken(username: $username)
-}
     `;
-
-/**
- * __useUsernameTakenQuery__
- *
- * To run a query within a React component, call `useUsernameTakenQuery` and pass it any options that fit your needs.
- * When your component renders, `useUsernameTakenQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUsernameTakenQuery({
- *   variables: {
- *      username: // value for 'username'
- *   },
- * });
- */
-export function useUsernameTakenQuery(baseOptions: Apollo.QueryHookOptions<UsernameTakenQuery, UsernameTakenQueryVariables> & ({ variables: UsernameTakenQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UsernameTakenQuery, UsernameTakenQueryVariables>(UsernameTakenDocument, options);
-      }
-export function useUsernameTakenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsernameTakenQuery, UsernameTakenQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UsernameTakenQuery, UsernameTakenQueryVariables>(UsernameTakenDocument, options);
-        }
-export function useUsernameTakenSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<UsernameTakenQuery, UsernameTakenQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<UsernameTakenQuery, UsernameTakenQueryVariables>(UsernameTakenDocument, options);
-        }
-export type UsernameTakenQueryHookResult = ReturnType<typeof useUsernameTakenQuery>;
-export type UsernameTakenLazyQueryHookResult = ReturnType<typeof useUsernameTakenLazyQuery>;
-export type UsernameTakenSuspenseQueryHookResult = ReturnType<typeof useUsernameTakenSuspenseQuery>;
-export type UsernameTakenQueryResult = Apollo.QueryResult<UsernameTakenQuery, UsernameTakenQueryVariables>;
-export const EmailTakenDocument = gql`
-    query emailTaken($email: String!) {
-  emailTaken(email: $email)
-}
-    `;
-
-/**
- * __useEmailTakenQuery__
- *
- * To run a query within a React component, call `useEmailTakenQuery` and pass it any options that fit your needs.
- * When your component renders, `useEmailTakenQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useEmailTakenQuery({
- *   variables: {
- *      email: // value for 'email'
- *   },
- * });
- */
-export function useEmailTakenQuery(baseOptions: Apollo.QueryHookOptions<EmailTakenQuery, EmailTakenQueryVariables> & ({ variables: EmailTakenQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<EmailTakenQuery, EmailTakenQueryVariables>(EmailTakenDocument, options);
-      }
-export function useEmailTakenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EmailTakenQuery, EmailTakenQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<EmailTakenQuery, EmailTakenQueryVariables>(EmailTakenDocument, options);
-        }
-export function useEmailTakenSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<EmailTakenQuery, EmailTakenQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<EmailTakenQuery, EmailTakenQueryVariables>(EmailTakenDocument, options);
-        }
-export type EmailTakenQueryHookResult = ReturnType<typeof useEmailTakenQuery>;
-export type EmailTakenLazyQueryHookResult = ReturnType<typeof useEmailTakenLazyQuery>;
-export type EmailTakenSuspenseQueryHookResult = ReturnType<typeof useEmailTakenSuspenseQuery>;
-export type EmailTakenQueryResult = Apollo.QueryResult<EmailTakenQuery, EmailTakenQueryVariables>;
 export const UpdateLocationDocument = gql`
     mutation UpdateLocation($latitude: Float!, $longitude: Float!) {
   updateProfileLocation(latitude: $latitude, longitude: $longitude) {
@@ -1636,6 +1605,191 @@ export function useUpdateProfileSurveyInfoMutation(baseOptions?: Apollo.Mutation
 export type UpdateProfileSurveyInfoMutationHookResult = ReturnType<typeof useUpdateProfileSurveyInfoMutation>;
 export type UpdateProfileSurveyInfoMutationResult = Apollo.MutationResult<UpdateProfileSurveyInfoMutation>;
 export type UpdateProfileSurveyInfoMutationOptions = Apollo.BaseMutationOptions<UpdateProfileSurveyInfoMutation, UpdateProfileSurveyInfoMutationVariables>;
+export const UsernameTakenDocument = gql`
+    query usernameTaken($username: String!) {
+  usernameTaken(username: $username)
+}
+    `;
+
+/**
+ * __useUsernameTakenQuery__
+ *
+ * To run a query within a React component, call `useUsernameTakenQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsernameTakenQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUsernameTakenQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useUsernameTakenQuery(baseOptions: Apollo.QueryHookOptions<UsernameTakenQuery, UsernameTakenQueryVariables> & ({ variables: UsernameTakenQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UsernameTakenQuery, UsernameTakenQueryVariables>(UsernameTakenDocument, options);
+      }
+export function useUsernameTakenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsernameTakenQuery, UsernameTakenQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UsernameTakenQuery, UsernameTakenQueryVariables>(UsernameTakenDocument, options);
+        }
+export function useUsernameTakenSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<UsernameTakenQuery, UsernameTakenQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<UsernameTakenQuery, UsernameTakenQueryVariables>(UsernameTakenDocument, options);
+        }
+export type UsernameTakenQueryHookResult = ReturnType<typeof useUsernameTakenQuery>;
+export type UsernameTakenLazyQueryHookResult = ReturnType<typeof useUsernameTakenLazyQuery>;
+export type UsernameTakenSuspenseQueryHookResult = ReturnType<typeof useUsernameTakenSuspenseQuery>;
+export type UsernameTakenQueryResult = Apollo.QueryResult<UsernameTakenQuery, UsernameTakenQueryVariables>;
+export const EmailTakenDocument = gql`
+    query emailTaken($email: String!) {
+  emailTaken(email: $email)
+}
+    `;
+
+/**
+ * __useEmailTakenQuery__
+ *
+ * To run a query within a React component, call `useEmailTakenQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEmailTakenQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEmailTakenQuery({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useEmailTakenQuery(baseOptions: Apollo.QueryHookOptions<EmailTakenQuery, EmailTakenQueryVariables> & ({ variables: EmailTakenQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EmailTakenQuery, EmailTakenQueryVariables>(EmailTakenDocument, options);
+      }
+export function useEmailTakenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EmailTakenQuery, EmailTakenQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EmailTakenQuery, EmailTakenQueryVariables>(EmailTakenDocument, options);
+        }
+export function useEmailTakenSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<EmailTakenQuery, EmailTakenQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<EmailTakenQuery, EmailTakenQueryVariables>(EmailTakenDocument, options);
+        }
+export type EmailTakenQueryHookResult = ReturnType<typeof useEmailTakenQuery>;
+export type EmailTakenLazyQueryHookResult = ReturnType<typeof useEmailTakenLazyQuery>;
+export type EmailTakenSuspenseQueryHookResult = ReturnType<typeof useEmailTakenSuspenseQuery>;
+export type EmailTakenQueryResult = Apollo.QueryResult<EmailTakenQuery, EmailTakenQueryVariables>;
+export const FetchProfileDocument = gql`
+    query FetchProfile {
+  myProfile {
+    ...ContextProfileFragment
+  }
+}
+    ${ContextProfileFragmentDoc}`;
+
+/**
+ * __useFetchProfileQuery__
+ *
+ * To run a query within a React component, call `useFetchProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchProfileQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFetchProfileQuery(baseOptions?: Apollo.QueryHookOptions<FetchProfileQuery, FetchProfileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchProfileQuery, FetchProfileQueryVariables>(FetchProfileDocument, options);
+      }
+export function useFetchProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchProfileQuery, FetchProfileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchProfileQuery, FetchProfileQueryVariables>(FetchProfileDocument, options);
+        }
+export function useFetchProfileSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FetchProfileQuery, FetchProfileQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FetchProfileQuery, FetchProfileQueryVariables>(FetchProfileDocument, options);
+        }
+export type FetchProfileQueryHookResult = ReturnType<typeof useFetchProfileQuery>;
+export type FetchProfileLazyQueryHookResult = ReturnType<typeof useFetchProfileLazyQuery>;
+export type FetchProfileSuspenseQueryHookResult = ReturnType<typeof useFetchProfileSuspenseQuery>;
+export type FetchProfileQueryResult = Apollo.QueryResult<FetchProfileQuery, FetchProfileQueryVariables>;
+export const GetProfilePictureUploadUrlDocument = gql`
+    query GetProfilePictureUploadURL {
+  profilePictureGcloudUrl
+}
+    `;
+
+/**
+ * __useGetProfilePictureUploadUrlQuery__
+ *
+ * To run a query within a React component, call `useGetProfilePictureUploadUrlQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProfilePictureUploadUrlQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProfilePictureUploadUrlQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetProfilePictureUploadUrlQuery(baseOptions?: Apollo.QueryHookOptions<GetProfilePictureUploadUrlQuery, GetProfilePictureUploadUrlQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProfilePictureUploadUrlQuery, GetProfilePictureUploadUrlQueryVariables>(GetProfilePictureUploadUrlDocument, options);
+      }
+export function useGetProfilePictureUploadUrlLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProfilePictureUploadUrlQuery, GetProfilePictureUploadUrlQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProfilePictureUploadUrlQuery, GetProfilePictureUploadUrlQueryVariables>(GetProfilePictureUploadUrlDocument, options);
+        }
+export function useGetProfilePictureUploadUrlSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetProfilePictureUploadUrlQuery, GetProfilePictureUploadUrlQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetProfilePictureUploadUrlQuery, GetProfilePictureUploadUrlQueryVariables>(GetProfilePictureUploadUrlDocument, options);
+        }
+export type GetProfilePictureUploadUrlQueryHookResult = ReturnType<typeof useGetProfilePictureUploadUrlQuery>;
+export type GetProfilePictureUploadUrlLazyQueryHookResult = ReturnType<typeof useGetProfilePictureUploadUrlLazyQuery>;
+export type GetProfilePictureUploadUrlSuspenseQueryHookResult = ReturnType<typeof useGetProfilePictureUploadUrlSuspenseQuery>;
+export type GetProfilePictureUploadUrlQueryResult = Apollo.QueryResult<GetProfilePictureUploadUrlQuery, GetProfilePictureUploadUrlQueryVariables>;
+export const UpdateAllPrivacySettingsDocument = gql`
+    mutation UpdateAllPrivacySettings($scope: PrivacyScope!) {
+  updateAllPrivacySettings(scope: $scope) {
+    success
+  }
+}
+    `;
+export type UpdateAllPrivacySettingsMutationFn = Apollo.MutationFunction<UpdateAllPrivacySettingsMutation, UpdateAllPrivacySettingsMutationVariables>;
+
+/**
+ * __useUpdateAllPrivacySettingsMutation__
+ *
+ * To run a mutation, you first call `useUpdateAllPrivacySettingsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAllPrivacySettingsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAllPrivacySettingsMutation, { data, loading, error }] = useUpdateAllPrivacySettingsMutation({
+ *   variables: {
+ *      scope: // value for 'scope'
+ *   },
+ * });
+ */
+export function useUpdateAllPrivacySettingsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAllPrivacySettingsMutation, UpdateAllPrivacySettingsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateAllPrivacySettingsMutation, UpdateAllPrivacySettingsMutationVariables>(UpdateAllPrivacySettingsDocument, options);
+      }
+export type UpdateAllPrivacySettingsMutationHookResult = ReturnType<typeof useUpdateAllPrivacySettingsMutation>;
+export type UpdateAllPrivacySettingsMutationResult = Apollo.MutationResult<UpdateAllPrivacySettingsMutation>;
+export type UpdateAllPrivacySettingsMutationOptions = Apollo.BaseMutationOptions<UpdateAllPrivacySettingsMutation, UpdateAllPrivacySettingsMutationVariables>;
 export const LoginUserDocument = gql`
     mutation LoginUser($user: String!, $password: String!) {
   login(user: $user, password: $password) {

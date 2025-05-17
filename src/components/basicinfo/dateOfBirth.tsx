@@ -68,7 +68,7 @@ function DateOfBirth ({dob, setDob}: ProfileBioProps) {
 
     return <div >
         <h2 className="main-text">What is your day of birth?</h2>
-        <div className="flex gap-[10px] [&>*]:basis-0 [&>*]:text-sm sm:[&>*]:text-3xl">
+        <div className="flex gap-[10px] [&>*]:basis-0">
             <Dropdown defaultName="Day" options={dayOptions as any} value={day} setValue={setDay} classname="flex-grow" /> 
             <Dropdown defaultName="Month" options={monthOptions as any} value={month} setValue={setMonth} classname="flex-grow" /> 
             <Dropdown defaultName="Year" options={yearOptions as any} value={year} setValue={setYear} classname="flex-grow-[2]"/> 

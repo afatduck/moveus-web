@@ -3,7 +3,7 @@ import { GoTriangleDown, GoTriangleUp } from 'react-icons/go'
 
 function Dropdown<T,> ({value, setValue, options, classname, defaultName }: DropdownProps<T>) {
 
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(false)
 
     const name = options.find(o => o.value === value)?.name ?? defaultName
 
@@ -22,7 +22,7 @@ function Dropdown<T,> ({value, setValue, options, classname, defaultName }: Drop
     }, [handleOutsideClick])
 
     return <div ref={outerDiv} className={
-        "relative font-medium text-background cursor-pointer text-3xl " + classname
+        "relative font-medium text-background cursor-pointer text-sm sm:text-2xl " + classname
         }>
         <div className={"flex items-center justify-between rounded-[15px] bg-accent px-3 py-1 " + (open && "rounded-b-none")}
              onClick={() => setOpen(!open)}>
@@ -51,8 +51,8 @@ export default Dropdown
 
 interface DropdownProps<T> {
     value: T,
-    setValue: React.Dispatch<React.SetStateAction<T>>,
+    setValue: (x: T) => void,
     options: Option<T>[],
-    defaultName: string,
+    defaultName?: string,
     classname?: string
 }

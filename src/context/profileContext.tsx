@@ -17,9 +17,17 @@ export const useProfile = () => {
   return context;
 };
 
+const getProfileFromLS = () => {
+  const profile: ContextProfileFragment = JSON.parse(localStorage.getItem('profile') ?? "null")
+  if (!profile) return null;
+  if (profile.dateOfBirth) profile.dateOfBirth = new Date(profile.dateOfBirth)
+  if (profile.lastLogin) profile.lastLogin = new Date(profile.lastLogin)
+  return profile
+}
+
 export const UserProvider = ({ children }: PropsWithChildren) => {
   const [profile, setProfile] = useState<ContextProfileFragment | null>(
-    JSON.parse(localStorage.getItem('profile') ?? "null")
+    getProfileFromLS()
   );
 
   useEffect(() => {

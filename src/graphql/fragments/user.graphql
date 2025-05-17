@@ -30,6 +30,30 @@ fragment ContextProfileFragment on ProfileType{
   verified
   likes
   dislikes
+  friendCount
   ...BasicInfoFragment
   ...SurveyFragment
+  privacySettings {
+    setting
+    scope
+  }
+}
+
+fragment UserFragment on UserType {
+  id
+  username
+  bio
+  gender
+  firstName
+  lastName
+  likes
+  dislikes
+  dateOfBirth
+  friendCount
+  relationship {
+    status
+    chat {
+      id
+    }
+  } 
 }

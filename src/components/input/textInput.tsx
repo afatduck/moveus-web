@@ -15,7 +15,7 @@ function TextInput ({validate, value, setValue, name, label, placeholder, onBlur
     }, [setError, value, validate])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.currentTarget.value)
+        setValue && setValue(e.currentTarget.value)
         if (onChange) { onChange(e) }
     }
 
@@ -37,7 +37,7 @@ interface TextInputProps {
     value: string,
     className? : string,
     type?: "text" | "password" | "email",
-    setValue: React.Dispatch<React.SetStateAction<string>>,
+    setValue?: React.Dispatch<React.SetStateAction<string>>,
     onBlur?: FocusEventHandler<HTMLInputElement>
     onChange?: ChangeEventHandler<HTMLInputElement>
 }

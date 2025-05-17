@@ -7,7 +7,7 @@ body {
   font-family: Quicksand, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @apply p-0 text-foreground bg-background;
+  @apply p-0 text-foreground bg-background overflow-hidden;
 }
 
 ::-webkit-scrollbar {

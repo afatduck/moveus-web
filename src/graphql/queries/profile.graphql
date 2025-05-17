@@ -3,3 +3,7 @@ query FetchProfile {
         ...ContextProfileFragment
     }
 }
+
+query GetProfilePictureUploadURL {
+  profilePictureGcloudUrl
+}
