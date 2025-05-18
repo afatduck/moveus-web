@@ -34,7 +34,7 @@ function Dropdown<T,> ({value, setValue, options, classname, defaultName }: Drop
             }
         </div>
         {
-            open && <div className="absolute bg-accent rounded-b-[15px] w-full overflow-auto max-h-[30vh]">
+            open && <div className="absolute bg-accent rounded-b-[15px] w-full overflow-auto max-h-[30vh] z-10">
                 {
                     options.map(option => <div key={option.name} 
                         onClick={() => { setOpen(false); setValue(option.value) }}

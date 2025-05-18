@@ -15,7 +15,7 @@ function TextArea ({validate, value, setValue, name, label, placeholder, onChang
     }, [setError, value, validate])
 
     const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setValue(e.currentTarget.value)
+        setValue && setValue(e.currentTarget.value)
         if (onChange) { onChange(e) }
     }
 
@@ -38,6 +38,6 @@ interface TextAreaProps {
     className? : string,
     rows?: number,
     cols?: number,
-    setValue: React.Dispatch<React.SetStateAction<string>>,
+    setValue?: React.Dispatch<React.SetStateAction<string>>,
     onChange?: ChangeEventHandler<HTMLTextAreaElement>
 }

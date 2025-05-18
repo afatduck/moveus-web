@@ -1,0 +1,43 @@
+fragment EventFragment on EventType {
+  id
+  title
+  description
+  startTime
+  endTime
+  location {
+    longitude
+    latitude
+  }
+  activity {
+    id
+  }
+  skillLevel
+  maxParticipants
+  allowSpectators
+  acceptedGenders
+  minAge
+  maxAge
+  organizer {
+    user {
+      id
+      firstName
+      lastName
+    }
+  }
+  members {
+    user {
+      id
+      firstName
+      lastName
+    }
+    role
+  }
+  posts {
+    id
+    title
+    content
+    timePosted
+    likes
+  }
+  finished
+}

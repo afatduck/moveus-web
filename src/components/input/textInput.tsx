@@ -36,7 +36,7 @@ interface TextInputProps {
     placeholder?: string 
     value: string,
     className? : string,
-    type?: "text" | "password" | "email",
+    type?: "text" | "password" | "email" | "number",
     setValue?: React.Dispatch<React.SetStateAction<string>>,
     onBlur?: FocusEventHandler<HTMLInputElement>
     onChange?: ChangeEventHandler<HTMLInputElement>

@@ -11,11 +11,11 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  display: none;
 }
 
 ::-webkit-scrollbar-track {
-  display: none
+  display: none;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -49,14 +49,18 @@ label {
   @apply block w-full
 }
 
-input[type="text"], input[type="password"], input[type="email"], textarea {
+input[type="text"], input[type="password"], input[type="email"], input[type="number"], textarea {
   @apply block w-full rounded-[15px] border-solid border border-foreground md:p-6 p-4 outline-foreground bg-background
 }
 
 input[type="text"]::placeholder, input[type="password"]::placeholder, input[type="email"]::placeholder, textarea::placeholder {
-  @apply text-primary
+  @apply text-accent
 }
 
 .main-text {
   @apply text-3xl font-medium mb-4 self-start
+}
+
+h4 {
+  @apply text-xl mb-2 mt-4 self-start
 }

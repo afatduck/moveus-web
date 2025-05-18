@@ -2,11 +2,11 @@ import { useCallback } from "react"
 import { HiChevronLeft } from "react-icons/hi2"
 import { useNavigate } from "react-router-dom"
 
-function BackButton() {
+function BackButton({to}: BackButtonProps) {
     const navigate = useNavigate()
 
     const goBack = useCallback(() => {
-        navigate(-1)
+        navigate(to ?? -1 as any)
     }, [navigate])
 
     return <HiChevronLeft className="text-3xl block cursor-pointer" 
@@ -14,3 +14,7 @@ function BackButton() {
 }
 
 export default BackButton
+
+interface BackButtonProps {
+    to?: string
+}

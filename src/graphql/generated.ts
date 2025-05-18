@@ -511,7 +511,7 @@ export type PrivacySettingType = {
 
 export type Mutations = {
   __typename?: 'Mutations';
-  addEvent?: Maybe<AddEventMutation>;
+  createEvent?: Maybe<CreateEventMutation>;
   alterEvent?: Maybe<AlterEventMutation>;
   deleteEvent?: Maybe<DeleteEventMutation>;
   reportUserMutation?: Maybe<ReportUserMutation>;
@@ -555,9 +555,9 @@ export type Mutations = {
 };
 
 
-export type MutationsAddEventArgs = {
-  acceptedGenders?: InputMaybe<Array<InputMaybe<Gender>>>;
-  activity: ActivityEnum;
+export type MutationsCreateEventArgs = {
+  acceptedGenders?: InputMaybe<Array<InputMaybe<GenderNoPnts>>>;
+  activity: Activity;
   allowSpectators?: InputMaybe<Scalars['Boolean']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   endTime: Scalars['DateTime']['input'];
@@ -639,13 +639,13 @@ export type MutationsRemoveFriendArgs = {
 
 
 export type MutationsSetPreferredActivityArgs = {
-  activity?: InputMaybe<ActivityEnum>;
+  activity?: InputMaybe<Activity>;
   skillLevel?: InputMaybe<SkillLevel>;
 };
 
 
 export type MutationsRemovePreferredActivityArgs = {
-  activity?: InputMaybe<ActivityEnum>;
+  activity?: InputMaybe<Activity>;
 };
 
 
@@ -810,22 +810,13 @@ export type MutationsUpdateMaxTravelDistanceArgs = {
   distance?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type AddEventMutation = {
-  __typename?: 'AddEventMutation';
+export type CreateEventMutation = {
+  __typename?: 'CreateEventMutation';
   event?: Maybe<EventType>;
 };
 
 /** An enumeration. */
-export const Gender = {
-  Male: 'MALE',
-  Female: 'FEMALE',
-  NonBinary: 'NON_BINARY',
-  PreferNotToSay: 'PREFER_NOT_TO_SAY'
-} as const;
-
-export type Gender = typeof Gender[keyof typeof Gender];
-/** An enumeration. */
-export const ActivityEnum = {
+export const Activity = {
   Hiking: 'HIKING',
   Running: 'RUNNING',
   Soccer: 'SOCCER',
@@ -833,7 +824,7 @@ export const ActivityEnum = {
   Gym: 'GYM'
 } as const;
 
-export type ActivityEnum = typeof ActivityEnum[keyof typeof ActivityEnum];
+export type Activity = typeof Activity[keyof typeof Activity];
 /** An enumeration. */
 export const CountryCode = {
   Af: 'AF',
@@ -1283,6 +1274,15 @@ export type UpdateBasicInfoMutation = {
   success?: Maybe<Scalars['Boolean']['output']>;
 };
 
+/** An enumeration. */
+export const Gender = {
+  Male: 'MALE',
+  Female: 'FEMALE',
+  NonBinary: 'NON_BINARY',
+  PreferNotToSay: 'PREFER_NOT_TO_SAY'
+} as const;
+
+export type Gender = typeof Gender[keyof typeof Gender];
 export type UpdateMaxTravelDistanceMutation = {
   __typename?: 'UpdateMaxTravelDistanceMutation';
   success?: Maybe<Scalars['Boolean']['output']>;
@@ -1327,6 +1327,45 @@ export type ContextProfileFragment = { __typename?: 'ProfileType', id?: number |
 
 export type UserFragment = { __typename?: 'UserType', id?: number | null, username: string, bio: string, gender?: MainAppUserGenderChoices | null, firstName: string, lastName: string, likes?: number | null, dislikes?: number | null, dateOfBirth?: Date | null, friendCount?: number | null, relationship?: { __typename?: 'RelationshipType', status?: string | null, chat?: { __typename?: 'ChatType', id?: number | null } | null } | null };
 
+export type EventFragment = { __typename?: 'EventType', id?: number | null, title: string, description?: string | null, startTime: Date, endTime: Date, skillLevel?: string | null, maxParticipants?: number | null, allowSpectators: boolean, acceptedGenders?: any | null, minAge?: number | null, maxAge?: number | null, finished: boolean, location: { __typename?: 'LocationType', longitude: number, latitude: number }, activity: { __typename?: 'ActivityType', id?: string | null }, organizer?: { __typename?: 'EventMemberType', user: { __typename?: 'UserType', id?: number | null, firstName: string, lastName: string } } | null, members: Array<{ __typename?: 'EventMemberType', role?: string | null, user: { __typename?: 'UserType', id?: number | null, firstName: string, lastName: string } }>, posts: Array<{ __typename?: 'PostType', id?: number | null, title: string, content: string, timePosted: Date, likes?: number | null }> };
+
+export type LoginUserMutationVariables = Exact<{
+  user: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+
+export type LoginUserMutation = { __typename?: 'Mutations', login?: { __typename?: 'LoginMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> } | null } | null };
+
+export type SignupUserMutationVariables = Exact<{
+  username: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+}>;
+
+
+export type SignupUserMutation = { __typename?: 'Mutations', signup?: { __typename?: 'SignupMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> } | null } | null };
+
+export type CreateNewEventMutationVariables = Exact<{
+  title: Scalars['String']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  startTime: Scalars['DateTime']['input'];
+  endTime: Scalars['DateTime']['input'];
+  requrements?: InputMaybe<Scalars['String']['input']>;
+  locationLongitude?: InputMaybe<Scalars['Float']['input']>;
+  locationLatitude?: InputMaybe<Scalars['Float']['input']>;
+  activity: Activity;
+  skillLevel: SkillLevel;
+  maxParticipants?: InputMaybe<Scalars['Int']['input']>;
+  allowSpectators?: InputMaybe<Scalars['Boolean']['input']>;
+  minAge?: InputMaybe<Scalars['Int']['input']>;
+  maxAge?: InputMaybe<Scalars['Int']['input']>;
+  acceptedGenders?: InputMaybe<Array<GenderNoPnts> | GenderNoPnts>;
+}>;
+
+
+export type CreateNewEventMutation = { __typename?: 'Mutations', createEvent?: { __typename?: 'CreateEventMutation', event?: { __typename?: 'EventType', id?: number | null } | null } | null };
+
 export type UpdateLocationMutationVariables = Exact<{
   latitude: Scalars['Float']['input'];
   longitude: Scalars['Float']['input'];
@@ -1362,6 +1401,13 @@ export type UpdateProfileSurveyInfoMutationVariables = Exact<{
 
 export type UpdateProfileSurveyInfoMutation = { __typename?: 'Mutations', updateSurveyInfo?: { __typename?: 'UpdateSurveyInfoMutation', success?: boolean | null } | null };
 
+export type UpdateAllPrivacySettingsMutationVariables = Exact<{
+  scope: PrivacyScope;
+}>;
+
+
+export type UpdateAllPrivacySettingsMutation = { __typename?: 'Mutations', updateAllPrivacySettings?: { __typename?: 'UpdateAllPrviacySettingsMutation', success?: boolean | null } | null };
+
 export type UsernameTakenQueryVariables = Exact<{
   username: Scalars['String']['input'];
 }>;
@@ -1376,6 +1422,13 @@ export type EmailTakenQueryVariables = Exact<{
 
 export type EmailTakenQuery = { __typename?: 'Queries', emailTaken: boolean };
 
+export type GetEventQueryVariables = Exact<{
+  eventId: Scalars['Int']['input'];
+}>;
+
+
+export type GetEventQuery = { __typename?: 'Queries', event?: { __typename?: 'EventType', id?: number | null, title: string, description?: string | null, startTime: Date, endTime: Date, skillLevel?: string | null, maxParticipants?: number | null, allowSpectators: boolean, acceptedGenders?: any | null, minAge?: number | null, maxAge?: number | null, finished: boolean, location: { __typename?: 'LocationType', longitude: number, latitude: number }, activity: { __typename?: 'ActivityType', id?: string | null }, organizer?: { __typename?: 'EventMemberType', user: { __typename?: 'UserType', id?: number | null, firstName: string, lastName: string } } | null, members: Array<{ __typename?: 'EventMemberType', role?: string | null, user: { __typename?: 'UserType', id?: number | null, firstName: string, lastName: string } }>, posts: Array<{ __typename?: 'PostType', id?: number | null, title: string, content: string, timePosted: Date, likes?: number | null }> } | null };
+
 export type FetchProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1385,30 +1438,6 @@ export type GetProfilePictureUploadUrlQueryVariables = Exact<{ [key: string]: ne
 
 
 export type GetProfilePictureUploadUrlQuery = { __typename?: 'Queries', profilePictureGcloudUrl?: string | null };
-
-export type UpdateAllPrivacySettingsMutationVariables = Exact<{
-  scope: PrivacyScope;
-}>;
-
-
-export type UpdateAllPrivacySettingsMutation = { __typename?: 'Mutations', updateAllPrivacySettings?: { __typename?: 'UpdateAllPrviacySettingsMutation', success?: boolean | null } | null };
-
-export type LoginUserMutationVariables = Exact<{
-  user: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-}>;
-
-
-export type LoginUserMutation = { __typename?: 'Mutations', login?: { __typename?: 'LoginMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> } | null } | null };
-
-export type SignupUserMutationVariables = Exact<{
-  username: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-  email: Scalars['String']['input'];
-}>;
-
-
-export type SignupUserMutation = { __typename?: 'Mutations', signup?: { __typename?: 'SignupMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> } | null } | null };
 
 export const BasicInfoFragmentDoc = gql`
     fragment BasicInfoFragment on ProfileType {
@@ -1475,6 +1504,187 @@ export const UserFragmentDoc = gql`
   }
 }
     `;
+export const EventFragmentDoc = gql`
+    fragment EventFragment on EventType {
+  id
+  title
+  description
+  startTime
+  endTime
+  location {
+    longitude
+    latitude
+  }
+  activity {
+    id
+  }
+  skillLevel
+  maxParticipants
+  allowSpectators
+  acceptedGenders
+  minAge
+  maxAge
+  organizer {
+    user {
+      id
+      firstName
+      lastName
+    }
+  }
+  members {
+    user {
+      id
+      firstName
+      lastName
+    }
+    role
+  }
+  posts {
+    id
+    title
+    content
+    timePosted
+    likes
+  }
+  finished
+}
+    `;
+export const LoginUserDocument = gql`
+    mutation LoginUser($user: String!, $password: String!) {
+  login(user: $user, password: $password) {
+    myProfile {
+      ...ContextProfileFragment
+    }
+  }
+}
+    ${ContextProfileFragmentDoc}`;
+export type LoginUserMutationFn = Apollo.MutationFunction<LoginUserMutation, LoginUserMutationVariables>;
+
+/**
+ * __useLoginUserMutation__
+ *
+ * To run a mutation, you first call `useLoginUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginUserMutation, { data, loading, error }] = useLoginUserMutation({
+ *   variables: {
+ *      user: // value for 'user'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useLoginUserMutation(baseOptions?: Apollo.MutationHookOptions<LoginUserMutation, LoginUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument, options);
+      }
+export type LoginUserMutationHookResult = ReturnType<typeof useLoginUserMutation>;
+export type LoginUserMutationResult = Apollo.MutationResult<LoginUserMutation>;
+export type LoginUserMutationOptions = Apollo.BaseMutationOptions<LoginUserMutation, LoginUserMutationVariables>;
+export const SignupUserDocument = gql`
+    mutation SignupUser($username: String!, $password: String!, $email: String!) {
+  signup(username: $username, email: $email, password: $password) {
+    myProfile {
+      ...ContextProfileFragment
+    }
+  }
+}
+    ${ContextProfileFragmentDoc}`;
+export type SignupUserMutationFn = Apollo.MutationFunction<SignupUserMutation, SignupUserMutationVariables>;
+
+/**
+ * __useSignupUserMutation__
+ *
+ * To run a mutation, you first call `useSignupUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignupUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signupUserMutation, { data, loading, error }] = useSignupUserMutation({
+ *   variables: {
+ *      username: // value for 'username'
+ *      password: // value for 'password'
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useSignupUserMutation(baseOptions?: Apollo.MutationHookOptions<SignupUserMutation, SignupUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignupUserMutation, SignupUserMutationVariables>(SignupUserDocument, options);
+      }
+export type SignupUserMutationHookResult = ReturnType<typeof useSignupUserMutation>;
+export type SignupUserMutationResult = Apollo.MutationResult<SignupUserMutation>;
+export type SignupUserMutationOptions = Apollo.BaseMutationOptions<SignupUserMutation, SignupUserMutationVariables>;
+export const CreateNewEventMutationDocument = gql`
+    mutation CreateNewEventMutation($title: String!, $description: String, $startTime: DateTime!, $endTime: DateTime!, $requrements: String, $locationLongitude: Float, $locationLatitude: Float, $activity: Activity!, $skillLevel: SkillLevel!, $maxParticipants: Int, $allowSpectators: Boolean, $minAge: Int, $maxAge: Int, $acceptedGenders: [GenderNoPNTS!]) {
+  createEvent(
+    title: $title
+    description: $description
+    startTime: $startTime
+    endTime: $endTime
+    requrements: $requrements
+    locationLongitude: $locationLongitude
+    locationLatitude: $locationLatitude
+    activity: $activity
+    skillLevel: $skillLevel
+    maxParticipants: $maxParticipants
+    allowSpectators: $allowSpectators
+    minAge: $minAge
+    maxAge: $maxAge
+    acceptedGenders: $acceptedGenders
+  ) {
+    event {
+      id
+    }
+  }
+}
+    `;
+export type CreateNewEventMutationMutationFn = Apollo.MutationFunction<CreateNewEventMutation, CreateNewEventMutationVariables>;
+
+/**
+ * __useCreateNewEventMutation__
+ *
+ * To run a mutation, you first call `useCreateNewEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateNewEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createNewEventMutation, { data, loading, error }] = useCreateNewEventMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      description: // value for 'description'
+ *      startTime: // value for 'startTime'
+ *      endTime: // value for 'endTime'
+ *      requrements: // value for 'requrements'
+ *      locationLongitude: // value for 'locationLongitude'
+ *      locationLatitude: // value for 'locationLatitude'
+ *      activity: // value for 'activity'
+ *      skillLevel: // value for 'skillLevel'
+ *      maxParticipants: // value for 'maxParticipants'
+ *      allowSpectators: // value for 'allowSpectators'
+ *      minAge: // value for 'minAge'
+ *      maxAge: // value for 'maxAge'
+ *      acceptedGenders: // value for 'acceptedGenders'
+ *   },
+ * });
+ */
+export function useCreateNewEventMutation(baseOptions?: Apollo.MutationHookOptions<CreateNewEventMutation, CreateNewEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateNewEventMutation, CreateNewEventMutationVariables>(CreateNewEventMutationDocument, options);
+      }
+export type CreateNewEventMutationHookResult = ReturnType<typeof useCreateNewEventMutation>;
+export type CreateNewEventMutationMutationResult = Apollo.MutationResult<CreateNewEventMutation>;
+export type CreateNewEventMutationMutationOptions = Apollo.BaseMutationOptions<CreateNewEventMutation, CreateNewEventMutationVariables>;
 export const UpdateLocationDocument = gql`
     mutation UpdateLocation($latitude: Float!, $longitude: Float!) {
   updateProfileLocation(latitude: $latitude, longitude: $longitude) {
@@ -1605,6 +1815,39 @@ export function useUpdateProfileSurveyInfoMutation(baseOptions?: Apollo.Mutation
 export type UpdateProfileSurveyInfoMutationHookResult = ReturnType<typeof useUpdateProfileSurveyInfoMutation>;
 export type UpdateProfileSurveyInfoMutationResult = Apollo.MutationResult<UpdateProfileSurveyInfoMutation>;
 export type UpdateProfileSurveyInfoMutationOptions = Apollo.BaseMutationOptions<UpdateProfileSurveyInfoMutation, UpdateProfileSurveyInfoMutationVariables>;
+export const UpdateAllPrivacySettingsDocument = gql`
+    mutation UpdateAllPrivacySettings($scope: PrivacyScope!) {
+  updateAllPrivacySettings(scope: $scope) {
+    success
+  }
+}
+    `;
+export type UpdateAllPrivacySettingsMutationFn = Apollo.MutationFunction<UpdateAllPrivacySettingsMutation, UpdateAllPrivacySettingsMutationVariables>;
+
+/**
+ * __useUpdateAllPrivacySettingsMutation__
+ *
+ * To run a mutation, you first call `useUpdateAllPrivacySettingsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAllPrivacySettingsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAllPrivacySettingsMutation, { data, loading, error }] = useUpdateAllPrivacySettingsMutation({
+ *   variables: {
+ *      scope: // value for 'scope'
+ *   },
+ * });
+ */
+export function useUpdateAllPrivacySettingsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAllPrivacySettingsMutation, UpdateAllPrivacySettingsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateAllPrivacySettingsMutation, UpdateAllPrivacySettingsMutationVariables>(UpdateAllPrivacySettingsDocument, options);
+      }
+export type UpdateAllPrivacySettingsMutationHookResult = ReturnType<typeof useUpdateAllPrivacySettingsMutation>;
+export type UpdateAllPrivacySettingsMutationResult = Apollo.MutationResult<UpdateAllPrivacySettingsMutation>;
+export type UpdateAllPrivacySettingsMutationOptions = Apollo.BaseMutationOptions<UpdateAllPrivacySettingsMutation, UpdateAllPrivacySettingsMutationVariables>;
 export const UsernameTakenDocument = gql`
     query usernameTaken($username: String!) {
   usernameTaken(username: $username)
@@ -1681,6 +1924,46 @@ export type EmailTakenQueryHookResult = ReturnType<typeof useEmailTakenQuery>;
 export type EmailTakenLazyQueryHookResult = ReturnType<typeof useEmailTakenLazyQuery>;
 export type EmailTakenSuspenseQueryHookResult = ReturnType<typeof useEmailTakenSuspenseQuery>;
 export type EmailTakenQueryResult = Apollo.QueryResult<EmailTakenQuery, EmailTakenQueryVariables>;
+export const GetEventDocument = gql`
+    query GetEvent($eventId: Int!) {
+  event(id: $eventId) {
+    ...EventFragment
+  }
+}
+    ${EventFragmentDoc}`;
+
+/**
+ * __useGetEventQuery__
+ *
+ * To run a query within a React component, call `useGetEventQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEventQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEventQuery({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *   },
+ * });
+ */
+export function useGetEventQuery(baseOptions: Apollo.QueryHookOptions<GetEventQuery, GetEventQueryVariables> & ({ variables: GetEventQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEventQuery, GetEventQueryVariables>(GetEventDocument, options);
+      }
+export function useGetEventLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEventQuery, GetEventQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEventQuery, GetEventQueryVariables>(GetEventDocument, options);
+        }
+export function useGetEventSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetEventQuery, GetEventQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetEventQuery, GetEventQueryVariables>(GetEventDocument, options);
+        }
+export type GetEventQueryHookResult = ReturnType<typeof useGetEventQuery>;
+export type GetEventLazyQueryHookResult = ReturnType<typeof useGetEventLazyQuery>;
+export type GetEventSuspenseQueryHookResult = ReturnType<typeof useGetEventSuspenseQuery>;
+export type GetEventQueryResult = Apollo.QueryResult<GetEventQuery, GetEventQueryVariables>;
 export const FetchProfileDocument = gql`
     query FetchProfile {
   myProfile {
@@ -1757,109 +2040,3 @@ export type GetProfilePictureUploadUrlQueryHookResult = ReturnType<typeof useGet
 export type GetProfilePictureUploadUrlLazyQueryHookResult = ReturnType<typeof useGetProfilePictureUploadUrlLazyQuery>;
 export type GetProfilePictureUploadUrlSuspenseQueryHookResult = ReturnType<typeof useGetProfilePictureUploadUrlSuspenseQuery>;
 export type GetProfilePictureUploadUrlQueryResult = Apollo.QueryResult<GetProfilePictureUploadUrlQuery, GetProfilePictureUploadUrlQueryVariables>;
-export const UpdateAllPrivacySettingsDocument = gql`
-    mutation UpdateAllPrivacySettings($scope: PrivacyScope!) {
-  updateAllPrivacySettings(scope: $scope) {
-    success
-  }
-}
-    `;
-export type UpdateAllPrivacySettingsMutationFn = Apollo.MutationFunction<UpdateAllPrivacySettingsMutation, UpdateAllPrivacySettingsMutationVariables>;
-
-/**
- * __useUpdateAllPrivacySettingsMutation__
- *
- * To run a mutation, you first call `useUpdateAllPrivacySettingsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateAllPrivacySettingsMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateAllPrivacySettingsMutation, { data, loading, error }] = useUpdateAllPrivacySettingsMutation({
- *   variables: {
- *      scope: // value for 'scope'
- *   },
- * });
- */
-export function useUpdateAllPrivacySettingsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAllPrivacySettingsMutation, UpdateAllPrivacySettingsMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateAllPrivacySettingsMutation, UpdateAllPrivacySettingsMutationVariables>(UpdateAllPrivacySettingsDocument, options);
-      }
-export type UpdateAllPrivacySettingsMutationHookResult = ReturnType<typeof useUpdateAllPrivacySettingsMutation>;
-export type UpdateAllPrivacySettingsMutationResult = Apollo.MutationResult<UpdateAllPrivacySettingsMutation>;
-export type UpdateAllPrivacySettingsMutationOptions = Apollo.BaseMutationOptions<UpdateAllPrivacySettingsMutation, UpdateAllPrivacySettingsMutationVariables>;
-export const LoginUserDocument = gql`
-    mutation LoginUser($user: String!, $password: String!) {
-  login(user: $user, password: $password) {
-    myProfile {
-      ...ContextProfileFragment
-    }
-  }
-}
-    ${ContextProfileFragmentDoc}`;
-export type LoginUserMutationFn = Apollo.MutationFunction<LoginUserMutation, LoginUserMutationVariables>;
-
-/**
- * __useLoginUserMutation__
- *
- * To run a mutation, you first call `useLoginUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLoginUserMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [loginUserMutation, { data, loading, error }] = useLoginUserMutation({
- *   variables: {
- *      user: // value for 'user'
- *      password: // value for 'password'
- *   },
- * });
- */
-export function useLoginUserMutation(baseOptions?: Apollo.MutationHookOptions<LoginUserMutation, LoginUserMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument, options);
-      }
-export type LoginUserMutationHookResult = ReturnType<typeof useLoginUserMutation>;
-export type LoginUserMutationResult = Apollo.MutationResult<LoginUserMutation>;
-export type LoginUserMutationOptions = Apollo.BaseMutationOptions<LoginUserMutation, LoginUserMutationVariables>;
-export const SignupUserDocument = gql`
-    mutation SignupUser($username: String!, $password: String!, $email: String!) {
-  signup(username: $username, email: $email, password: $password) {
-    myProfile {
-      ...ContextProfileFragment
-    }
-  }
-}
-    ${ContextProfileFragmentDoc}`;
-export type SignupUserMutationFn = Apollo.MutationFunction<SignupUserMutation, SignupUserMutationVariables>;
-
-/**
- * __useSignupUserMutation__
- *
- * To run a mutation, you first call `useSignupUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSignupUserMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [signupUserMutation, { data, loading, error }] = useSignupUserMutation({
- *   variables: {
- *      username: // value for 'username'
- *      password: // value for 'password'
- *      email: // value for 'email'
- *   },
- * });
- */
-export function useSignupUserMutation(baseOptions?: Apollo.MutationHookOptions<SignupUserMutation, SignupUserMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SignupUserMutation, SignupUserMutationVariables>(SignupUserDocument, options);
-      }
-export type SignupUserMutationHookResult = ReturnType<typeof useSignupUserMutation>;
-export type SignupUserMutationResult = Apollo.MutationResult<SignupUserMutation>;
-export type SignupUserMutationOptions = Apollo.BaseMutationOptions<SignupUserMutation, SignupUserMutationVariables>;

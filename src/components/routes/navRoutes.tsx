@@ -23,7 +23,9 @@ export function NavRoutes () {
                         <p className="text-xs">Feed</p>
                     </Link>
 
-                    <HiOutlinePlus className="text-accent bg-block rounded-full block aspect-square p-1 text-5xl"/>
+                    <Link to="/create-event" className="block">
+                        <HiOutlinePlus className="text-accent bg-block rounded-full block aspect-square p-1 text-5xl"/>
+                    </Link>
 
                     <Link to='/chat' className="block">
                         <HiChatBubbleLeftRight className={pathname.startsWith('/chat') ? "text-block-accent" : ""} />

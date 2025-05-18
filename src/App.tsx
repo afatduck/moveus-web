@@ -9,6 +9,8 @@ import ProfileSetup from "./pages/profileSetup";
 import { NavRoutes } from "./components/routes/navRoutes";
 import Profile from "./pages/profile";
 import Settings from "./pages/settings";
+import CreateEvent from "./pages/createEvent";
+import EventPage from "./pages/eventPage";
 
 function App() {
 
@@ -24,10 +26,12 @@ function App() {
             </Route>
             <Route path="/profile-setup" element={<ProfileSetup/>} />
             <Route path="/settings" element={<Settings/>} />
+            <Route path="/create-event" element={<CreateEvent/>} />
           </Route>
           <Route path="/welcome" element={<Welcome/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
+          <Route path="/event/:eventId" element={<EventPage />} />
         </Routes>
       </Router>
     </main>

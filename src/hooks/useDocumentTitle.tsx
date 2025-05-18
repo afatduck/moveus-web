@@ -9,4 +9,10 @@ function useDocumentTitle (pageTitle: string) {
     }, [pageTitle])
 }
 
+function setDocumentTitle (pageTitle: string) {
+    document.title = `${pageTitle} ${TITLE_SUFFIX}`
+}
+
 export default useDocumentTitle
+
+export {setDocumentTitle}
