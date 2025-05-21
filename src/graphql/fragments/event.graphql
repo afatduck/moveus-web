@@ -1,3 +1,30 @@
+fragment EventMemberFragment on EventMemberType {
+  role
+  user {
+    id
+    username
+    firstName
+    lastName
+  }
+}
+
+fragment EventPostFragment on PostType {
+  id
+  title
+  content
+  timePosted
+  likes
+}
+
+fragment EventOrganizerFragment on EventMemberType {
+  user {
+    id
+    username
+    firstName
+    lastName
+  }
+}
+
 fragment EventFragment on EventType {
   id
   title
@@ -10,6 +37,7 @@ fragment EventFragment on EventType {
   }
   activity {
     id
+    name
   }
   skillLevel
   maxParticipants
@@ -18,26 +46,14 @@ fragment EventFragment on EventType {
   minAge
   maxAge
   organizer {
-    user {
-      id
-      firstName
-      lastName
-    }
+    ...EventOrganizerFragment
   }
   members {
-    user {
-      id
-      firstName
-      lastName
-    }
-    role
+    ...EventMemberFragment
   }
   posts {
-    id
-    title
-    content
-    timePosted
-    likes
+    ...EventPostFragment
   }
   finished
+  role
 }

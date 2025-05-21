@@ -11,6 +11,8 @@ import Profile from "./pages/profile";
 import Settings from "./pages/settings";
 import CreateEvent from "./pages/createEvent";
 import EventPage from "./pages/eventPage";
+import CreatePost from "./pages/createPost";
+import UserPage from "./pages/userPage";
 
 function App() {
 
@@ -32,6 +34,8 @@ function App() {
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
           <Route path="/event/:eventId" element={<EventPage />} />
+          <Route path="/create-post/:eventId" element={<CreatePost />}/>
+          <Route path="/user/:userId" element={<UserPage />}/>
         </Routes>
       </Router>
     </main>

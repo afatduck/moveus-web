@@ -7,9 +7,9 @@ function BackButton({to}: BackButtonProps) {
 
     const goBack = useCallback(() => {
         navigate(to ?? -1 as any)
-    }, [navigate])
+    }, [navigate, to])
 
-    return <HiChevronLeft className="text-3xl block cursor-pointer" 
+    return <HiChevronLeft className="text-3xl block cursor-pointer shrink-0" 
         onClick={goBack} />
 }
 

@@ -93,7 +93,8 @@ export type PreferredActivityType = {
 
 export type ActivityType = {
   __typename?: 'ActivityType';
-  id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['Int']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type LocationType = {
@@ -1112,7 +1113,7 @@ export type RemovePreferredActivity = {
 
 export type JoinEventMutation = {
   __typename?: 'JoinEventMutation';
-  eventMember?: Maybe<EventMemberType>;
+  success?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type SpectateEventMutation = {
@@ -1319,23 +1320,13 @@ export type WsLastOpenType = {
   lastOpen?: Maybe<Scalars['DateTime']['output']>;
 };
 
-export type SurveyFragment = { __typename?: 'ProfileType', frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null };
-
-export type BasicInfoFragment = { __typename?: 'ProfileType', firstName: string, lastName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null };
-
-export type ContextProfileFragment = { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> };
-
-export type UserFragment = { __typename?: 'UserType', id?: number | null, username: string, bio: string, gender?: MainAppUserGenderChoices | null, firstName: string, lastName: string, likes?: number | null, dislikes?: number | null, dateOfBirth?: Date | null, friendCount?: number | null, relationship?: { __typename?: 'RelationshipType', status?: string | null, chat?: { __typename?: 'ChatType', id?: number | null } | null } | null };
-
-export type EventFragment = { __typename?: 'EventType', id?: number | null, title: string, description?: string | null, startTime: Date, endTime: Date, skillLevel?: string | null, maxParticipants?: number | null, allowSpectators: boolean, acceptedGenders?: any | null, minAge?: number | null, maxAge?: number | null, finished: boolean, location: { __typename?: 'LocationType', longitude: number, latitude: number }, activity: { __typename?: 'ActivityType', id?: string | null }, organizer?: { __typename?: 'EventMemberType', user: { __typename?: 'UserType', id?: number | null, firstName: string, lastName: string } } | null, members: Array<{ __typename?: 'EventMemberType', role?: string | null, user: { __typename?: 'UserType', id?: number | null, firstName: string, lastName: string } }>, posts: Array<{ __typename?: 'PostType', id?: number | null, title: string, content: string, timePosted: Date, likes?: number | null }> };
-
 export type LoginUserMutationVariables = Exact<{
   user: Scalars['String']['input'];
   password: Scalars['String']['input'];
 }>;
 
 
-export type LoginUserMutation = { __typename?: 'Mutations', login?: { __typename?: 'LoginMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> } | null } | null };
+export type LoginUserMutationPayload = { __typename?: 'Mutations', login?: { __typename?: 'LoginMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> } | null } | null };
 
 export type SignupUserMutationVariables = Exact<{
   username: Scalars['String']['input'];
@@ -1344,7 +1335,7 @@ export type SignupUserMutationVariables = Exact<{
 }>;
 
 
-export type SignupUserMutation = { __typename?: 'Mutations', signup?: { __typename?: 'SignupMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> } | null } | null };
+export type SignupUserMutationPayload = { __typename?: 'Mutations', signup?: { __typename?: 'SignupMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> } | null } | null };
 
 export type CreateNewEventMutationVariables = Exact<{
   title: Scalars['String']['input'];
@@ -1364,7 +1355,37 @@ export type CreateNewEventMutationVariables = Exact<{
 }>;
 
 
-export type CreateNewEventMutation = { __typename?: 'Mutations', createEvent?: { __typename?: 'CreateEventMutation', event?: { __typename?: 'EventType', id?: number | null } | null } | null };
+export type CreateNewEventMutationPayload = { __typename?: 'Mutations', createEvent?: { __typename?: 'CreateEventMutation', event?: { __typename?: 'EventType', id?: number | null } | null } | null };
+
+export type JoinEventMutationVariables = Exact<{
+  eventId: Scalars['Int']['input'];
+}>;
+
+
+export type JoinEventMutationPayload = { __typename?: 'Mutations', joinEvent?: { __typename?: 'JoinEventMutation', success?: boolean | null } | null };
+
+export type LeaveEventMutationVariables = Exact<{
+  eventId: Scalars['Int']['input'];
+}>;
+
+
+export type LeaveEventMutationPayload = { __typename?: 'Mutations', leaveEvent?: { __typename?: 'LeaveEventMutation', success?: boolean | null } | null };
+
+export type CancelEventMutationVariables = Exact<{
+  eventId: Scalars['Int']['input'];
+}>;
+
+
+export type CancelEventMutationPayload = { __typename?: 'Mutations', deleteEvent?: { __typename?: 'DeleteEventMutation', success?: boolean | null } | null };
+
+export type CreatePostMutationVariables = Exact<{
+  eventId: Scalars['Int']['input'];
+  title: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+}>;
+
+
+export type CreatePostMutationPayload = { __typename?: 'Mutations', createPost?: { __typename?: 'CreatePostMutation', post?: { __typename?: 'CreatePostType', imageUploadUrl?: string | null } | null } | null };
 
 export type UpdateLocationMutationVariables = Exact<{
   latitude: Scalars['Float']['input'];
@@ -1372,7 +1393,7 @@ export type UpdateLocationMutationVariables = Exact<{
 }>;
 
 
-export type UpdateLocationMutation = { __typename?: 'Mutations', updateProfileLocation?: { __typename?: 'UpdateProfileLocation', success?: boolean | null } | null };
+export type UpdateLocationMutationPayload = { __typename?: 'Mutations', updateProfileLocation?: { __typename?: 'UpdateProfileLocation', success?: boolean | null } | null };
 
 export type UpdateProfileBasicInfoMutationVariables = Exact<{
   firstName?: InputMaybe<Scalars['String']['input']>;
@@ -1383,7 +1404,7 @@ export type UpdateProfileBasicInfoMutationVariables = Exact<{
 }>;
 
 
-export type UpdateProfileBasicInfoMutation = { __typename?: 'Mutations', updateBasicInfo?: { __typename?: 'UpdateBasicInfoMutation', success?: boolean | null } | null };
+export type UpdateProfileBasicInfoMutationPayload = { __typename?: 'Mutations', updateBasicInfo?: { __typename?: 'UpdateBasicInfoMutation', success?: boolean | null } | null };
 
 export type UpdateProfileSurveyInfoMutationVariables = Exact<{
   frequencyOfPhysicalActivity?: InputMaybe<FrequencyOfPhycicalActivity>;
@@ -1399,46 +1420,135 @@ export type UpdateProfileSurveyInfoMutationVariables = Exact<{
 }>;
 
 
-export type UpdateProfileSurveyInfoMutation = { __typename?: 'Mutations', updateSurveyInfo?: { __typename?: 'UpdateSurveyInfoMutation', success?: boolean | null } | null };
+export type UpdateProfileSurveyInfoMutationPayload = { __typename?: 'Mutations', updateSurveyInfo?: { __typename?: 'UpdateSurveyInfoMutation', success?: boolean | null } | null };
 
 export type UpdateAllPrivacySettingsMutationVariables = Exact<{
   scope: PrivacyScope;
 }>;
 
 
-export type UpdateAllPrivacySettingsMutation = { __typename?: 'Mutations', updateAllPrivacySettings?: { __typename?: 'UpdateAllPrviacySettingsMutation', success?: boolean | null } | null };
+export type UpdateAllPrivacySettingsMutationPayload = { __typename?: 'Mutations', updateAllPrivacySettings?: { __typename?: 'UpdateAllPrviacySettingsMutation', success?: boolean | null } | null };
+
+export type EventMemberFragment = { __typename?: 'EventMemberType', role?: string | null, user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } };
+
+export type EventPostFragment = { __typename?: 'PostType', id?: number | null, title: string, content: string, timePosted: Date, likes?: number | null };
+
+export type EventOrganizerFragment = { __typename?: 'EventMemberType', user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } };
+
+export type EventFragment = { __typename?: 'EventType', id?: number | null, title: string, description?: string | null, startTime: Date, endTime: Date, skillLevel?: string | null, maxParticipants?: number | null, allowSpectators: boolean, acceptedGenders?: any | null, minAge?: number | null, maxAge?: number | null, finished: boolean, role?: MemberRole | null, location: { __typename?: 'LocationType', longitude: number, latitude: number }, activity: { __typename?: 'ActivityType', id?: number | null, name?: string | null }, organizer?: { __typename?: 'EventMemberType', user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } } | null, members: Array<{ __typename?: 'EventMemberType', role?: string | null, user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } }>, posts: Array<{ __typename?: 'PostType', id?: number | null, title: string, content: string, timePosted: Date, likes?: number | null }> };
 
 export type UsernameTakenQueryVariables = Exact<{
   username: Scalars['String']['input'];
 }>;
 
 
-export type UsernameTakenQuery = { __typename?: 'Queries', usernameTaken: boolean };
+export type UsernameTakenQueryPayload = { __typename?: 'Queries', usernameTaken: boolean };
 
 export type EmailTakenQueryVariables = Exact<{
   email: Scalars['String']['input'];
 }>;
 
 
-export type EmailTakenQuery = { __typename?: 'Queries', emailTaken: boolean };
+export type EmailTakenQueryPayload = { __typename?: 'Queries', emailTaken: boolean };
+
+export type SurveyFragment = { __typename?: 'ProfileType', frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null };
+
+export type BasicInfoFragment = { __typename?: 'ProfileType', firstName: string, lastName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null };
+
+export type ContextProfileFragment = { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> };
+
+export type UserFragment = { __typename?: 'UserType', id?: number | null, username: string, bio: string, gender?: MainAppUserGenderChoices | null, firstName: string, lastName: string, likes?: number | null, dislikes?: number | null, dateOfBirth?: Date | null, friendCount?: number | null, relationship?: { __typename?: 'RelationshipType', status?: string | null, chat?: { __typename?: 'ChatType', id?: number | null } | null } | null };
 
 export type GetEventQueryVariables = Exact<{
   eventId: Scalars['Int']['input'];
 }>;
 
 
-export type GetEventQuery = { __typename?: 'Queries', event?: { __typename?: 'EventType', id?: number | null, title: string, description?: string | null, startTime: Date, endTime: Date, skillLevel?: string | null, maxParticipants?: number | null, allowSpectators: boolean, acceptedGenders?: any | null, minAge?: number | null, maxAge?: number | null, finished: boolean, location: { __typename?: 'LocationType', longitude: number, latitude: number }, activity: { __typename?: 'ActivityType', id?: string | null }, organizer?: { __typename?: 'EventMemberType', user: { __typename?: 'UserType', id?: number | null, firstName: string, lastName: string } } | null, members: Array<{ __typename?: 'EventMemberType', role?: string | null, user: { __typename?: 'UserType', id?: number | null, firstName: string, lastName: string } }>, posts: Array<{ __typename?: 'PostType', id?: number | null, title: string, content: string, timePosted: Date, likes?: number | null }> } | null };
+export type GetEventQueryPayload = { __typename?: 'Queries', event?: { __typename?: 'EventType', id?: number | null, title: string, description?: string | null, startTime: Date, endTime: Date, skillLevel?: string | null, maxParticipants?: number | null, allowSpectators: boolean, acceptedGenders?: any | null, minAge?: number | null, maxAge?: number | null, finished: boolean, role?: MemberRole | null, location: { __typename?: 'LocationType', longitude: number, latitude: number }, activity: { __typename?: 'ActivityType', id?: number | null, name?: string | null }, organizer?: { __typename?: 'EventMemberType', user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } } | null, members: Array<{ __typename?: 'EventMemberType', role?: string | null, user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } }>, posts: Array<{ __typename?: 'PostType', id?: number | null, title: string, content: string, timePosted: Date, likes?: number | null }> } | null };
+
+export type GetUserQueryVariables = Exact<{
+  userId: Scalars['Int']['input'];
+}>;
+
+
+export type GetUserQueryPayload = { __typename?: 'Queries', user?: { __typename?: 'UserType', id?: number | null, username: string, bio: string, gender?: MainAppUserGenderChoices | null, firstName: string, lastName: string, likes?: number | null, dislikes?: number | null, dateOfBirth?: Date | null, friendCount?: number | null, relationship?: { __typename?: 'RelationshipType', status?: string | null, chat?: { __typename?: 'ChatType', id?: number | null } | null } | null } | null };
 
 export type FetchProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchProfileQuery = { __typename?: 'Queries', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> } | null };
+export type FetchProfileQueryPayload = { __typename?: 'Queries', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> } | null };
 
 export type GetProfilePictureUploadUrlQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProfilePictureUploadUrlQuery = { __typename?: 'Queries', profilePictureGcloudUrl?: string | null };
+export type GetProfilePictureUploadUrlQueryPayload = { __typename?: 'Queries', profilePictureGcloudUrl?: string | null };
 
+export const EventOrganizerFragmentDoc = gql`
+    fragment EventOrganizerFragment on EventMemberType {
+  user {
+    id
+    username
+    firstName
+    lastName
+  }
+}
+    `;
+export const EventMemberFragmentDoc = gql`
+    fragment EventMemberFragment on EventMemberType {
+  role
+  user {
+    id
+    username
+    firstName
+    lastName
+  }
+}
+    `;
+export const EventPostFragmentDoc = gql`
+    fragment EventPostFragment on PostType {
+  id
+  title
+  content
+  timePosted
+  likes
+}
+    `;
+export const EventFragmentDoc = gql`
+    fragment EventFragment on EventType {
+  id
+  title
+  description
+  startTime
+  endTime
+  location {
+    longitude
+    latitude
+  }
+  activity {
+    id
+    name
+  }
+  skillLevel
+  maxParticipants
+  allowSpectators
+  acceptedGenders
+  minAge
+  maxAge
+  organizer {
+    ...EventOrganizerFragment
+  }
+  members {
+    ...EventMemberFragment
+  }
+  posts {
+    ...EventPostFragment
+  }
+  finished
+  role
+}
+    ${EventOrganizerFragmentDoc}
+${EventMemberFragmentDoc}
+${EventPostFragmentDoc}`;
 export const BasicInfoFragmentDoc = gql`
     fragment BasicInfoFragment on ProfileType {
   firstName
@@ -1504,51 +1614,6 @@ export const UserFragmentDoc = gql`
   }
 }
     `;
-export const EventFragmentDoc = gql`
-    fragment EventFragment on EventType {
-  id
-  title
-  description
-  startTime
-  endTime
-  location {
-    longitude
-    latitude
-  }
-  activity {
-    id
-  }
-  skillLevel
-  maxParticipants
-  allowSpectators
-  acceptedGenders
-  minAge
-  maxAge
-  organizer {
-    user {
-      id
-      firstName
-      lastName
-    }
-  }
-  members {
-    user {
-      id
-      firstName
-      lastName
-    }
-    role
-  }
-  posts {
-    id
-    title
-    content
-    timePosted
-    likes
-  }
-  finished
-}
-    `;
 export const LoginUserDocument = gql`
     mutation LoginUser($user: String!, $password: String!) {
   login(user: $user, password: $password) {
@@ -1558,7 +1623,7 @@ export const LoginUserDocument = gql`
   }
 }
     ${ContextProfileFragmentDoc}`;
-export type LoginUserMutationFn = Apollo.MutationFunction<LoginUserMutation, LoginUserMutationVariables>;
+export type LoginUserMutationFn = Apollo.MutationFunction<LoginUserMutationPayload, LoginUserMutationVariables>;
 
 /**
  * __useLoginUserMutation__
@@ -1578,13 +1643,13 @@ export type LoginUserMutationFn = Apollo.MutationFunction<LoginUserMutation, Log
  *   },
  * });
  */
-export function useLoginUserMutation(baseOptions?: Apollo.MutationHookOptions<LoginUserMutation, LoginUserMutationVariables>) {
+export function useLoginUserMutation(baseOptions?: Apollo.MutationHookOptions<LoginUserMutationPayload, LoginUserMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument, options);
+        return Apollo.useMutation<LoginUserMutationPayload, LoginUserMutationVariables>(LoginUserDocument, options);
       }
 export type LoginUserMutationHookResult = ReturnType<typeof useLoginUserMutation>;
-export type LoginUserMutationResult = Apollo.MutationResult<LoginUserMutation>;
-export type LoginUserMutationOptions = Apollo.BaseMutationOptions<LoginUserMutation, LoginUserMutationVariables>;
+export type LoginUserMutationResult = Apollo.MutationResult<LoginUserMutationPayload>;
+export type LoginUserMutationOptions = Apollo.BaseMutationOptions<LoginUserMutationPayload, LoginUserMutationVariables>;
 export const SignupUserDocument = gql`
     mutation SignupUser($username: String!, $password: String!, $email: String!) {
   signup(username: $username, email: $email, password: $password) {
@@ -1594,7 +1659,7 @@ export const SignupUserDocument = gql`
   }
 }
     ${ContextProfileFragmentDoc}`;
-export type SignupUserMutationFn = Apollo.MutationFunction<SignupUserMutation, SignupUserMutationVariables>;
+export type SignupUserMutationFn = Apollo.MutationFunction<SignupUserMutationPayload, SignupUserMutationVariables>;
 
 /**
  * __useSignupUserMutation__
@@ -1615,13 +1680,13 @@ export type SignupUserMutationFn = Apollo.MutationFunction<SignupUserMutation, S
  *   },
  * });
  */
-export function useSignupUserMutation(baseOptions?: Apollo.MutationHookOptions<SignupUserMutation, SignupUserMutationVariables>) {
+export function useSignupUserMutation(baseOptions?: Apollo.MutationHookOptions<SignupUserMutationPayload, SignupUserMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SignupUserMutation, SignupUserMutationVariables>(SignupUserDocument, options);
+        return Apollo.useMutation<SignupUserMutationPayload, SignupUserMutationVariables>(SignupUserDocument, options);
       }
 export type SignupUserMutationHookResult = ReturnType<typeof useSignupUserMutation>;
-export type SignupUserMutationResult = Apollo.MutationResult<SignupUserMutation>;
-export type SignupUserMutationOptions = Apollo.BaseMutationOptions<SignupUserMutation, SignupUserMutationVariables>;
+export type SignupUserMutationResult = Apollo.MutationResult<SignupUserMutationPayload>;
+export type SignupUserMutationOptions = Apollo.BaseMutationOptions<SignupUserMutationPayload, SignupUserMutationVariables>;
 export const CreateNewEventMutationDocument = gql`
     mutation CreateNewEventMutation($title: String!, $description: String, $startTime: DateTime!, $endTime: DateTime!, $requrements: String, $locationLongitude: Float, $locationLatitude: Float, $activity: Activity!, $skillLevel: SkillLevel!, $maxParticipants: Int, $allowSpectators: Boolean, $minAge: Int, $maxAge: Int, $acceptedGenders: [GenderNoPNTS!]) {
   createEvent(
@@ -1646,7 +1711,7 @@ export const CreateNewEventMutationDocument = gql`
   }
 }
     `;
-export type CreateNewEventMutationMutationFn = Apollo.MutationFunction<CreateNewEventMutation, CreateNewEventMutationVariables>;
+export type CreateNewEventMutationMutationFn = Apollo.MutationFunction<CreateNewEventMutationPayload, CreateNewEventMutationVariables>;
 
 /**
  * __useCreateNewEventMutation__
@@ -1678,13 +1743,149 @@ export type CreateNewEventMutationMutationFn = Apollo.MutationFunction<CreateNew
  *   },
  * });
  */
-export function useCreateNewEventMutation(baseOptions?: Apollo.MutationHookOptions<CreateNewEventMutation, CreateNewEventMutationVariables>) {
+export function useCreateNewEventMutation(baseOptions?: Apollo.MutationHookOptions<CreateNewEventMutationPayload, CreateNewEventMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateNewEventMutation, CreateNewEventMutationVariables>(CreateNewEventMutationDocument, options);
+        return Apollo.useMutation<CreateNewEventMutationPayload, CreateNewEventMutationVariables>(CreateNewEventMutationDocument, options);
       }
 export type CreateNewEventMutationHookResult = ReturnType<typeof useCreateNewEventMutation>;
-export type CreateNewEventMutationMutationResult = Apollo.MutationResult<CreateNewEventMutation>;
-export type CreateNewEventMutationMutationOptions = Apollo.BaseMutationOptions<CreateNewEventMutation, CreateNewEventMutationVariables>;
+export type CreateNewEventMutationMutationResult = Apollo.MutationResult<CreateNewEventMutationPayload>;
+export type CreateNewEventMutationMutationOptions = Apollo.BaseMutationOptions<CreateNewEventMutationPayload, CreateNewEventMutationVariables>;
+export const JoinEventMutationDocument = gql`
+    mutation JoinEventMutation($eventId: Int!) {
+  joinEvent(eventId: $eventId) {
+    success
+  }
+}
+    `;
+export type JoinEventMutationMutationFn = Apollo.MutationFunction<JoinEventMutationPayload, JoinEventMutationVariables>;
+
+/**
+ * __useJoinEventMutation__
+ *
+ * To run a mutation, you first call `useJoinEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useJoinEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [joinEventMutation, { data, loading, error }] = useJoinEventMutation({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *   },
+ * });
+ */
+export function useJoinEventMutation(baseOptions?: Apollo.MutationHookOptions<JoinEventMutationPayload, JoinEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<JoinEventMutationPayload, JoinEventMutationVariables>(JoinEventMutationDocument, options);
+      }
+export type JoinEventMutationHookResult = ReturnType<typeof useJoinEventMutation>;
+export type JoinEventMutationMutationResult = Apollo.MutationResult<JoinEventMutationPayload>;
+export type JoinEventMutationMutationOptions = Apollo.BaseMutationOptions<JoinEventMutationPayload, JoinEventMutationVariables>;
+export const LeaveEventMutationDocument = gql`
+    mutation LeaveEventMutation($eventId: Int!) {
+  leaveEvent(eventId: $eventId) {
+    success
+  }
+}
+    `;
+export type LeaveEventMutationMutationFn = Apollo.MutationFunction<LeaveEventMutationPayload, LeaveEventMutationVariables>;
+
+/**
+ * __useLeaveEventMutation__
+ *
+ * To run a mutation, you first call `useLeaveEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLeaveEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [leaveEventMutation, { data, loading, error }] = useLeaveEventMutation({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *   },
+ * });
+ */
+export function useLeaveEventMutation(baseOptions?: Apollo.MutationHookOptions<LeaveEventMutationPayload, LeaveEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LeaveEventMutationPayload, LeaveEventMutationVariables>(LeaveEventMutationDocument, options);
+      }
+export type LeaveEventMutationHookResult = ReturnType<typeof useLeaveEventMutation>;
+export type LeaveEventMutationMutationResult = Apollo.MutationResult<LeaveEventMutationPayload>;
+export type LeaveEventMutationMutationOptions = Apollo.BaseMutationOptions<LeaveEventMutationPayload, LeaveEventMutationVariables>;
+export const CancelEventMutationDocument = gql`
+    mutation CancelEventMutation($eventId: Int!) {
+  deleteEvent(eventId: $eventId) {
+    success
+  }
+}
+    `;
+export type CancelEventMutationMutationFn = Apollo.MutationFunction<CancelEventMutationPayload, CancelEventMutationVariables>;
+
+/**
+ * __useCancelEventMutation__
+ *
+ * To run a mutation, you first call `useCancelEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCancelEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [cancelEventMutation, { data, loading, error }] = useCancelEventMutation({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *   },
+ * });
+ */
+export function useCancelEventMutation(baseOptions?: Apollo.MutationHookOptions<CancelEventMutationPayload, CancelEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CancelEventMutationPayload, CancelEventMutationVariables>(CancelEventMutationDocument, options);
+      }
+export type CancelEventMutationHookResult = ReturnType<typeof useCancelEventMutation>;
+export type CancelEventMutationMutationResult = Apollo.MutationResult<CancelEventMutationPayload>;
+export type CancelEventMutationMutationOptions = Apollo.BaseMutationOptions<CancelEventMutationPayload, CancelEventMutationVariables>;
+export const CreatePostMutationDocument = gql`
+    mutation CreatePostMutation($eventId: Int!, $title: String!, $content: String!) {
+  createPost(eventId: $eventId, title: $title, content: $content) {
+    post {
+      imageUploadUrl
+    }
+  }
+}
+    `;
+export type CreatePostMutationMutationFn = Apollo.MutationFunction<CreatePostMutationPayload, CreatePostMutationVariables>;
+
+/**
+ * __useCreatePostMutation__
+ *
+ * To run a mutation, you first call `useCreatePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPostMutation, { data, loading, error }] = useCreatePostMutation({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *      title: // value for 'title'
+ *      content: // value for 'content'
+ *   },
+ * });
+ */
+export function useCreatePostMutation(baseOptions?: Apollo.MutationHookOptions<CreatePostMutationPayload, CreatePostMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePostMutationPayload, CreatePostMutationVariables>(CreatePostMutationDocument, options);
+      }
+export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
+export type CreatePostMutationMutationResult = Apollo.MutationResult<CreatePostMutationPayload>;
+export type CreatePostMutationMutationOptions = Apollo.BaseMutationOptions<CreatePostMutationPayload, CreatePostMutationVariables>;
 export const UpdateLocationDocument = gql`
     mutation UpdateLocation($latitude: Float!, $longitude: Float!) {
   updateProfileLocation(latitude: $latitude, longitude: $longitude) {
@@ -1692,7 +1893,7 @@ export const UpdateLocationDocument = gql`
   }
 }
     `;
-export type UpdateLocationMutationFn = Apollo.MutationFunction<UpdateLocationMutation, UpdateLocationMutationVariables>;
+export type UpdateLocationMutationFn = Apollo.MutationFunction<UpdateLocationMutationPayload, UpdateLocationMutationVariables>;
 
 /**
  * __useUpdateLocationMutation__
@@ -1712,13 +1913,13 @@ export type UpdateLocationMutationFn = Apollo.MutationFunction<UpdateLocationMut
  *   },
  * });
  */
-export function useUpdateLocationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateLocationMutation, UpdateLocationMutationVariables>) {
+export function useUpdateLocationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateLocationMutationPayload, UpdateLocationMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateLocationMutation, UpdateLocationMutationVariables>(UpdateLocationDocument, options);
+        return Apollo.useMutation<UpdateLocationMutationPayload, UpdateLocationMutationVariables>(UpdateLocationDocument, options);
       }
 export type UpdateLocationMutationHookResult = ReturnType<typeof useUpdateLocationMutation>;
-export type UpdateLocationMutationResult = Apollo.MutationResult<UpdateLocationMutation>;
-export type UpdateLocationMutationOptions = Apollo.BaseMutationOptions<UpdateLocationMutation, UpdateLocationMutationVariables>;
+export type UpdateLocationMutationResult = Apollo.MutationResult<UpdateLocationMutationPayload>;
+export type UpdateLocationMutationOptions = Apollo.BaseMutationOptions<UpdateLocationMutationPayload, UpdateLocationMutationVariables>;
 export const UpdateProfileBasicInfoDocument = gql`
     mutation UpdateProfileBasicInfo($firstName: String, $lastName: String, $bio: String, $dateOfBirth: Date, $gender: Gender) {
   updateBasicInfo(
@@ -1732,7 +1933,7 @@ export const UpdateProfileBasicInfoDocument = gql`
   }
 }
     `;
-export type UpdateProfileBasicInfoMutationFn = Apollo.MutationFunction<UpdateProfileBasicInfoMutation, UpdateProfileBasicInfoMutationVariables>;
+export type UpdateProfileBasicInfoMutationFn = Apollo.MutationFunction<UpdateProfileBasicInfoMutationPayload, UpdateProfileBasicInfoMutationVariables>;
 
 /**
  * __useUpdateProfileBasicInfoMutation__
@@ -1755,13 +1956,13 @@ export type UpdateProfileBasicInfoMutationFn = Apollo.MutationFunction<UpdatePro
  *   },
  * });
  */
-export function useUpdateProfileBasicInfoMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProfileBasicInfoMutation, UpdateProfileBasicInfoMutationVariables>) {
+export function useUpdateProfileBasicInfoMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProfileBasicInfoMutationPayload, UpdateProfileBasicInfoMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateProfileBasicInfoMutation, UpdateProfileBasicInfoMutationVariables>(UpdateProfileBasicInfoDocument, options);
+        return Apollo.useMutation<UpdateProfileBasicInfoMutationPayload, UpdateProfileBasicInfoMutationVariables>(UpdateProfileBasicInfoDocument, options);
       }
 export type UpdateProfileBasicInfoMutationHookResult = ReturnType<typeof useUpdateProfileBasicInfoMutation>;
-export type UpdateProfileBasicInfoMutationResult = Apollo.MutationResult<UpdateProfileBasicInfoMutation>;
-export type UpdateProfileBasicInfoMutationOptions = Apollo.BaseMutationOptions<UpdateProfileBasicInfoMutation, UpdateProfileBasicInfoMutationVariables>;
+export type UpdateProfileBasicInfoMutationResult = Apollo.MutationResult<UpdateProfileBasicInfoMutationPayload>;
+export type UpdateProfileBasicInfoMutationOptions = Apollo.BaseMutationOptions<UpdateProfileBasicInfoMutationPayload, UpdateProfileBasicInfoMutationVariables>;
 export const UpdateProfileSurveyInfoDocument = gql`
     mutation UpdateProfileSurveyInfo($frequencyOfPhysicalActivity: FrequencyOfPhycicalActivity, $socialInteractionImportance: SocialInteractionImportance, $preferredPartySize: PreferredPartySize, $formedRelationshipTypes: [FormedRelationshipsType], $physicalActivitySatisfaction: PhysicalActivitySatisfaction, $preferredPartnerCharacteristics: [PreferredPartnerCharacteristics], $matchedParticipationLikelihood: MatchedParticipationLikelihood, $genderPreference: [GenderNoPNTS], $mainInterest: MainInterest, $preferredTimeOfTheDay: [TimeOfTheDay]) {
   updateSurveyInfo(
@@ -1780,7 +1981,7 @@ export const UpdateProfileSurveyInfoDocument = gql`
   }
 }
     `;
-export type UpdateProfileSurveyInfoMutationFn = Apollo.MutationFunction<UpdateProfileSurveyInfoMutation, UpdateProfileSurveyInfoMutationVariables>;
+export type UpdateProfileSurveyInfoMutationFn = Apollo.MutationFunction<UpdateProfileSurveyInfoMutationPayload, UpdateProfileSurveyInfoMutationVariables>;
 
 /**
  * __useUpdateProfileSurveyInfoMutation__
@@ -1808,13 +2009,13 @@ export type UpdateProfileSurveyInfoMutationFn = Apollo.MutationFunction<UpdatePr
  *   },
  * });
  */
-export function useUpdateProfileSurveyInfoMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProfileSurveyInfoMutation, UpdateProfileSurveyInfoMutationVariables>) {
+export function useUpdateProfileSurveyInfoMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProfileSurveyInfoMutationPayload, UpdateProfileSurveyInfoMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateProfileSurveyInfoMutation, UpdateProfileSurveyInfoMutationVariables>(UpdateProfileSurveyInfoDocument, options);
+        return Apollo.useMutation<UpdateProfileSurveyInfoMutationPayload, UpdateProfileSurveyInfoMutationVariables>(UpdateProfileSurveyInfoDocument, options);
       }
 export type UpdateProfileSurveyInfoMutationHookResult = ReturnType<typeof useUpdateProfileSurveyInfoMutation>;
-export type UpdateProfileSurveyInfoMutationResult = Apollo.MutationResult<UpdateProfileSurveyInfoMutation>;
-export type UpdateProfileSurveyInfoMutationOptions = Apollo.BaseMutationOptions<UpdateProfileSurveyInfoMutation, UpdateProfileSurveyInfoMutationVariables>;
+export type UpdateProfileSurveyInfoMutationResult = Apollo.MutationResult<UpdateProfileSurveyInfoMutationPayload>;
+export type UpdateProfileSurveyInfoMutationOptions = Apollo.BaseMutationOptions<UpdateProfileSurveyInfoMutationPayload, UpdateProfileSurveyInfoMutationVariables>;
 export const UpdateAllPrivacySettingsDocument = gql`
     mutation UpdateAllPrivacySettings($scope: PrivacyScope!) {
   updateAllPrivacySettings(scope: $scope) {
@@ -1822,7 +2023,7 @@ export const UpdateAllPrivacySettingsDocument = gql`
   }
 }
     `;
-export type UpdateAllPrivacySettingsMutationFn = Apollo.MutationFunction<UpdateAllPrivacySettingsMutation, UpdateAllPrivacySettingsMutationVariables>;
+export type UpdateAllPrivacySettingsMutationFn = Apollo.MutationFunction<UpdateAllPrivacySettingsMutationPayload, UpdateAllPrivacySettingsMutationVariables>;
 
 /**
  * __useUpdateAllPrivacySettingsMutation__
@@ -1841,13 +2042,13 @@ export type UpdateAllPrivacySettingsMutationFn = Apollo.MutationFunction<UpdateA
  *   },
  * });
  */
-export function useUpdateAllPrivacySettingsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAllPrivacySettingsMutation, UpdateAllPrivacySettingsMutationVariables>) {
+export function useUpdateAllPrivacySettingsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAllPrivacySettingsMutationPayload, UpdateAllPrivacySettingsMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateAllPrivacySettingsMutation, UpdateAllPrivacySettingsMutationVariables>(UpdateAllPrivacySettingsDocument, options);
+        return Apollo.useMutation<UpdateAllPrivacySettingsMutationPayload, UpdateAllPrivacySettingsMutationVariables>(UpdateAllPrivacySettingsDocument, options);
       }
 export type UpdateAllPrivacySettingsMutationHookResult = ReturnType<typeof useUpdateAllPrivacySettingsMutation>;
-export type UpdateAllPrivacySettingsMutationResult = Apollo.MutationResult<UpdateAllPrivacySettingsMutation>;
-export type UpdateAllPrivacySettingsMutationOptions = Apollo.BaseMutationOptions<UpdateAllPrivacySettingsMutation, UpdateAllPrivacySettingsMutationVariables>;
+export type UpdateAllPrivacySettingsMutationResult = Apollo.MutationResult<UpdateAllPrivacySettingsMutationPayload>;
+export type UpdateAllPrivacySettingsMutationOptions = Apollo.BaseMutationOptions<UpdateAllPrivacySettingsMutationPayload, UpdateAllPrivacySettingsMutationVariables>;
 export const UsernameTakenDocument = gql`
     query usernameTaken($username: String!) {
   usernameTaken(username: $username)
@@ -1870,22 +2071,22 @@ export const UsernameTakenDocument = gql`
  *   },
  * });
  */
-export function useUsernameTakenQuery(baseOptions: Apollo.QueryHookOptions<UsernameTakenQuery, UsernameTakenQueryVariables> & ({ variables: UsernameTakenQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useUsernameTakenQuery(baseOptions: Apollo.QueryHookOptions<UsernameTakenQueryPayload, UsernameTakenQueryVariables> & ({ variables: UsernameTakenQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UsernameTakenQuery, UsernameTakenQueryVariables>(UsernameTakenDocument, options);
+        return Apollo.useQuery<UsernameTakenQueryPayload, UsernameTakenQueryVariables>(UsernameTakenDocument, options);
       }
-export function useUsernameTakenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsernameTakenQuery, UsernameTakenQueryVariables>) {
+export function useUsernameTakenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsernameTakenQueryPayload, UsernameTakenQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UsernameTakenQuery, UsernameTakenQueryVariables>(UsernameTakenDocument, options);
+          return Apollo.useLazyQuery<UsernameTakenQueryPayload, UsernameTakenQueryVariables>(UsernameTakenDocument, options);
         }
-export function useUsernameTakenSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<UsernameTakenQuery, UsernameTakenQueryVariables>) {
+export function useUsernameTakenSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<UsernameTakenQueryPayload, UsernameTakenQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<UsernameTakenQuery, UsernameTakenQueryVariables>(UsernameTakenDocument, options);
+          return Apollo.useSuspenseQuery<UsernameTakenQueryPayload, UsernameTakenQueryVariables>(UsernameTakenDocument, options);
         }
 export type UsernameTakenQueryHookResult = ReturnType<typeof useUsernameTakenQuery>;
 export type UsernameTakenLazyQueryHookResult = ReturnType<typeof useUsernameTakenLazyQuery>;
 export type UsernameTakenSuspenseQueryHookResult = ReturnType<typeof useUsernameTakenSuspenseQuery>;
-export type UsernameTakenQueryResult = Apollo.QueryResult<UsernameTakenQuery, UsernameTakenQueryVariables>;
+export type UsernameTakenQueryResult = Apollo.QueryResult<UsernameTakenQueryPayload, UsernameTakenQueryVariables>;
 export const EmailTakenDocument = gql`
     query emailTaken($email: String!) {
   emailTaken(email: $email)
@@ -1908,22 +2109,22 @@ export const EmailTakenDocument = gql`
  *   },
  * });
  */
-export function useEmailTakenQuery(baseOptions: Apollo.QueryHookOptions<EmailTakenQuery, EmailTakenQueryVariables> & ({ variables: EmailTakenQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useEmailTakenQuery(baseOptions: Apollo.QueryHookOptions<EmailTakenQueryPayload, EmailTakenQueryVariables> & ({ variables: EmailTakenQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<EmailTakenQuery, EmailTakenQueryVariables>(EmailTakenDocument, options);
+        return Apollo.useQuery<EmailTakenQueryPayload, EmailTakenQueryVariables>(EmailTakenDocument, options);
       }
-export function useEmailTakenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EmailTakenQuery, EmailTakenQueryVariables>) {
+export function useEmailTakenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EmailTakenQueryPayload, EmailTakenQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<EmailTakenQuery, EmailTakenQueryVariables>(EmailTakenDocument, options);
+          return Apollo.useLazyQuery<EmailTakenQueryPayload, EmailTakenQueryVariables>(EmailTakenDocument, options);
         }
-export function useEmailTakenSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<EmailTakenQuery, EmailTakenQueryVariables>) {
+export function useEmailTakenSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<EmailTakenQueryPayload, EmailTakenQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<EmailTakenQuery, EmailTakenQueryVariables>(EmailTakenDocument, options);
+          return Apollo.useSuspenseQuery<EmailTakenQueryPayload, EmailTakenQueryVariables>(EmailTakenDocument, options);
         }
 export type EmailTakenQueryHookResult = ReturnType<typeof useEmailTakenQuery>;
 export type EmailTakenLazyQueryHookResult = ReturnType<typeof useEmailTakenLazyQuery>;
 export type EmailTakenSuspenseQueryHookResult = ReturnType<typeof useEmailTakenSuspenseQuery>;
-export type EmailTakenQueryResult = Apollo.QueryResult<EmailTakenQuery, EmailTakenQueryVariables>;
+export type EmailTakenQueryResult = Apollo.QueryResult<EmailTakenQueryPayload, EmailTakenQueryVariables>;
 export const GetEventDocument = gql`
     query GetEvent($eventId: Int!) {
   event(id: $eventId) {
@@ -1948,22 +2149,62 @@ export const GetEventDocument = gql`
  *   },
  * });
  */
-export function useGetEventQuery(baseOptions: Apollo.QueryHookOptions<GetEventQuery, GetEventQueryVariables> & ({ variables: GetEventQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetEventQuery(baseOptions: Apollo.QueryHookOptions<GetEventQueryPayload, GetEventQueryVariables> & ({ variables: GetEventQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetEventQuery, GetEventQueryVariables>(GetEventDocument, options);
+        return Apollo.useQuery<GetEventQueryPayload, GetEventQueryVariables>(GetEventDocument, options);
       }
-export function useGetEventLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEventQuery, GetEventQueryVariables>) {
+export function useGetEventLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEventQueryPayload, GetEventQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetEventQuery, GetEventQueryVariables>(GetEventDocument, options);
+          return Apollo.useLazyQuery<GetEventQueryPayload, GetEventQueryVariables>(GetEventDocument, options);
         }
-export function useGetEventSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetEventQuery, GetEventQueryVariables>) {
+export function useGetEventSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetEventQueryPayload, GetEventQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetEventQuery, GetEventQueryVariables>(GetEventDocument, options);
+          return Apollo.useSuspenseQuery<GetEventQueryPayload, GetEventQueryVariables>(GetEventDocument, options);
         }
 export type GetEventQueryHookResult = ReturnType<typeof useGetEventQuery>;
 export type GetEventLazyQueryHookResult = ReturnType<typeof useGetEventLazyQuery>;
 export type GetEventSuspenseQueryHookResult = ReturnType<typeof useGetEventSuspenseQuery>;
-export type GetEventQueryResult = Apollo.QueryResult<GetEventQuery, GetEventQueryVariables>;
+export type GetEventQueryResult = Apollo.QueryResult<GetEventQueryPayload, GetEventQueryVariables>;
+export const GetUserQueryDocument = gql`
+    query GetUserQuery($userId: Int!) {
+  user(id: $userId) {
+    ...UserFragment
+  }
+}
+    ${UserFragmentDoc}`;
+
+/**
+ * __useGetUserQuery__
+ *
+ * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetUserQuery(baseOptions: Apollo.QueryHookOptions<GetUserQueryPayload, GetUserQueryVariables> & ({ variables: GetUserQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserQueryPayload, GetUserQueryVariables>(GetUserQueryDocument, options);
+      }
+export function useGetUserQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserQueryPayload, GetUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserQueryPayload, GetUserQueryVariables>(GetUserQueryDocument, options);
+        }
+export function useGetUserQuerySuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserQueryPayload, GetUserQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserQueryPayload, GetUserQueryVariables>(GetUserQueryDocument, options);
+        }
+export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
+export type GetUserQueryLazyQueryHookResult = ReturnType<typeof useGetUserQueryLazyQuery>;
+export type GetUserQuerySuspenseQueryHookResult = ReturnType<typeof useGetUserQuerySuspenseQuery>;
+export type GetUserQueryQueryResult = Apollo.QueryResult<GetUserQueryPayload, GetUserQueryVariables>;
 export const FetchProfileDocument = gql`
     query FetchProfile {
   myProfile {
@@ -1987,22 +2228,22 @@ export const FetchProfileDocument = gql`
  *   },
  * });
  */
-export function useFetchProfileQuery(baseOptions?: Apollo.QueryHookOptions<FetchProfileQuery, FetchProfileQueryVariables>) {
+export function useFetchProfileQuery(baseOptions?: Apollo.QueryHookOptions<FetchProfileQueryPayload, FetchProfileQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FetchProfileQuery, FetchProfileQueryVariables>(FetchProfileDocument, options);
+        return Apollo.useQuery<FetchProfileQueryPayload, FetchProfileQueryVariables>(FetchProfileDocument, options);
       }
-export function useFetchProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchProfileQuery, FetchProfileQueryVariables>) {
+export function useFetchProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchProfileQueryPayload, FetchProfileQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FetchProfileQuery, FetchProfileQueryVariables>(FetchProfileDocument, options);
+          return Apollo.useLazyQuery<FetchProfileQueryPayload, FetchProfileQueryVariables>(FetchProfileDocument, options);
         }
-export function useFetchProfileSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FetchProfileQuery, FetchProfileQueryVariables>) {
+export function useFetchProfileSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FetchProfileQueryPayload, FetchProfileQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<FetchProfileQuery, FetchProfileQueryVariables>(FetchProfileDocument, options);
+          return Apollo.useSuspenseQuery<FetchProfileQueryPayload, FetchProfileQueryVariables>(FetchProfileDocument, options);
         }
 export type FetchProfileQueryHookResult = ReturnType<typeof useFetchProfileQuery>;
 export type FetchProfileLazyQueryHookResult = ReturnType<typeof useFetchProfileLazyQuery>;
 export type FetchProfileSuspenseQueryHookResult = ReturnType<typeof useFetchProfileSuspenseQuery>;
-export type FetchProfileQueryResult = Apollo.QueryResult<FetchProfileQuery, FetchProfileQueryVariables>;
+export type FetchProfileQueryResult = Apollo.QueryResult<FetchProfileQueryPayload, FetchProfileQueryVariables>;
 export const GetProfilePictureUploadUrlDocument = gql`
     query GetProfilePictureUploadURL {
   profilePictureGcloudUrl
@@ -2024,19 +2265,19 @@ export const GetProfilePictureUploadUrlDocument = gql`
  *   },
  * });
  */
-export function useGetProfilePictureUploadUrlQuery(baseOptions?: Apollo.QueryHookOptions<GetProfilePictureUploadUrlQuery, GetProfilePictureUploadUrlQueryVariables>) {
+export function useGetProfilePictureUploadUrlQuery(baseOptions?: Apollo.QueryHookOptions<GetProfilePictureUploadUrlQueryPayload, GetProfilePictureUploadUrlQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetProfilePictureUploadUrlQuery, GetProfilePictureUploadUrlQueryVariables>(GetProfilePictureUploadUrlDocument, options);
+        return Apollo.useQuery<GetProfilePictureUploadUrlQueryPayload, GetProfilePictureUploadUrlQueryVariables>(GetProfilePictureUploadUrlDocument, options);
       }
-export function useGetProfilePictureUploadUrlLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProfilePictureUploadUrlQuery, GetProfilePictureUploadUrlQueryVariables>) {
+export function useGetProfilePictureUploadUrlLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProfilePictureUploadUrlQueryPayload, GetProfilePictureUploadUrlQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetProfilePictureUploadUrlQuery, GetProfilePictureUploadUrlQueryVariables>(GetProfilePictureUploadUrlDocument, options);
+          return Apollo.useLazyQuery<GetProfilePictureUploadUrlQueryPayload, GetProfilePictureUploadUrlQueryVariables>(GetProfilePictureUploadUrlDocument, options);
         }
-export function useGetProfilePictureUploadUrlSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetProfilePictureUploadUrlQuery, GetProfilePictureUploadUrlQueryVariables>) {
+export function useGetProfilePictureUploadUrlSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetProfilePictureUploadUrlQueryPayload, GetProfilePictureUploadUrlQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetProfilePictureUploadUrlQuery, GetProfilePictureUploadUrlQueryVariables>(GetProfilePictureUploadUrlDocument, options);
+          return Apollo.useSuspenseQuery<GetProfilePictureUploadUrlQueryPayload, GetProfilePictureUploadUrlQueryVariables>(GetProfilePictureUploadUrlDocument, options);
         }
 export type GetProfilePictureUploadUrlQueryHookResult = ReturnType<typeof useGetProfilePictureUploadUrlQuery>;
 export type GetProfilePictureUploadUrlLazyQueryHookResult = ReturnType<typeof useGetProfilePictureUploadUrlLazyQuery>;
 export type GetProfilePictureUploadUrlSuspenseQueryHookResult = ReturnType<typeof useGetProfilePictureUploadUrlSuspenseQuery>;
-export type GetProfilePictureUploadUrlQueryResult = Apollo.QueryResult<GetProfilePictureUploadUrlQuery, GetProfilePictureUploadUrlQueryVariables>;
+export type GetProfilePictureUploadUrlQueryResult = Apollo.QueryResult<GetProfilePictureUploadUrlQueryPayload, GetProfilePictureUploadUrlQueryVariables>;

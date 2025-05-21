@@ -2,7 +2,9 @@ import { ApolloLink } from '@apollo/client';
 
 const isDateStr = (value: string) =>
   /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$/.test(value) ||
-    /^\d{4}-\d{2}-\d{2}$/.test(value)
+  /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{2}:\d{2}$/.test(value) ||
+  /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+\+\d{2}:\d{2}$/.test(value) ||
+  /^\d{4}-\d{2}-\d{2}$/.test(value)
 
 const convertDates = (obj: any): any => {
   if (Array.isArray(obj)) return obj.map(convertDates);

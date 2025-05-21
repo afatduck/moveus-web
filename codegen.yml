@@ -15,6 +15,7 @@ generates:
       enumsAsConst: true
       dedupeOperationSuffix: true
       sort: false
+      operationResultSuffix: Payload
       scalars:
         DateTime: Date
         Date: Date

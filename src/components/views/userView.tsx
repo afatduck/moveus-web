@@ -14,11 +14,10 @@ function UserView({user, isSelf}: UserViewProps) {
     return <div className="h-full flex flex-col gap-3">
         <div className="flex mt-8 mb-4">
             {
-                isSelf ?
+                isSelf &&
                 <Link to="/settings" className="ml-auto">
                    <HiCog6Tooth className="text-3xl self-end" /> 
-                </Link> :
-                <BackButton />
+                </Link>
             }
         </div>
         <div className="flex gap-4">

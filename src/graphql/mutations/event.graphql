@@ -35,3 +35,21 @@ mutation CreateNewEventMutation(
     }
   }
 }
+
+mutation JoinEventMutation($eventId: Int!) {
+  joinEvent(eventId: $eventId) {
+    success
+  }
+}
+
+mutation LeaveEventMutation($eventId: Int!) {
+  leaveEvent(eventId: $eventId) {
+    success
+  }
+}
+
+mutation CancelEventMutation($eventId: Int!) {
+  deleteEvent(eventId: $eventId) {
+    success
+  }
+}

@@ -22,7 +22,7 @@ function Dropdown<T,> ({value, setValue, options, classname, defaultName }: Drop
     }, [handleOutsideClick])
 
     return <div ref={outerDiv} className={
-        "relative font-medium text-background cursor-pointer text-sm sm:text-2xl " + classname
+        "relative font-medium text-background cursor-pointer sm:text-2xl " + classname
         }>
         <div className={"flex items-center justify-between rounded-[15px] bg-accent px-3 py-1 " + (open && "rounded-b-none")}
              onClick={() => setOpen(!open)}>

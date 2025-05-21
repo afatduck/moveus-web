@@ -1,0 +1,35 @@
+.usertab {
+    @apply flex items-center gap-4
+}
+
+.usertab img {
+    @apply w-12 aspect-square rounded-full
+}
+
+.usertab .inner {
+    @apply flex flex-col !m-0 
+}
+
+.usertab .tags {
+    @apply flex gap-2 text-xs text-background
+}
+
+.usertab .tags p {
+    @apply bg-block-accent px-2 rounded-full
+}
+
+.usertab h4 {
+    @apply p-0 !m-0 leading-tight
+}
+
+.usertab .username {
+    @apply text-sm leading-tight
+}
+
+.event-detail p:first-child {
+    @apply text-xs leading-tight
+}
+
+.event-detail p:last-child {
+    @apply font-medium
+}
