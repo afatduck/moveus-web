@@ -2,9 +2,11 @@ import { useProfile } from "~/context/profileContext";
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import BackButton from "~/components/routes/backButton";
 import { useCallback, useEffect, useState } from "react";
-import { PrivacyScope, UpdateAllPrivacySettingsDocument } from "~/graphql/generated";
+import { PrivacyScope, UpdateAllPrivacySettingsDocument, useLogOutMutation } from "~/graphql/generated";
 import Dropdown from "~/components/input/dropdown";
 import { apolloClient } from "~/appolo/client";
+import { HashLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 const privacyScopeOptions: Option<PrivacyScope>[] = [
     {
@@ -28,6 +30,15 @@ function Settings() {
     const { profile, setProfile } = useProfile()
 
     const [scope, setScope] = useState<PrivacyScope>(profile!.privacySettings[0].scope as PrivacyScope)
+
+    const [logout, {loading: logoutLoading}] = useLogOutMutation()
+    const navigate = useNavigate()
+
+    const onLogout = useCallback(() => {
+        logout().then(() => {
+            navigate("/welcome")
+        }).catch(_ => {})
+    }, [logout, navigate])
 
     useEffect(() => {
         setScope((profile!.privacySettings[0].scope as PrivacyScope))
@@ -57,7 +68,7 @@ function Settings() {
         setScope(newScope)
     }, [scope, setScope, setProfile])
 
-    return <div>
+    return <div className="h-full flex flex-col">
         <div className="flex items-center my-8 text-3xl gap-4">
             <BackButton />
             <h2>Settings</h2>
@@ -70,6 +81,10 @@ function Settings() {
             </div>
             <Dropdown options={privacyScopeOptions} value={scope} setValue={handleSetScope} classname="text-nowrap shrink-0"  />
         </div>
+        {
+            logoutLoading ? <HashLoader color="#f58431" className=" mt-auto mb-8 mx-auto" /> :
+            <button className="mt-auto mb-8 bg-block-accent" onClick={onLogout}>Logout</button>
+        }
     </div>;
 }
 

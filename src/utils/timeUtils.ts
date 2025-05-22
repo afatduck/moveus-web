@@ -37,5 +37,10 @@ function timeAgo(inputDate: Date | string): string {
     }
 }
 
+function prependZero(number: number): string {
+    if (number < 10) return "0" + number
+    return number + ""
+}
 
-export { getAge, timeAgo }
+
+export { getAge, timeAgo, prependZero }

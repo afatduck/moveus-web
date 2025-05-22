@@ -32,7 +32,7 @@ code {
 }
 
 main {
-  @apply max-w-2xl mx-auto h-screen px-8;
+  @apply max-w-2xl mx-auto h-screen px-8 flex flex-col;
   height: 100dvh;
 }
 
@@ -42,7 +42,7 @@ main {
 
 button, input[type="submit"] {
   @apply block text-center bg-accent rounded-[15px] px-1 py-4
-  md:text-[28px] font-semibold text-background w-full
+  md:text-xl font-semibold text-background w-full
 }
 
 label {
@@ -63,4 +63,8 @@ input[type="text"]::placeholder, input[type="password"]::placeholder, input[type
 
 h4 {
   @apply text-xl mb-2 mt-4 self-start
+}
+
+.vertical {
+  @apply flex flex-col flex-1 overflow-hidden
 }

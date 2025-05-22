@@ -20,3 +20,9 @@ mutation SignupUser($username: String!, $password: String!, $email: String!) {
     }
   }
 }
+
+mutation LogOut {
+  logout {
+    success
+  }
+}

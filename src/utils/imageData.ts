@@ -41,5 +41,19 @@ function base64ToBlob(base64: string, mime = 'image/jpeg'): Blob {
   return new Blob([byteArray], { type: mime });
 }
 
+async function fileToBase64(file: File): Promise<string> {
+  try {
+    const reader = new FileReader();
 
-export { getCroppedImg, base64ToBlob }
+    return await new Promise<string>((resolve) => {
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = () => resolve(""); // resolve with undefined on error
+      reader.readAsDataURL(file);
+    });
+  } catch {
+    return "";
+  }
+}
+
+
+export { getCroppedImg, base64ToBlob, fileToBase64 }

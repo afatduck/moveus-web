@@ -1,0 +1,26 @@
+query GetUserChat($userId: Int!) {
+  userChat (userId: $userId) {
+    id
+    members {
+      user {
+        id
+        username
+        firstName
+        lastName
+      }
+    }
+  }
+}
+
+query MyChats {
+  myChats {
+    ...ChatFragment
+  }
+}
+
+query GetAttachmentUploadURL {
+  newAttachment {
+    id
+    url
+  }
+}

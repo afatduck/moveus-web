@@ -5,11 +5,11 @@ export function NavRoutes () {
 
     const { pathname } = useLocation()
 
-    return <div className="h-full flex flex-col">
-        <div className="grow">
+    return <div className="vertical">
+        <div className="vertical">
             <Outlet />
         </div>
-        <div className="h-20 [&>*]:h-20">
+        <div className="h-20 [&>*]:h-20 shrink-0">
             <nav className="bg-accent w-screen absolute left-0 ">
                 <div className="flex items-center justify-around text-4xl text-background h-full max-w-96 mx-auto text-center">
 

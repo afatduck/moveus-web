@@ -1,8 +1,6 @@
 import { useCallback, useState } from "react"
 import Cropper from "react-easy-crop"
-import { getCroppedImg } from "~/utils/getCroppedImage"
-
-const CONTAINER_HEIGHT = 300
+import { getCroppedImg } from "~/utils/imageData"
 
 const CroppedImage = ({ image, handleCancel, handleUpload }: CroppedImageProps) => {
   const [crop, onCropChange] = useState({ x: 0, y: 0 })
@@ -11,13 +9,13 @@ const CroppedImage = ({ image, handleCancel, handleUpload }: CroppedImageProps) 
 
   const onCropComplete = useCallback((_: any, croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
-  }, []);
+  }, [setCroppedAreaPixels]);
 
   const showCroppedImage = useCallback(async () => {
     if (!image || !croppedAreaPixels) return;
     const cropped = await getCroppedImg(image, croppedAreaPixels);
     handleUpload(cropped);
-  }, [image, croppedAreaPixels, setCroppedAreaPixels]);
+  }, [image, croppedAreaPixels, handleUpload]);
 
   const onMediaLoaded = useCallback((mediaSize: { width: number; height: number }) => {
     const aspect = 1; 

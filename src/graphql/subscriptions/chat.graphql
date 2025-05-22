@@ -1,0 +1,12 @@
+subscription ChatMessages ($chatId: Int!) {
+  chatMessages(chatId: $chatId) {
+    ...WSChatMessagesFragment
+  }
+}
+
+subscription LastOpen($chatId: Int!) {
+  chatLastOpen(chatId: $chatId) {
+    userId
+    lastOpen
+  }
+}

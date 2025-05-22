@@ -13,6 +13,9 @@ import CreateEvent from "./pages/createEvent";
 import EventPage from "./pages/eventPage";
 import CreatePost from "./pages/createPost";
 import UserPage from "./pages/userPage";
+import ChatPage from "./pages/chatPage";
+import HeaderRoutes from "./components/routes/headerRoutes";
+import UserChat from "./pages/userChat";
 
 function App() {
 
@@ -23,12 +26,16 @@ function App() {
         <Routes>
           <Route element={<ProtectedRoutes />}>
             <Route element={<NavRoutes />}>
-              <Route path="/" element={<Homepage/>}/>
+              <Route element={<HeaderRoutes/>}>
+                <Route path="/" element={<Homepage/>}/>
+                <Route path="/chat" element={<ChatPage/>} />
+              </Route>
               <Route path="/profile" element={<Profile/>}/>
             </Route>
             <Route path="/profile-setup" element={<ProfileSetup/>} />
             <Route path="/settings" element={<Settings/>} />
             <Route path="/create-event" element={<CreateEvent/>} />
+            <Route path="/chat/:userId" element={<UserChat />} />
           </Route>
           <Route path="/welcome" element={<Welcome/>} />
           <Route path="/login" element={<Login/>} />

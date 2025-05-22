@@ -3,7 +3,7 @@ import { HiPencil } from "react-icons/hi"
 import InputImage from "./imageCrop"
 import { apolloClient } from "~/appolo/client";
 import { GetProfilePictureUploadUrlDocument } from "~/graphql/generated";
-import { base64ToBlob } from "~/utils/getCroppedImage";
+import { base64ToBlob } from "~/utils/imageData";
 
 function UserImage({userId, canChange, className}: UserImageProps) {
 
@@ -49,13 +49,13 @@ function UserImage({userId, canChange, className}: UserImageProps) {
     }, [setInputImage])
 
     return <>
-    <div className={`${className} overflow-hidden relative`}>
+    <div className={`${className} overflow-hidden relative aspect-square"`}>
         {canChange && 
             <div className="absolute h-full w-full justify-center items-center cursor-pointer flex opacity-0 hover:opacity-100">
                 <div className="absolute h-full w-full bg-foreground opacity-60 flex justify-center items-center cursor-pointer" onClick={triggerInput} />
                 <HiPencil className="absolute text-background text-4xl" onClick={triggerInput}/>
             </div>}
-        <img src={image} alt="User" onError={() => {
+        <img src={image} className="aspect-square" alt="User" onError={() => {
             setImage(process.env.PUBLIC_URL + "/default-images/user.svg")
         }} />
     </div>

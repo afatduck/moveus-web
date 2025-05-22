@@ -57,3 +57,10 @@ fragment UserFragment on UserType {
     }
   } 
 }
+
+fragment FriendTabFragment on UserType {
+  id
+  username
+  firstName
+  lastName
+}
