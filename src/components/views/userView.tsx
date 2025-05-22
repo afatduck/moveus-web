@@ -6,12 +6,13 @@ import { HiThumbDown, HiThumbUp } from "react-icons/hi"
 import { Link } from "react-router-dom"
 import { HiCog6Tooth } from "react-icons/hi2"
 import FriendshipButton from "../misc/friendshipButton"
+import EventTab from "../event/eventTab"
 
 function UserView({user, isSelf}: UserViewProps) {
 
     const name = displayName(user.username, user.firstName, user.lastName)
 
-    return <div className="flex flex-col gap-3 flex-1">
+    return <div className="vertical pb-8 gap-3">
         <div className="flex mt-8 mb-4">
             {
                 isSelf &&
@@ -55,6 +56,15 @@ function UserView({user, isSelf}: UserViewProps) {
                     <button>Message</button>
                 </Link>
             </div>
+        }
+        {
+            !!user.organizes?.length &&
+            <>
+                <p className="font-medium">Organizes: </p>
+                <div className="vertical !overflow-y-auto gap-4">
+                    {user.organizes.map(e => <EventTab event={e!} key={e?.id} />)}
+                </div>
+            </>
         }
     </div>
 }

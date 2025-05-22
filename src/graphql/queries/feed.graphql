@@ -1,0 +1,24 @@
+query GetFeed {
+  joinedEvents {
+    posts {
+      ...EventPostFragment
+    }
+    organizer {
+      user {
+        id
+        username
+        firstName
+        lastName
+      }
+    }
+  }
+}
+
+query GetHomeEvents {
+  futureJoinedEvents {
+    ...EventTabFragment
+  }
+  ongoingJoinedEvents {
+    ...EventTabFragment
+  }
+}

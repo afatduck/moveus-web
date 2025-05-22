@@ -16,8 +16,8 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   DateTime: { input: Date; output: Date; }
-  Date: { input: Date; output: Date; }
   JSONString: { input: any; output: any; }
+  Date: { input: Date; output: Date; }
 };
 
 export type UserNotificationType = BaseNotificationType & {
@@ -60,6 +60,7 @@ export type UserType = {
   dislikes?: Maybe<Scalars['Int']['output']>;
   friends?: Maybe<Array<Maybe<UserType>>>;
   friendCount?: Maybe<Scalars['Int']['output']>;
+  organizes?: Maybe<Array<Maybe<EventType>>>;
   location?: Maybe<LocationType>;
   email?: Maybe<Scalars['String']['output']>;
   dateOfBirth?: Maybe<Scalars['Date']['output']>;
@@ -93,6 +94,36 @@ export type ActivityType = {
   name?: Maybe<Scalars['String']['output']>;
 };
 
+export type EventType = {
+  __typename?: 'EventType';
+  id?: Maybe<Scalars['Int']['output']>;
+  title: Scalars['String']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  startTime: Scalars['DateTime']['output'];
+  endTime: Scalars['DateTime']['output'];
+  location: LocationType;
+  requirements?: Maybe<Scalars['JSONString']['output']>;
+  chat?: Maybe<ChatType>;
+  activity: ActivityType;
+  skillLevel?: Maybe<Scalars['String']['output']>;
+  maxParticipants?: Maybe<Scalars['Int']['output']>;
+  allowSpectators: Scalars['Boolean']['output'];
+  minAge?: Maybe<Scalars['Int']['output']>;
+  maxAge?: Maybe<Scalars['Int']['output']>;
+  acceptedGenders?: Maybe<Scalars['JSONString']['output']>;
+  finished: Scalars['Boolean']['output'];
+  members: Array<EventMemberType>;
+  posts: Array<PostType>;
+  organizer?: Maybe<EventMemberType>;
+  participants?: Maybe<Array<Maybe<EventMemberType>>>;
+  moderators?: Maybe<Array<Maybe<EventMemberType>>>;
+  spectators?: Maybe<Array<Maybe<EventMemberType>>>;
+  participantCount?: Maybe<Scalars['Int']['output']>;
+  role?: Maybe<MemberRole>;
+  averageScore?: Maybe<Scalars['Float']['output']>;
+  comments?: Maybe<Array<Maybe<EventCommentType>>>;
+};
+
 export type LocationType = {
   __typename?: 'LocationType';
   id?: Maybe<Scalars['Int']['output']>;
@@ -107,26 +138,6 @@ export type LocationType = {
   city?: Maybe<Scalars['String']['output']>;
 };
 
-export type RelationshipType = {
-  __typename?: 'RelationshipType';
-  lastUpdate: Scalars['DateTime']['output'];
-  status?: Maybe<RelationshipStatus>;
-  chat?: Maybe<ChatType>;
-  user?: Maybe<UserType>;
-};
-
-/** An enumeration. */
-export const RelationshipStatus = {
-  None: 'NONE',
-  Pending: 'PENDING',
-  Friends: 'FRIENDS',
-  BlockedByOne: 'BLOCKED_BY_ONE',
-  BlockedByBoth: 'BLOCKED_BY_BOTH',
-  RequestSent: 'REQUEST_SENT',
-  RequestReceived: 'REQUEST_RECEIVED'
-} as const;
-
-export type RelationshipStatus = typeof RelationshipStatus[keyof typeof RelationshipStatus];
 export type ChatType = {
   __typename?: 'ChatType';
   id?: Maybe<Scalars['Int']['output']>;
@@ -162,43 +173,6 @@ export const ChatNotifications = {
 } as const;
 
 export type ChatNotifications = typeof ChatNotifications[keyof typeof ChatNotifications];
-export type EventNotificationType = BaseNotificationType & {
-  __typename?: 'EventNotificationType';
-  id?: Maybe<Scalars['Int']['output']>;
-  notificationType?: Maybe<NotificationEnum>;
-  time?: Maybe<Scalars['DateTime']['output']>;
-  event?: Maybe<EventType>;
-};
-
-export type EventType = {
-  __typename?: 'EventType';
-  id?: Maybe<Scalars['Int']['output']>;
-  title: Scalars['String']['output'];
-  description?: Maybe<Scalars['String']['output']>;
-  startTime: Scalars['DateTime']['output'];
-  endTime: Scalars['DateTime']['output'];
-  location: LocationType;
-  requirements?: Maybe<Scalars['JSONString']['output']>;
-  chat?: Maybe<ChatType>;
-  activity: ActivityType;
-  skillLevel?: Maybe<Scalars['String']['output']>;
-  maxParticipants?: Maybe<Scalars['Int']['output']>;
-  allowSpectators: Scalars['Boolean']['output'];
-  minAge?: Maybe<Scalars['Int']['output']>;
-  maxAge?: Maybe<Scalars['Int']['output']>;
-  acceptedGenders?: Maybe<Scalars['JSONString']['output']>;
-  finished: Scalars['Boolean']['output'];
-  members: Array<EventMemberType>;
-  posts: Array<PostType>;
-  organizer?: Maybe<EventMemberType>;
-  participants?: Maybe<Array<Maybe<EventMemberType>>>;
-  moderators?: Maybe<Array<Maybe<EventMemberType>>>;
-  spectators?: Maybe<Array<Maybe<EventMemberType>>>;
-  role?: Maybe<MemberRole>;
-  averageScore?: Maybe<Scalars['Float']['output']>;
-  comments?: Maybe<Array<Maybe<EventCommentType>>>;
-};
-
 export type EventMemberType = {
   __typename?: 'EventMemberType';
   user: UserType;
@@ -254,6 +228,34 @@ export type EventCommentType = {
   comment?: Maybe<Scalars['String']['output']>;
 };
 
+export type RelationshipType = {
+  __typename?: 'RelationshipType';
+  lastUpdate: Scalars['DateTime']['output'];
+  status?: Maybe<RelationshipStatus>;
+  chat?: Maybe<ChatType>;
+  user?: Maybe<UserType>;
+};
+
+/** An enumeration. */
+export const RelationshipStatus = {
+  None: 'NONE',
+  Pending: 'PENDING',
+  Friends: 'FRIENDS',
+  BlockedByOne: 'BLOCKED_BY_ONE',
+  BlockedByBoth: 'BLOCKED_BY_BOTH',
+  RequestSent: 'REQUEST_SENT',
+  RequestReceived: 'REQUEST_RECEIVED'
+} as const;
+
+export type RelationshipStatus = typeof RelationshipStatus[keyof typeof RelationshipStatus];
+export type EventNotificationType = BaseNotificationType & {
+  __typename?: 'EventNotificationType';
+  id?: Maybe<Scalars['Int']['output']>;
+  notificationType?: Maybe<NotificationEnum>;
+  time?: Maybe<Scalars['DateTime']['output']>;
+  event?: Maybe<EventType>;
+};
+
 export type Queries = {
   __typename?: 'Queries';
   event?: Maybe<EventType>;
@@ -265,6 +267,7 @@ export type Queries = {
   unfinishedEvents?: Maybe<Array<Maybe<UnfinishedEventType>>>;
   unratedEvents?: Maybe<Array<Maybe<EventType>>>;
   myRecommendedEvents?: Maybe<Array<Maybe<EventType>>>;
+  searchResult?: Maybe<Array<Maybe<SearchUnion>>>;
   profilePictureGcloudUrl?: Maybe<Scalars['String']['output']>;
   eventPictureGcloudUrl?: Maybe<Scalars['String']['output']>;
   newAttachment?: Maybe<AttachmentType>;
@@ -292,6 +295,11 @@ export type Queries = {
 
 export type QueriesEventArgs = {
   id?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueriesSearchResultArgs = {
+  searchString: Scalars['String']['input'];
 };
 
 
@@ -371,11 +379,14 @@ export type UnfinishedEventType = {
   participants?: Maybe<Array<Maybe<EventMemberType>>>;
   moderators?: Maybe<Array<Maybe<EventMemberType>>>;
   spectators?: Maybe<Array<Maybe<EventMemberType>>>;
+  participantCount?: Maybe<Scalars['Int']['output']>;
   role?: Maybe<MemberRole>;
   averageScore?: Maybe<Scalars['Float']['output']>;
   comments?: Maybe<Array<Maybe<EventCommentType>>>;
   unconfirmedParticipants?: Maybe<Array<Maybe<EventMemberType>>>;
 };
+
+export type SearchUnion = UserType | EventType | PostType;
 
 export type AttachmentType = {
   __typename?: 'AttachmentType';
@@ -424,6 +435,7 @@ export type ProfileType = {
   dislikes?: Maybe<Scalars['Int']['output']>;
   friends?: Maybe<Array<Maybe<UserType>>>;
   friendCount?: Maybe<Scalars['Int']['output']>;
+  organizes?: Maybe<Array<Maybe<EventType>>>;
 };
 
 /** An enumeration. */
@@ -833,11 +845,37 @@ export type CreateEventMutation = {
 
 /** An enumeration. */
 export const Activity = {
+  Aerobics: 'AEROBICS',
+  Badminton: 'BADMINTON',
+  Baseball: 'BASEBALL',
+  Basketball: 'BASKETBALL',
+  Biking: 'BIKING',
+  Boxing: 'BOXING',
+  Climbing: 'CLIMBING',
+  Cricket: 'CRICKET',
+  Crossfit: 'CROSSFIT',
+  Dancing: 'DANCING',
+  Football: 'FOOTBALL',
+  Golf: 'GOLF',
+  Gym: 'GYM',
+  Handball: 'HANDBALL',
   Hiking: 'HIKING',
+  Kayaking: 'KAYAKING',
+  MartialArts: 'MARTIAL_ARTS',
+  Pilates: 'PILATES',
+  Rugby: 'RUGBY',
   Running: 'RUNNING',
+  Sailing: 'SAILING',
+  Skateboarding: 'SKATEBOARDING',
+  Skiing: 'SKIING',
+  Snowboarding: 'SNOWBOARDING',
   Soccer: 'SOCCER',
+  Surfing: 'SURFING',
+  Swimming: 'SWIMMING',
   Tennis: 'TENNIS',
-  Gym: 'GYM'
+  Volleyball: 'VOLLEYBALL',
+  Walking: 'WALKING',
+  Yoga: 'YOGA'
 } as const;
 
 export type Activity = typeof Activity[keyof typeof Activity];
@@ -1326,23 +1364,24 @@ export type WsLastOpenType = {
   lastOpen?: Maybe<Scalars['DateTime']['output']>;
 };
 
-export type EventMemberFragment = { __typename?: 'EventMemberType', role?: string | null, user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } };
-
-export type EventPostFragment = { __typename?: 'PostType', id?: number | null, title: string, content: string, timePosted: Date, likes?: number | null };
-
-export type EventOrganizerFragment = { __typename?: 'EventMemberType', user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } };
-
-export type EventFragment = { __typename?: 'EventType', id?: number | null, title: string, description?: string | null, startTime: Date, endTime: Date, skillLevel?: string | null, maxParticipants?: number | null, allowSpectators: boolean, acceptedGenders?: any | null, minAge?: number | null, maxAge?: number | null, finished: boolean, role?: MemberRole | null, location: { __typename?: 'LocationType', longitude: number, latitude: number }, activity: { __typename?: 'ActivityType', id?: number | null, name?: string | null }, organizer?: { __typename?: 'EventMemberType', user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } } | null, members: Array<{ __typename?: 'EventMemberType', role?: string | null, user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } }>, posts: Array<{ __typename?: 'PostType', id?: number | null, title: string, content: string, timePosted: Date, likes?: number | null }> };
-
 export type SurveyFragment = { __typename?: 'ProfileType', frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null };
 
 export type BasicInfoFragment = { __typename?: 'ProfileType', firstName: string, lastName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null };
 
-export type ContextProfileFragment = { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> };
+export type ContextProfileFragment = { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }>, organizes?: Array<{ __typename?: 'EventType', id?: number | null, title: string, startTime: Date, participantCount?: number | null, location: { __typename?: 'LocationType', longitude: number, latitude: number } } | null> | null };
 
-export type UserFragment = { __typename?: 'UserType', id?: number | null, username: string, bio: string, gender?: Gender | null, firstName: string, lastName: string, likes?: number | null, dislikes?: number | null, dateOfBirth?: Date | null, friendCount?: number | null, relationship?: { __typename?: 'RelationshipType', status?: RelationshipStatus | null, chat?: { __typename?: 'ChatType', id?: number | null } | null } | null };
+export type UserFragment = { __typename?: 'UserType', id?: number | null, username: string, bio: string, gender?: Gender | null, firstName: string, lastName: string, likes?: number | null, dislikes?: number | null, dateOfBirth?: Date | null, friendCount?: number | null, relationship?: { __typename?: 'RelationshipType', status?: RelationshipStatus | null, chat?: { __typename?: 'ChatType', id?: number | null } | null } | null, organizes?: Array<{ __typename?: 'EventType', id?: number | null, title: string, startTime: Date, participantCount?: number | null, location: { __typename?: 'LocationType', longitude: number, latitude: number } } | null> | null };
 
 export type FriendTabFragment = { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string };
+
+export type SendMessageMutationVariables = Exact<{
+  chatId: Scalars['Int']['input'];
+  message?: InputMaybe<Scalars['String']['input']>;
+  attachmentId?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type SendMessageMutationPayload = { __typename?: 'Mutations', sendChatMessage?: { __typename?: 'SendChatMessage', success?: boolean | null } | null };
 
 export type LoginUserMutationVariables = Exact<{
   user: Scalars['String']['input'];
@@ -1350,7 +1389,7 @@ export type LoginUserMutationVariables = Exact<{
 }>;
 
 
-export type LoginUserMutationPayload = { __typename?: 'Mutations', login?: { __typename?: 'LoginMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> } | null } | null };
+export type LoginUserMutationPayload = { __typename?: 'Mutations', login?: { __typename?: 'LoginMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }>, organizes?: Array<{ __typename?: 'EventType', id?: number | null, title: string, startTime: Date, participantCount?: number | null, location: { __typename?: 'LocationType', longitude: number, latitude: number } } | null> | null } | null } | null };
 
 export type SignupUserMutationVariables = Exact<{
   username: Scalars['String']['input'];
@@ -1359,7 +1398,7 @@ export type SignupUserMutationVariables = Exact<{
 }>;
 
 
-export type SignupUserMutationPayload = { __typename?: 'Mutations', signup?: { __typename?: 'SignupMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> } | null } | null };
+export type SignupUserMutationPayload = { __typename?: 'Mutations', signup?: { __typename?: 'SignupMutation', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }>, organizes?: Array<{ __typename?: 'EventType', id?: number | null, title: string, startTime: Date, participantCount?: number | null, location: { __typename?: 'LocationType', longitude: number, latitude: number } } | null> | null } | null } | null };
 
 export type LogOutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -1374,23 +1413,15 @@ export type ChatFragment = { __typename?: 'ChatType', id?: number | null, lastMe
 
 export type WsChatMessagesFragment = { __typename?: 'WSChatMessageType', id?: number | null, userId?: number | null, textContent?: string | null, timeSent?: Date | null, attachmentUrl?: string | null };
 
-export type SendMessageMutationVariables = Exact<{
-  chatId: Scalars['Int']['input'];
-  message?: InputMaybe<Scalars['String']['input']>;
-  attachmentId?: InputMaybe<Scalars['String']['input']>;
-}>;
+export type EventMemberFragment = { __typename?: 'EventMemberType', role?: string | null, user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } };
 
+export type EventPostFragment = { __typename?: 'PostType', id?: number | null, title: string, content: string, timePosted: Date, likes?: number | null };
 
-export type SendMessageMutationPayload = { __typename?: 'Mutations', sendChatMessage?: { __typename?: 'SendChatMessage', success?: boolean | null } | null };
+export type EventOrganizerFragment = { __typename?: 'EventMemberType', user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } };
 
-export type CreatePostMutationVariables = Exact<{
-  eventId: Scalars['Int']['input'];
-  title: Scalars['String']['input'];
-  content: Scalars['String']['input'];
-}>;
+export type EventFragment = { __typename?: 'EventType', id?: number | null, title: string, description?: string | null, startTime: Date, endTime: Date, skillLevel?: string | null, maxParticipants?: number | null, allowSpectators: boolean, acceptedGenders?: any | null, minAge?: number | null, maxAge?: number | null, finished: boolean, role?: MemberRole | null, location: { __typename?: 'LocationType', longitude: number, latitude: number }, activity: { __typename?: 'ActivityType', id?: number | null, name?: string | null }, organizer?: { __typename?: 'EventMemberType', user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } } | null, members: Array<{ __typename?: 'EventMemberType', role?: string | null, user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } }>, posts: Array<{ __typename?: 'PostType', id?: number | null, title: string, content: string, timePosted: Date, likes?: number | null }> };
 
-
-export type CreatePostMutationPayload = { __typename?: 'Mutations', createPost?: { __typename?: 'CreatePostMutation', post?: { __typename?: 'CreatePostType', imageUploadUrl?: string | null } | null } | null };
+export type EventTabFragment = { __typename?: 'EventType', id?: number | null, title: string, startTime: Date, participantCount?: number | null, location: { __typename?: 'LocationType', longitude: number, latitude: number } };
 
 export type CreateNewEventMutationVariables = Exact<{
   title: Scalars['String']['input'];
@@ -1433,6 +1464,22 @@ export type CancelEventMutationVariables = Exact<{
 
 export type CancelEventMutationPayload = { __typename?: 'Mutations', deleteEvent?: { __typename?: 'DeleteEventMutation', success?: boolean | null } | null };
 
+export type CreatePostMutationVariables = Exact<{
+  eventId: Scalars['Int']['input'];
+  title: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+}>;
+
+
+export type CreatePostMutationPayload = { __typename?: 'Mutations', createPost?: { __typename?: 'CreatePostMutation', post?: { __typename?: 'CreatePostType', imageUploadUrl?: string | null } | null } | null };
+
+export type UpdateAllPrivacySettingsMutationVariables = Exact<{
+  scope: PrivacyScope;
+}>;
+
+
+export type UpdateAllPrivacySettingsMutationPayload = { __typename?: 'Mutations', updateAllPrivacySettings?: { __typename?: 'UpdateAllPrviacySettingsMutation', success?: boolean | null } | null };
+
 export type UpdateLocationMutationVariables = Exact<{
   latitude: Scalars['Float']['input'];
   longitude: Scalars['Float']['input'];
@@ -1467,13 +1514,6 @@ export type UpdateProfileSurveyInfoMutationVariables = Exact<{
 
 
 export type UpdateProfileSurveyInfoMutationPayload = { __typename?: 'Mutations', updateSurveyInfo?: { __typename?: 'UpdateSurveyInfoMutation', success?: boolean | null } | null };
-
-export type UpdateAllPrivacySettingsMutationVariables = Exact<{
-  scope: PrivacyScope;
-}>;
-
-
-export type UpdateAllPrivacySettingsMutationPayload = { __typename?: 'Mutations', updateAllPrivacySettings?: { __typename?: 'UpdateAllPrviacySettingsMutation', success?: boolean | null } | null };
 
 export type SendFriendRequestMutationVariables = Exact<{
   userId: Scalars['Int']['input'];
@@ -1534,11 +1574,6 @@ export type GetAttachmentUploadUrlQueryVariables = Exact<{ [key: string]: never;
 
 export type GetAttachmentUploadUrlQueryPayload = { __typename?: 'Queries', newAttachment?: { __typename?: 'AttachmentType', id?: string | null, url?: string | null } | null };
 
-export type MyFriendsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MyFriendsQueryPayload = { __typename?: 'Queries', friends?: Array<{ __typename?: 'RelationshipType', user?: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } | null } | null> | null };
-
 export type GetEventQueryVariables = Exact<{
   eventId: Scalars['Int']['input'];
 }>;
@@ -1546,22 +1581,15 @@ export type GetEventQueryVariables = Exact<{
 
 export type GetEventQueryPayload = { __typename?: 'Queries', event?: { __typename?: 'EventType', id?: number | null, title: string, description?: string | null, startTime: Date, endTime: Date, skillLevel?: string | null, maxParticipants?: number | null, allowSpectators: boolean, acceptedGenders?: any | null, minAge?: number | null, maxAge?: number | null, finished: boolean, role?: MemberRole | null, location: { __typename?: 'LocationType', longitude: number, latitude: number }, activity: { __typename?: 'ActivityType', id?: number | null, name?: string | null }, organizer?: { __typename?: 'EventMemberType', user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } } | null, members: Array<{ __typename?: 'EventMemberType', role?: string | null, user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } }>, posts: Array<{ __typename?: 'PostType', id?: number | null, title: string, content: string, timePosted: Date, likes?: number | null }> } | null };
 
-export type FetchProfileQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetFeedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchProfileQueryPayload = { __typename?: 'Queries', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }> } | null };
+export type GetFeedQueryPayload = { __typename?: 'Queries', joinedEvents?: Array<{ __typename?: 'EventType', posts: Array<{ __typename?: 'PostType', id?: number | null, title: string, content: string, timePosted: Date, likes?: number | null }>, organizer?: { __typename?: 'EventMemberType', user: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } } | null } | null> | null };
 
-export type GetProfilePictureUploadUrlQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetProfilePictureUploadUrlQueryPayload = { __typename?: 'Queries', profilePictureGcloudUrl?: string | null };
-
-export type GetUserQueryVariables = Exact<{
-  userId: Scalars['Int']['input'];
-}>;
+export type GetHomeEventsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserQueryPayload = { __typename?: 'Queries', user?: { __typename?: 'UserType', id?: number | null, username: string, bio: string, gender?: Gender | null, firstName: string, lastName: string, likes?: number | null, dislikes?: number | null, dateOfBirth?: Date | null, friendCount?: number | null, relationship?: { __typename?: 'RelationshipType', status?: RelationshipStatus | null, chat?: { __typename?: 'ChatType', id?: number | null } | null } | null } | null };
+export type GetHomeEventsQueryPayload = { __typename?: 'Queries', futureJoinedEvents?: Array<{ __typename?: 'EventType', id?: number | null, title: string, startTime: Date, participantCount?: number | null, location: { __typename?: 'LocationType', longitude: number, latitude: number } } | null> | null, ongoingJoinedEvents?: Array<{ __typename?: 'EventType', id?: number | null, title: string, startTime: Date, participantCount?: number | null, location: { __typename?: 'LocationType', longitude: number, latitude: number } } | null> | null };
 
 export type ChatMessagesSubscriptionVariables = Exact<{
   chatId: Scalars['Int']['input'];
@@ -1577,6 +1605,175 @@ export type LastOpenSubscriptionVariables = Exact<{
 
 export type LastOpenSubscriptionPayload = { __typename?: 'Subscriptions', chatLastOpen?: Array<{ __typename?: 'WSLastOpenType', userId?: number | null, lastOpen?: Date | null } | null> | null };
 
+export type FetchProfileQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FetchProfileQueryPayload = { __typename?: 'Queries', myProfile?: { __typename?: 'ProfileType', id?: number | null, username: string, email: string, lastLogin?: Date | null, maxTravelDistance?: number | null, isCapeable: boolean, lastName: string, verified: boolean, likes?: number | null, dislikes?: number | null, friendCount?: number | null, firstName: string, bio: string, dateOfBirth?: Date | null, gender?: string | null, frequencyOfPhysicalActivity?: FrequencyOfPhycicalActivity | null, socialInteractionImportance?: SocialInteractionImportance | null, preferredPartySize?: PreferredPartySize | null, formedRelationshipTypes?: Array<FormedRelationshipsType | null> | null, physicalActivitySatisfaction?: PhysicalActivitySatisfaction | null, preferredPartnerCharacteristics?: Array<PreferredPartnerCharacteristics | null> | null, matchedParticipationLikelihood?: MatchedParticipationLikelihood | null, preferredTimeOfTheDay?: Array<TimeOfTheDay | null> | null, genderPreference?: Array<GenderNoPnts | null> | null, mainInterest?: MainInterest | null, privacySettings: Array<{ __typename?: 'PrivacySettingType', setting?: string | null, scope?: string | null }>, organizes?: Array<{ __typename?: 'EventType', id?: number | null, title: string, startTime: Date, participantCount?: number | null, location: { __typename?: 'LocationType', longitude: number, latitude: number } } | null> | null } | null };
+
+export type GetProfilePictureUploadUrlQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProfilePictureUploadUrlQueryPayload = { __typename?: 'Queries', profilePictureGcloudUrl?: string | null };
+
+export type GetNotficationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetNotficationsQueryPayload = { __typename?: 'Queries', myNotifications?: Array<{ __typename?: 'UserNotificationType', id?: number | null, time?: Date | null, notificationType?: NotificationEnum | null, user?: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } | null } | { __typename?: 'EventNotificationType', id?: number | null, time?: Date | null, notificationType?: NotificationEnum | null } | null> | null };
+
+export type SearchItemsQueryVariables = Exact<{
+  searchString: Scalars['String']['input'];
+}>;
+
+
+export type SearchItemsQueryPayload = { __typename?: 'Queries', searchResult?: Array<{ __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } | { __typename?: 'EventType', id?: number | null, title: string, description?: string | null } | { __typename?: 'PostType', id?: number | null, title: string, content: string, event?: { __typename?: 'EventType', id?: number | null } | null } | null> | null };
+
+export type MyFriendsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyFriendsQueryPayload = { __typename?: 'Queries', friends?: Array<{ __typename?: 'RelationshipType', user?: { __typename?: 'UserType', id?: number | null, username: string, firstName: string, lastName: string } | null } | null> | null };
+
+export type GetUserQueryVariables = Exact<{
+  userId: Scalars['Int']['input'];
+}>;
+
+
+export type GetUserQueryPayload = { __typename?: 'Queries', user?: { __typename?: 'UserType', id?: number | null, username: string, bio: string, gender?: Gender | null, firstName: string, lastName: string, likes?: number | null, dislikes?: number | null, dateOfBirth?: Date | null, friendCount?: number | null, relationship?: { __typename?: 'RelationshipType', status?: RelationshipStatus | null, chat?: { __typename?: 'ChatType', id?: number | null } | null } | null, organizes?: Array<{ __typename?: 'EventType', id?: number | null, title: string, startTime: Date, participantCount?: number | null, location: { __typename?: 'LocationType', longitude: number, latitude: number } } | null> | null } | null };
+
+export const BasicInfoFragmentDoc = gql`
+    fragment BasicInfoFragment on ProfileType {
+  firstName
+  lastName
+  bio
+  dateOfBirth
+  gender
+}
+    `;
+export const SurveyFragmentDoc = gql`
+    fragment SurveyFragment on ProfileType {
+  frequencyOfPhysicalActivity
+  socialInteractionImportance
+  preferredPartySize
+  formedRelationshipTypes
+  physicalActivitySatisfaction
+  preferredPartnerCharacteristics
+  matchedParticipationLikelihood
+  preferredTimeOfTheDay
+  genderPreference
+  mainInterest
+}
+    `;
+export const EventTabFragmentDoc = gql`
+    fragment EventTabFragment on EventType {
+  id
+  title
+  startTime
+  participantCount
+  location {
+    longitude
+    latitude
+  }
+}
+    `;
+export const ContextProfileFragmentDoc = gql`
+    fragment ContextProfileFragment on ProfileType {
+  id
+  username
+  email
+  lastLogin
+  maxTravelDistance
+  isCapeable
+  lastName
+  verified
+  likes
+  dislikes
+  friendCount
+  ...BasicInfoFragment
+  ...SurveyFragment
+  privacySettings {
+    setting
+    scope
+  }
+  organizes {
+    ...EventTabFragment
+  }
+}
+    ${BasicInfoFragmentDoc}
+${SurveyFragmentDoc}
+${EventTabFragmentDoc}`;
+export const UserFragmentDoc = gql`
+    fragment UserFragment on UserType {
+  id
+  username
+  bio
+  gender
+  firstName
+  lastName
+  likes
+  dislikes
+  dateOfBirth
+  friendCount
+  relationship {
+    status
+    chat {
+      id
+    }
+  }
+  organizes {
+    ...EventTabFragment
+  }
+}
+    ${EventTabFragmentDoc}`;
+export const FriendTabFragmentDoc = gql`
+    fragment FriendTabFragment on UserType {
+  id
+  username
+  firstName
+  lastName
+}
+    `;
+export const ChatMessagesFragmentDoc = gql`
+    fragment ChatMessagesFragment on ChatMessageType {
+  id
+  user {
+    id
+  }
+  textContent
+  timeSent
+  attachmentUrl
+}
+    `;
+export const ChatMemberFragmentDoc = gql`
+    fragment ChatMemberFragment on ChatMemberType {
+  user {
+    id
+    username
+    firstName
+    lastName
+  }
+  lastOpen
+}
+    `;
+export const ChatFragmentDoc = gql`
+    fragment ChatFragment on ChatType {
+  id
+  lastMessage {
+    ...ChatMessagesFragment
+  }
+  members {
+    ...ChatMemberFragment
+  }
+}
+    ${ChatMessagesFragmentDoc}
+${ChatMemberFragmentDoc}`;
+export const WsChatMessagesFragmentDoc = gql`
+    fragment WSChatMessagesFragment on WSChatMessageType {
+  id
+  userId
+  textContent
+  timeSent
+  attachmentUrl
+}
+    `;
 export const EventOrganizerFragmentDoc = gql`
     fragment EventOrganizerFragment on EventMemberType {
   user {
@@ -1643,122 +1840,41 @@ export const EventFragmentDoc = gql`
     ${EventOrganizerFragmentDoc}
 ${EventMemberFragmentDoc}
 ${EventPostFragmentDoc}`;
-export const BasicInfoFragmentDoc = gql`
-    fragment BasicInfoFragment on ProfileType {
-  firstName
-  lastName
-  bio
-  dateOfBirth
-  gender
-}
-    `;
-export const SurveyFragmentDoc = gql`
-    fragment SurveyFragment on ProfileType {
-  frequencyOfPhysicalActivity
-  socialInteractionImportance
-  preferredPartySize
-  formedRelationshipTypes
-  physicalActivitySatisfaction
-  preferredPartnerCharacteristics
-  matchedParticipationLikelihood
-  preferredTimeOfTheDay
-  genderPreference
-  mainInterest
-}
-    `;
-export const ContextProfileFragmentDoc = gql`
-    fragment ContextProfileFragment on ProfileType {
-  id
-  username
-  email
-  lastLogin
-  maxTravelDistance
-  isCapeable
-  lastName
-  verified
-  likes
-  dislikes
-  friendCount
-  ...BasicInfoFragment
-  ...SurveyFragment
-  privacySettings {
-    setting
-    scope
-  }
-}
-    ${BasicInfoFragmentDoc}
-${SurveyFragmentDoc}`;
-export const UserFragmentDoc = gql`
-    fragment UserFragment on UserType {
-  id
-  username
-  bio
-  gender
-  firstName
-  lastName
-  likes
-  dislikes
-  dateOfBirth
-  friendCount
-  relationship {
-    status
-    chat {
-      id
-    }
+export const SendMessageDocument = gql`
+    mutation SendMessage($chatId: Int!, $message: String, $attachmentId: String) {
+  sendChatMessage(chatId: $chatId, message: $message, attachmentId: $attachmentId) {
+    success
   }
 }
     `;
-export const FriendTabFragmentDoc = gql`
-    fragment FriendTabFragment on UserType {
-  id
-  username
-  firstName
-  lastName
-}
-    `;
-export const ChatMessagesFragmentDoc = gql`
-    fragment ChatMessagesFragment on ChatMessageType {
-  id
-  user {
-    id
-  }
-  textContent
-  timeSent
-  attachmentUrl
-}
-    `;
-export const ChatMemberFragmentDoc = gql`
-    fragment ChatMemberFragment on ChatMemberType {
-  user {
-    id
-    username
-    firstName
-    lastName
-  }
-  lastOpen
-}
-    `;
-export const ChatFragmentDoc = gql`
-    fragment ChatFragment on ChatType {
-  id
-  lastMessage {
-    ...ChatMessagesFragment
-  }
-  members {
-    ...ChatMemberFragment
-  }
-}
-    ${ChatMessagesFragmentDoc}
-${ChatMemberFragmentDoc}`;
-export const WsChatMessagesFragmentDoc = gql`
-    fragment WSChatMessagesFragment on WSChatMessageType {
-  id
-  userId
-  textContent
-  timeSent
-  attachmentUrl
-}
-    `;
+export type SendMessageMutationFn = Apollo.MutationFunction<SendMessageMutationPayload, SendMessageMutationVariables>;
+
+/**
+ * __useSendMessageMutation__
+ *
+ * To run a mutation, you first call `useSendMessageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendMessageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendMessageMutation, { data, loading, error }] = useSendMessageMutation({
+ *   variables: {
+ *      chatId: // value for 'chatId'
+ *      message: // value for 'message'
+ *      attachmentId: // value for 'attachmentId'
+ *   },
+ * });
+ */
+export function useSendMessageMutation(baseOptions?: Apollo.MutationHookOptions<SendMessageMutationPayload, SendMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendMessageMutationPayload, SendMessageMutationVariables>(SendMessageDocument, options);
+      }
+export type SendMessageMutationHookResult = ReturnType<typeof useSendMessageMutation>;
+export type SendMessageMutationResult = Apollo.MutationResult<SendMessageMutationPayload>;
+export type SendMessageMutationOptions = Apollo.BaseMutationOptions<SendMessageMutationPayload, SendMessageMutationVariables>;
 export const LoginUserDocument = gql`
     mutation LoginUser($user: String!, $password: String!) {
   login(user: $user, password: $password) {
@@ -1864,78 +1980,6 @@ export function useLogOutMutation(baseOptions?: Apollo.MutationHookOptions<LogOu
 export type LogOutMutationHookResult = ReturnType<typeof useLogOutMutation>;
 export type LogOutMutationResult = Apollo.MutationResult<LogOutMutationPayload>;
 export type LogOutMutationOptions = Apollo.BaseMutationOptions<LogOutMutationPayload, LogOutMutationVariables>;
-export const SendMessageDocument = gql`
-    mutation SendMessage($chatId: Int!, $message: String, $attachmentId: String) {
-  sendChatMessage(chatId: $chatId, message: $message, attachmentId: $attachmentId) {
-    success
-  }
-}
-    `;
-export type SendMessageMutationFn = Apollo.MutationFunction<SendMessageMutationPayload, SendMessageMutationVariables>;
-
-/**
- * __useSendMessageMutation__
- *
- * To run a mutation, you first call `useSendMessageMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSendMessageMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [sendMessageMutation, { data, loading, error }] = useSendMessageMutation({
- *   variables: {
- *      chatId: // value for 'chatId'
- *      message: // value for 'message'
- *      attachmentId: // value for 'attachmentId'
- *   },
- * });
- */
-export function useSendMessageMutation(baseOptions?: Apollo.MutationHookOptions<SendMessageMutationPayload, SendMessageMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SendMessageMutationPayload, SendMessageMutationVariables>(SendMessageDocument, options);
-      }
-export type SendMessageMutationHookResult = ReturnType<typeof useSendMessageMutation>;
-export type SendMessageMutationResult = Apollo.MutationResult<SendMessageMutationPayload>;
-export type SendMessageMutationOptions = Apollo.BaseMutationOptions<SendMessageMutationPayload, SendMessageMutationVariables>;
-export const CreatePostMutationDocument = gql`
-    mutation CreatePostMutation($eventId: Int!, $title: String!, $content: String!) {
-  createPost(eventId: $eventId, title: $title, content: $content) {
-    post {
-      imageUploadUrl
-    }
-  }
-}
-    `;
-export type CreatePostMutationMutationFn = Apollo.MutationFunction<CreatePostMutationPayload, CreatePostMutationVariables>;
-
-/**
- * __useCreatePostMutation__
- *
- * To run a mutation, you first call `useCreatePostMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreatePostMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createPostMutation, { data, loading, error }] = useCreatePostMutation({
- *   variables: {
- *      eventId: // value for 'eventId'
- *      title: // value for 'title'
- *      content: // value for 'content'
- *   },
- * });
- */
-export function useCreatePostMutation(baseOptions?: Apollo.MutationHookOptions<CreatePostMutationPayload, CreatePostMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreatePostMutationPayload, CreatePostMutationVariables>(CreatePostMutationDocument, options);
-      }
-export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
-export type CreatePostMutationMutationResult = Apollo.MutationResult<CreatePostMutationPayload>;
-export type CreatePostMutationMutationOptions = Apollo.BaseMutationOptions<CreatePostMutationPayload, CreatePostMutationVariables>;
 export const CreateNewEventMutationDocument = gql`
     mutation CreateNewEventMutation($title: String!, $description: String, $startTime: DateTime!, $endTime: DateTime!, $requrements: String, $locationLongitude: Float, $locationLatitude: Float, $activity: Activity!, $skillLevel: SkillLevel!, $maxParticipants: Int, $allowSpectators: Boolean, $minAge: Int, $maxAge: Int, $acceptedGenders: [GenderNoPNTS!]) {
   createEvent(
@@ -2098,6 +2142,76 @@ export function useCancelEventMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CancelEventMutationHookResult = ReturnType<typeof useCancelEventMutation>;
 export type CancelEventMutationMutationResult = Apollo.MutationResult<CancelEventMutationPayload>;
 export type CancelEventMutationMutationOptions = Apollo.BaseMutationOptions<CancelEventMutationPayload, CancelEventMutationVariables>;
+export const CreatePostMutationDocument = gql`
+    mutation CreatePostMutation($eventId: Int!, $title: String!, $content: String!) {
+  createPost(eventId: $eventId, title: $title, content: $content) {
+    post {
+      imageUploadUrl
+    }
+  }
+}
+    `;
+export type CreatePostMutationMutationFn = Apollo.MutationFunction<CreatePostMutationPayload, CreatePostMutationVariables>;
+
+/**
+ * __useCreatePostMutation__
+ *
+ * To run a mutation, you first call `useCreatePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPostMutation, { data, loading, error }] = useCreatePostMutation({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *      title: // value for 'title'
+ *      content: // value for 'content'
+ *   },
+ * });
+ */
+export function useCreatePostMutation(baseOptions?: Apollo.MutationHookOptions<CreatePostMutationPayload, CreatePostMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePostMutationPayload, CreatePostMutationVariables>(CreatePostMutationDocument, options);
+      }
+export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
+export type CreatePostMutationMutationResult = Apollo.MutationResult<CreatePostMutationPayload>;
+export type CreatePostMutationMutationOptions = Apollo.BaseMutationOptions<CreatePostMutationPayload, CreatePostMutationVariables>;
+export const UpdateAllPrivacySettingsDocument = gql`
+    mutation UpdateAllPrivacySettings($scope: PrivacyScope!) {
+  updateAllPrivacySettings(scope: $scope) {
+    success
+  }
+}
+    `;
+export type UpdateAllPrivacySettingsMutationFn = Apollo.MutationFunction<UpdateAllPrivacySettingsMutationPayload, UpdateAllPrivacySettingsMutationVariables>;
+
+/**
+ * __useUpdateAllPrivacySettingsMutation__
+ *
+ * To run a mutation, you first call `useUpdateAllPrivacySettingsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAllPrivacySettingsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAllPrivacySettingsMutation, { data, loading, error }] = useUpdateAllPrivacySettingsMutation({
+ *   variables: {
+ *      scope: // value for 'scope'
+ *   },
+ * });
+ */
+export function useUpdateAllPrivacySettingsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAllPrivacySettingsMutationPayload, UpdateAllPrivacySettingsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateAllPrivacySettingsMutationPayload, UpdateAllPrivacySettingsMutationVariables>(UpdateAllPrivacySettingsDocument, options);
+      }
+export type UpdateAllPrivacySettingsMutationHookResult = ReturnType<typeof useUpdateAllPrivacySettingsMutation>;
+export type UpdateAllPrivacySettingsMutationResult = Apollo.MutationResult<UpdateAllPrivacySettingsMutationPayload>;
+export type UpdateAllPrivacySettingsMutationOptions = Apollo.BaseMutationOptions<UpdateAllPrivacySettingsMutationPayload, UpdateAllPrivacySettingsMutationVariables>;
 export const UpdateLocationDocument = gql`
     mutation UpdateLocation($latitude: Float!, $longitude: Float!) {
   updateProfileLocation(latitude: $latitude, longitude: $longitude) {
@@ -2228,39 +2342,6 @@ export function useUpdateProfileSurveyInfoMutation(baseOptions?: Apollo.Mutation
 export type UpdateProfileSurveyInfoMutationHookResult = ReturnType<typeof useUpdateProfileSurveyInfoMutation>;
 export type UpdateProfileSurveyInfoMutationResult = Apollo.MutationResult<UpdateProfileSurveyInfoMutationPayload>;
 export type UpdateProfileSurveyInfoMutationOptions = Apollo.BaseMutationOptions<UpdateProfileSurveyInfoMutationPayload, UpdateProfileSurveyInfoMutationVariables>;
-export const UpdateAllPrivacySettingsDocument = gql`
-    mutation UpdateAllPrivacySettings($scope: PrivacyScope!) {
-  updateAllPrivacySettings(scope: $scope) {
-    success
-  }
-}
-    `;
-export type UpdateAllPrivacySettingsMutationFn = Apollo.MutationFunction<UpdateAllPrivacySettingsMutationPayload, UpdateAllPrivacySettingsMutationVariables>;
-
-/**
- * __useUpdateAllPrivacySettingsMutation__
- *
- * To run a mutation, you first call `useUpdateAllPrivacySettingsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateAllPrivacySettingsMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateAllPrivacySettingsMutation, { data, loading, error }] = useUpdateAllPrivacySettingsMutation({
- *   variables: {
- *      scope: // value for 'scope'
- *   },
- * });
- */
-export function useUpdateAllPrivacySettingsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAllPrivacySettingsMutationPayload, UpdateAllPrivacySettingsMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateAllPrivacySettingsMutationPayload, UpdateAllPrivacySettingsMutationVariables>(UpdateAllPrivacySettingsDocument, options);
-      }
-export type UpdateAllPrivacySettingsMutationHookResult = ReturnType<typeof useUpdateAllPrivacySettingsMutation>;
-export type UpdateAllPrivacySettingsMutationResult = Apollo.MutationResult<UpdateAllPrivacySettingsMutationPayload>;
-export type UpdateAllPrivacySettingsMutationOptions = Apollo.BaseMutationOptions<UpdateAllPrivacySettingsMutationPayload, UpdateAllPrivacySettingsMutationVariables>;
 export const SendFriendRequestDocument = gql`
     mutation SendFriendRequest($userId: Int!) {
   sendFriendRequest(userId: $userId) {
@@ -2596,47 +2677,6 @@ export type GetAttachmentUploadUrlQueryHookResult = ReturnType<typeof useGetAtta
 export type GetAttachmentUploadUrlLazyQueryHookResult = ReturnType<typeof useGetAttachmentUploadUrlLazyQuery>;
 export type GetAttachmentUploadUrlSuspenseQueryHookResult = ReturnType<typeof useGetAttachmentUploadUrlSuspenseQuery>;
 export type GetAttachmentUploadUrlQueryResult = Apollo.QueryResult<GetAttachmentUploadUrlQueryPayload, GetAttachmentUploadUrlQueryVariables>;
-export const MyFriendsDocument = gql`
-    query MyFriends {
-  friends {
-    user {
-      ...FriendTabFragment
-    }
-  }
-}
-    ${FriendTabFragmentDoc}`;
-
-/**
- * __useMyFriendsQuery__
- *
- * To run a query within a React component, call `useMyFriendsQuery` and pass it any options that fit your needs.
- * When your component renders, `useMyFriendsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useMyFriendsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useMyFriendsQuery(baseOptions?: Apollo.QueryHookOptions<MyFriendsQueryPayload, MyFriendsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MyFriendsQueryPayload, MyFriendsQueryVariables>(MyFriendsDocument, options);
-      }
-export function useMyFriendsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MyFriendsQueryPayload, MyFriendsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MyFriendsQueryPayload, MyFriendsQueryVariables>(MyFriendsDocument, options);
-        }
-export function useMyFriendsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<MyFriendsQueryPayload, MyFriendsQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<MyFriendsQueryPayload, MyFriendsQueryVariables>(MyFriendsDocument, options);
-        }
-export type MyFriendsQueryHookResult = ReturnType<typeof useMyFriendsQuery>;
-export type MyFriendsLazyQueryHookResult = ReturnType<typeof useMyFriendsLazyQuery>;
-export type MyFriendsSuspenseQueryHookResult = ReturnType<typeof useMyFriendsSuspenseQuery>;
-export type MyFriendsQueryResult = Apollo.QueryResult<MyFriendsQueryPayload, MyFriendsQueryVariables>;
 export const GetEventDocument = gql`
     query GetEvent($eventId: Int!) {
   event(id: $eventId) {
@@ -2677,6 +2717,158 @@ export type GetEventQueryHookResult = ReturnType<typeof useGetEventQuery>;
 export type GetEventLazyQueryHookResult = ReturnType<typeof useGetEventLazyQuery>;
 export type GetEventSuspenseQueryHookResult = ReturnType<typeof useGetEventSuspenseQuery>;
 export type GetEventQueryResult = Apollo.QueryResult<GetEventQueryPayload, GetEventQueryVariables>;
+export const GetFeedDocument = gql`
+    query GetFeed {
+  joinedEvents {
+    posts {
+      ...EventPostFragment
+    }
+    organizer {
+      user {
+        id
+        username
+        firstName
+        lastName
+      }
+    }
+  }
+}
+    ${EventPostFragmentDoc}`;
+
+/**
+ * __useGetFeedQuery__
+ *
+ * To run a query within a React component, call `useGetFeedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFeedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFeedQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetFeedQuery(baseOptions?: Apollo.QueryHookOptions<GetFeedQueryPayload, GetFeedQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetFeedQueryPayload, GetFeedQueryVariables>(GetFeedDocument, options);
+      }
+export function useGetFeedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFeedQueryPayload, GetFeedQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetFeedQueryPayload, GetFeedQueryVariables>(GetFeedDocument, options);
+        }
+export function useGetFeedSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetFeedQueryPayload, GetFeedQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetFeedQueryPayload, GetFeedQueryVariables>(GetFeedDocument, options);
+        }
+export type GetFeedQueryHookResult = ReturnType<typeof useGetFeedQuery>;
+export type GetFeedLazyQueryHookResult = ReturnType<typeof useGetFeedLazyQuery>;
+export type GetFeedSuspenseQueryHookResult = ReturnType<typeof useGetFeedSuspenseQuery>;
+export type GetFeedQueryResult = Apollo.QueryResult<GetFeedQueryPayload, GetFeedQueryVariables>;
+export const GetHomeEventsDocument = gql`
+    query GetHomeEvents {
+  futureJoinedEvents {
+    ...EventTabFragment
+  }
+  ongoingJoinedEvents {
+    ...EventTabFragment
+  }
+}
+    ${EventTabFragmentDoc}`;
+
+/**
+ * __useGetHomeEventsQuery__
+ *
+ * To run a query within a React component, call `useGetHomeEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetHomeEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetHomeEventsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetHomeEventsQuery(baseOptions?: Apollo.QueryHookOptions<GetHomeEventsQueryPayload, GetHomeEventsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetHomeEventsQueryPayload, GetHomeEventsQueryVariables>(GetHomeEventsDocument, options);
+      }
+export function useGetHomeEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetHomeEventsQueryPayload, GetHomeEventsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetHomeEventsQueryPayload, GetHomeEventsQueryVariables>(GetHomeEventsDocument, options);
+        }
+export function useGetHomeEventsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetHomeEventsQueryPayload, GetHomeEventsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetHomeEventsQueryPayload, GetHomeEventsQueryVariables>(GetHomeEventsDocument, options);
+        }
+export type GetHomeEventsQueryHookResult = ReturnType<typeof useGetHomeEventsQuery>;
+export type GetHomeEventsLazyQueryHookResult = ReturnType<typeof useGetHomeEventsLazyQuery>;
+export type GetHomeEventsSuspenseQueryHookResult = ReturnType<typeof useGetHomeEventsSuspenseQuery>;
+export type GetHomeEventsQueryResult = Apollo.QueryResult<GetHomeEventsQueryPayload, GetHomeEventsQueryVariables>;
+export const ChatMessagesDocument = gql`
+    subscription ChatMessages($chatId: Int!) {
+  chatMessages(chatId: $chatId) {
+    ...WSChatMessagesFragment
+  }
+}
+    ${WsChatMessagesFragmentDoc}`;
+
+/**
+ * __useChatMessagesSubscription__
+ *
+ * To run a query within a React component, call `useChatMessagesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useChatMessagesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useChatMessagesSubscription({
+ *   variables: {
+ *      chatId: // value for 'chatId'
+ *   },
+ * });
+ */
+export function useChatMessagesSubscription(baseOptions: Apollo.SubscriptionHookOptions<ChatMessagesSubscriptionPayload, ChatMessagesSubscriptionVariables> & ({ variables: ChatMessagesSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<ChatMessagesSubscriptionPayload, ChatMessagesSubscriptionVariables>(ChatMessagesDocument, options);
+      }
+export type ChatMessagesSubscriptionHookResult = ReturnType<typeof useChatMessagesSubscription>;
+export type ChatMessagesSubscriptionResult = Apollo.SubscriptionResult<ChatMessagesSubscriptionPayload>;
+export const LastOpenDocument = gql`
+    subscription LastOpen($chatId: Int!) {
+  chatLastOpen(chatId: $chatId) {
+    userId
+    lastOpen
+  }
+}
+    `;
+
+/**
+ * __useLastOpenSubscription__
+ *
+ * To run a query within a React component, call `useLastOpenSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useLastOpenSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLastOpenSubscription({
+ *   variables: {
+ *      chatId: // value for 'chatId'
+ *   },
+ * });
+ */
+export function useLastOpenSubscription(baseOptions: Apollo.SubscriptionHookOptions<LastOpenSubscriptionPayload, LastOpenSubscriptionVariables> & ({ variables: LastOpenSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<LastOpenSubscriptionPayload, LastOpenSubscriptionVariables>(LastOpenDocument, options);
+      }
+export type LastOpenSubscriptionHookResult = ReturnType<typeof useLastOpenSubscription>;
+export type LastOpenSubscriptionResult = Apollo.SubscriptionResult<LastOpenSubscriptionPayload>;
 export const FetchProfileDocument = gql`
     query FetchProfile {
   myProfile {
@@ -2753,6 +2945,154 @@ export type GetProfilePictureUploadUrlQueryHookResult = ReturnType<typeof useGet
 export type GetProfilePictureUploadUrlLazyQueryHookResult = ReturnType<typeof useGetProfilePictureUploadUrlLazyQuery>;
 export type GetProfilePictureUploadUrlSuspenseQueryHookResult = ReturnType<typeof useGetProfilePictureUploadUrlSuspenseQuery>;
 export type GetProfilePictureUploadUrlQueryResult = Apollo.QueryResult<GetProfilePictureUploadUrlQueryPayload, GetProfilePictureUploadUrlQueryVariables>;
+export const GetNotficationsDocument = gql`
+    query GetNotfications {
+  myNotifications(lastFetch: "1971-01-01") {
+    id
+    time
+    notificationType
+    ... on UserNotificationType {
+      user {
+        id
+        username
+        firstName
+        lastName
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetNotficationsQuery__
+ *
+ * To run a query within a React component, call `useGetNotficationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNotficationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNotficationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetNotficationsQuery(baseOptions?: Apollo.QueryHookOptions<GetNotficationsQueryPayload, GetNotficationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetNotficationsQueryPayload, GetNotficationsQueryVariables>(GetNotficationsDocument, options);
+      }
+export function useGetNotficationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNotficationsQueryPayload, GetNotficationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetNotficationsQueryPayload, GetNotficationsQueryVariables>(GetNotficationsDocument, options);
+        }
+export function useGetNotficationsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetNotficationsQueryPayload, GetNotficationsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetNotficationsQueryPayload, GetNotficationsQueryVariables>(GetNotficationsDocument, options);
+        }
+export type GetNotficationsQueryHookResult = ReturnType<typeof useGetNotficationsQuery>;
+export type GetNotficationsLazyQueryHookResult = ReturnType<typeof useGetNotficationsLazyQuery>;
+export type GetNotficationsSuspenseQueryHookResult = ReturnType<typeof useGetNotficationsSuspenseQuery>;
+export type GetNotficationsQueryResult = Apollo.QueryResult<GetNotficationsQueryPayload, GetNotficationsQueryVariables>;
+export const SearchItemsDocument = gql`
+    query SearchItems($searchString: String!) {
+  searchResult(searchString: $searchString) {
+    ... on UserType {
+      id
+      username
+      firstName
+      lastName
+    }
+    ... on EventType {
+      id
+      title
+      description
+    }
+    ... on PostType {
+      id
+      title
+      content
+      event {
+        id
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchItemsQuery__
+ *
+ * To run a query within a React component, call `useSearchItemsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchItemsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchItemsQuery({
+ *   variables: {
+ *      searchString: // value for 'searchString'
+ *   },
+ * });
+ */
+export function useSearchItemsQuery(baseOptions: Apollo.QueryHookOptions<SearchItemsQueryPayload, SearchItemsQueryVariables> & ({ variables: SearchItemsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchItemsQueryPayload, SearchItemsQueryVariables>(SearchItemsDocument, options);
+      }
+export function useSearchItemsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchItemsQueryPayload, SearchItemsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchItemsQueryPayload, SearchItemsQueryVariables>(SearchItemsDocument, options);
+        }
+export function useSearchItemsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SearchItemsQueryPayload, SearchItemsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SearchItemsQueryPayload, SearchItemsQueryVariables>(SearchItemsDocument, options);
+        }
+export type SearchItemsQueryHookResult = ReturnType<typeof useSearchItemsQuery>;
+export type SearchItemsLazyQueryHookResult = ReturnType<typeof useSearchItemsLazyQuery>;
+export type SearchItemsSuspenseQueryHookResult = ReturnType<typeof useSearchItemsSuspenseQuery>;
+export type SearchItemsQueryResult = Apollo.QueryResult<SearchItemsQueryPayload, SearchItemsQueryVariables>;
+export const MyFriendsDocument = gql`
+    query MyFriends {
+  friends {
+    user {
+      ...FriendTabFragment
+    }
+  }
+}
+    ${FriendTabFragmentDoc}`;
+
+/**
+ * __useMyFriendsQuery__
+ *
+ * To run a query within a React component, call `useMyFriendsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyFriendsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyFriendsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyFriendsQuery(baseOptions?: Apollo.QueryHookOptions<MyFriendsQueryPayload, MyFriendsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MyFriendsQueryPayload, MyFriendsQueryVariables>(MyFriendsDocument, options);
+      }
+export function useMyFriendsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MyFriendsQueryPayload, MyFriendsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MyFriendsQueryPayload, MyFriendsQueryVariables>(MyFriendsDocument, options);
+        }
+export function useMyFriendsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<MyFriendsQueryPayload, MyFriendsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<MyFriendsQueryPayload, MyFriendsQueryVariables>(MyFriendsDocument, options);
+        }
+export type MyFriendsQueryHookResult = ReturnType<typeof useMyFriendsQuery>;
+export type MyFriendsLazyQueryHookResult = ReturnType<typeof useMyFriendsLazyQuery>;
+export type MyFriendsSuspenseQueryHookResult = ReturnType<typeof useMyFriendsSuspenseQuery>;
+export type MyFriendsQueryResult = Apollo.QueryResult<MyFriendsQueryPayload, MyFriendsQueryVariables>;
 export const GetUserQueryDocument = gql`
     query GetUserQuery($userId: Int!) {
   user(id: $userId) {
@@ -2793,64 +3133,3 @@ export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
 export type GetUserQueryLazyQueryHookResult = ReturnType<typeof useGetUserQueryLazyQuery>;
 export type GetUserQuerySuspenseQueryHookResult = ReturnType<typeof useGetUserQuerySuspenseQuery>;
 export type GetUserQueryQueryResult = Apollo.QueryResult<GetUserQueryPayload, GetUserQueryVariables>;
-export const ChatMessagesDocument = gql`
-    subscription ChatMessages($chatId: Int!) {
-  chatMessages(chatId: $chatId) {
-    ...WSChatMessagesFragment
-  }
-}
-    ${WsChatMessagesFragmentDoc}`;
-
-/**
- * __useChatMessagesSubscription__
- *
- * To run a query within a React component, call `useChatMessagesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useChatMessagesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useChatMessagesSubscription({
- *   variables: {
- *      chatId: // value for 'chatId'
- *   },
- * });
- */
-export function useChatMessagesSubscription(baseOptions: Apollo.SubscriptionHookOptions<ChatMessagesSubscriptionPayload, ChatMessagesSubscriptionVariables> & ({ variables: ChatMessagesSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<ChatMessagesSubscriptionPayload, ChatMessagesSubscriptionVariables>(ChatMessagesDocument, options);
-      }
-export type ChatMessagesSubscriptionHookResult = ReturnType<typeof useChatMessagesSubscription>;
-export type ChatMessagesSubscriptionResult = Apollo.SubscriptionResult<ChatMessagesSubscriptionPayload>;
-export const LastOpenDocument = gql`
-    subscription LastOpen($chatId: Int!) {
-  chatLastOpen(chatId: $chatId) {
-    userId
-    lastOpen
-  }
-}
-    `;
-
-/**
- * __useLastOpenSubscription__
- *
- * To run a query within a React component, call `useLastOpenSubscription` and pass it any options that fit your needs.
- * When your component renders, `useLastOpenSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useLastOpenSubscription({
- *   variables: {
- *      chatId: // value for 'chatId'
- *   },
- * });
- */
-export function useLastOpenSubscription(baseOptions: Apollo.SubscriptionHookOptions<LastOpenSubscriptionPayload, LastOpenSubscriptionVariables> & ({ variables: LastOpenSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<LastOpenSubscriptionPayload, LastOpenSubscriptionVariables>(LastOpenDocument, options);
-      }
-export type LastOpenSubscriptionHookResult = ReturnType<typeof useLastOpenSubscription>;
-export type LastOpenSubscriptionResult = Apollo.SubscriptionResult<LastOpenSubscriptionPayload>;

@@ -37,6 +37,9 @@ fragment ContextProfileFragment on ProfileType{
     setting
     scope
   }
+  organizes {
+    ...EventTabFragment
+  }
 }
 
 fragment UserFragment on UserType {
@@ -56,6 +59,9 @@ fragment UserFragment on UserType {
       id
     }
   } 
+  organizes {
+    ...EventTabFragment
+  }
 }
 
 fragment FriendTabFragment on UserType {

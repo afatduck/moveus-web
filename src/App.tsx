@@ -16,6 +16,9 @@ import UserPage from "./pages/userPage";
 import ChatPage from "./pages/chatPage";
 import HeaderRoutes from "./components/routes/headerRoutes";
 import UserChat from "./pages/userChat";
+import Notifications from "./pages/notifications";
+import SearchPage from "./pages/search";
+import FeedPage from "./pages/feedPage";
 
 function App() {
 
@@ -29,6 +32,7 @@ function App() {
               <Route element={<HeaderRoutes/>}>
                 <Route path="/" element={<Homepage/>}/>
                 <Route path="/chat" element={<ChatPage/>} />
+                <Route path="/feed" element={<FeedPage/>} />
               </Route>
               <Route path="/profile" element={<Profile/>}/>
             </Route>
@@ -36,6 +40,8 @@ function App() {
             <Route path="/settings" element={<Settings/>} />
             <Route path="/create-event" element={<CreateEvent/>} />
             <Route path="/chat/:userId" element={<UserChat />} />
+            <Route path="/notifications" element={<Notifications/>} />
+            <Route path="/search" element={<SearchPage/>} />
           </Route>
           <Route path="/welcome" element={<Welcome/>} />
           <Route path="/login" element={<Login/>} />

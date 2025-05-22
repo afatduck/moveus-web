@@ -7,3 +7,19 @@ query FetchProfile {
 query GetProfilePictureUploadURL {
   profilePictureGcloudUrl
 }
+
+query GetNotfications {
+  myNotifications(lastFetch: "1971-01-01") {
+    id
+    time
+    notificationType
+    ... on UserNotificationType {
+      user {
+        id
+        username
+        firstName
+        lastName
+      }
+    }
+  }
+}

@@ -70,7 +70,7 @@ function SendMessage ({ chatId, addMessage }: SendMessageInterface) {
         <input type="file" name="attachment-image" ref={imageInput} className="hidden" onChange={onImageChange} />
         <HiPhoto className="text-2xl shrink-0 cursor-pointer" onClick={() => imageInput.current?.click()} />
         <input type="text" name="message" value={text} onChange={e => setText(e.currentTarget.value)}
-                className="!p-0 !border-0 !outline-none !rounded-none" autoComplete="off" />
+                className="!p-0 !border-0 !outline-none !rounded-none" autoComplete="off" accept="image/*" />
         <button type="submit" className="!p-0 !inline !w-auto !text-foreground !bg-transparent">
             <HiPaperAirplane className="text-3xl shrink-0" />
         </button>

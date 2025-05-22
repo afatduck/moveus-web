@@ -7,6 +7,7 @@ import Dropdown from "~/components/input/dropdown";
 import { apolloClient } from "~/appolo/client";
 import { HashLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
+import { LOADER_COLOR } from "~/constants";
 
 const privacyScopeOptions: Option<PrivacyScope>[] = [
     {
@@ -82,8 +83,8 @@ function Settings() {
             <Dropdown options={privacyScopeOptions} value={scope} setValue={handleSetScope} classname="text-nowrap shrink-0"  />
         </div>
         {
-            logoutLoading ? <HashLoader color="#f58431" className=" mt-auto mb-8 mx-auto" /> :
-            <button className="mt-auto mb-8 bg-block-accent" onClick={onLogout}>Logout</button>
+            logoutLoading ? <HashLoader color={LOADER_COLOR} className=" mt-auto mb-8 mx-auto" /> :
+            <button className="mt-auto mb-8" onClick={onLogout}>Logout</button>
         }
     </div>;
 }

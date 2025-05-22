@@ -57,3 +57,14 @@ fragment EventFragment on EventType {
   finished
   role
 }
+
+fragment EventTabFragment on EventType {
+  id
+  title
+  startTime
+  participantCount
+  location {
+    longitude
+    latitude
+  }
+}
