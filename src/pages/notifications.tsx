@@ -25,7 +25,7 @@ function Notifications () {
             <div className="vertical overflow-y-auto gap-4">
                 {
                     data?.myNotifications?.map(notification => {
-                        if (!(notification?.__typename === "UserNotificationType")) return
+                        if (!(notification?.__typename === "UserNotificationType")) return <></>
                         const name = displayName(notification.user?.username!, notification.user?.firstName!, notification.user?.lastName!)
                         const time = `${notification.time!.toDateString().slice(4, 10).trim()}, ${prependZero(notification.time!.getHours())}:${prependZero(notification.time!.getHours())}`
                         switch (notification?.notificationType) {
@@ -43,7 +43,7 @@ function Notifications () {
                                 </div>
                                 <p>{name} sent you friend request.</p>
                             </Link>
-                            default: return null
+                            default: return <></>
                         }
                     })
                 }

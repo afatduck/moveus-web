@@ -38,7 +38,7 @@ function SearchPage() {
         searchItems({
             variables: { searchString }
         }).catch(e => console.error(e))
-    }, [searchString, setLastSearch])
+    }, [searchString, setLastSearch, loading, searchItems])
 
     const items = useMemo(() => {
         const filterSelf =  data?.searchResult?.filter(item => item?.__typename !== "UserType" || item.id !== profile?.id)
@@ -48,7 +48,7 @@ function SearchPage() {
             case "Post": return filterSelf?.filter(item => item?.__typename === "PostType")
             default: return filterSelf
         }
-    }, [data, itemType])
+    }, [data, itemType, profile?.id])
 
     return <div className="vertical gap-4">
         <div className="mt-8"><BackButton /></div>
@@ -98,6 +98,7 @@ function SearchPage() {
                                 </div>
                             </Link>
                         }
+                        return <></>
                     })
                 }
             </div>
