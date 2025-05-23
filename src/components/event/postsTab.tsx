@@ -4,7 +4,7 @@ import { displayName } from "~/utils/displayName"
 import { timeAgo } from "~/utils/timeUtils"
 
 function EventPostsTab ({posts, organizer}: EventPostsTabProps) {
-    return <div className="flex flex-col overflow-auto grow">
+    return <div className="flex flex-col overflow-auto grow gap-4">
         {
             posts.map(post => <div key={post.id} className="rounded-[15px] box-border p-6 bg-block relative">
                 <p className="text-sm absolute top-6 right-6">{timeAgo(post.timePosted)}</p>
